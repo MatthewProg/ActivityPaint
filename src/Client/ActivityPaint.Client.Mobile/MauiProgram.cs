@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using ActivityPaint.Client.Components;
+using Microsoft.Extensions.Logging;
 
 namespace ActivityPaint.Client.Mobile
 {
@@ -15,6 +16,7 @@ namespace ActivityPaint.Client.Mobile
                 });
 
             builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddClientComponents();
 
 #if DEBUG
     		builder.Services.AddBlazorWebViewDeveloperTools();

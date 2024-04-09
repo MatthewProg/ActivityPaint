@@ -1,13 +1,13 @@
 ﻿<div class="btn-toolbar w-100" role="toolbar">
     <div class="btn-group" role="group">
-        <input type="radio" class="btn-check" name="btn-tools" id="btn-tool-brush" autocomplete="off" checked>
-        <label class="btn btn-outline-secondary" for="btn-tool-brush"><span class="bi bi-brush-fill" aria-hidden="true"></span></label>
+        @foreach(var tool in Enum.GetValues<EditorTool>())
+        {
+            (var id, var icon) = GetToolInfo(tool);
+            var toolId = $"btn-tool-{id}";
 
-        <input type="radio" class="btn-check" name="btn-tools" id="btn-tool-eraser" autocomplete="off">
-        <label class="btn btn-outline-secondary" for="btn-tool-eraser"><span class="bi bi-eraser-fill" aria-hidden="true"></span></label>
-
-        <input type="radio" class="btn-check" name="btn-tools" id="btn-tool-fill" autocomplete="off">
-        <label class="btn btn-outline-secondary" for="btn-tool-fill"><span class="bi bi-paint-bucket" aria-hidden="true"></span></label>
+            <input type="radio" class="btn-check" name="btn-tools" id="@toolId" autocomplete="off" checked="@(CurrentTool == tool)" @onchange="ToolChanged">
+            <label class="btn btn-outline-secondary" for="@toolId"><span class="bi @icon" aria-hidden="true"></span></label>
+        }
     </div>
     <div class="input-group">
         <div class="input-group-text">Size</div>
@@ -16,5 +16,27 @@
 </div>
 
 @code {
+    public enum EditorTool
+    {
+        Brush, Eraser, Fill
+    }
 
+    [Parameter]
+    public EditorTool CurrentTool { get; set; } = EditorTool.Brush;
+
+    [Parameter]
+    public EventCallback<EditorTool> CurrentToolChanged { get; set; }
+
+    private void ToolChanged(ChangeEventArgs args)
+    {
+        var a = args.Value;
+    }
+
+    private static (string id, string icon) GetToolInfo(EditorTool tool) => tool switch
+    {
+        EditorTool.Brush => ("brush", "bi-brush-fill"),
+        EditorTool.Eraser => ("eraser", "bi-eraser-fill"),
+        EditorTool.Fill => ("fill", "bi-paint-bucket"),
+        _ => throw new NotImplementedException()
+    };
 }
