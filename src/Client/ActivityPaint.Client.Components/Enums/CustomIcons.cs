@@ -1,4 +1,4 @@
-﻿namespace ActivityPaint.Client.Components.Shared;
+﻿namespace ActivityPaint.Client.Components.Enums;
 
 public static class CustomIcons
 {
