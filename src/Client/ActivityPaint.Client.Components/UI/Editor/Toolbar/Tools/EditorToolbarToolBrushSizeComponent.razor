@@ -17,7 +17,13 @@
     public int BrushSize
     {
         get => _brushSize;
-        set => _brushSize = Math.Clamp(value, MinSize, MaxSize);
+        set
+        {
+            if (value == _brushSize) return;
+
+            _brushSize = Math.Clamp(value, MinSize, MaxSize);
+            BrushSizeChanged.InvokeAsync(value);
+        }
     }
 
     [Parameter]

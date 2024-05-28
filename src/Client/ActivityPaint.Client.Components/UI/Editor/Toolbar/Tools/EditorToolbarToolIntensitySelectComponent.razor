@@ -1,11 +1,11 @@
 ﻿@using ActivityPaint.Core.Enums
 
-<MudToggleGroup T="IntensityEnum" SelectionMode="SelectionMode.SingleSelection" @bind-Value="SelectedIntensity">
+<MudToggleGroup T="IntensityEnum" SelectionMode="SelectionMode.SingleSelection" @bind-Value:get="SelectedIntensity" @bind-Value:set="SelectedIntensityChanged" Disabled="!IntensitySelectEnabled">
     @foreach (var level in Enum.GetValues<IntensityEnum>())
     {
         <MudToggleItem Value="level">
             <MudIcon Icon="@Icons.Material.Filled.Square" />
-        </MudToggleItem>        
+        </MudToggleItem>
     }
 </MudToggleGroup>
 
