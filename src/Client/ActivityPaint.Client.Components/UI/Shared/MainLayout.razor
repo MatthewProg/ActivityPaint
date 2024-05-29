@@ -1,20 +1,42 @@
-﻿@inherits LayoutComponentBase
+﻿@using ActivityPaint.Client.Components.Helpers
+@inherits LayoutComponentBase
 
-<MudThemeProvider />
-<MudLayout>
-    <MudAppBar Elevation="1">
-        <MudText Typo="Typo.h5" Class="ml-3">Activity Paint</MudText>
-    </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
-        <NavMenu />
-    </MudDrawer>
-    <MudMainContent Class="mt-16 pa-4">
-        @Body
-    </MudMainContent>
-</MudLayout>
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" Theme="_defaultTheme" />
+<CascadingValue Value="@_isDarkMode" Name="IsDarkMode">
+    <MudLayout>
+        <MudAppBar Elevation="1">
+            <MudText Typo="Typo.h5" Class="ml-3">Activity Paint</MudText>
+        </MudAppBar>
+        <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+            <NavMenu />
+        </MudDrawer>
+        <MudMainContent Class="mt-16 pa-4">
+            @Body
+        </MudMainContent>
+    </MudLayout>
+</CascadingValue>
 
 @code {
+    private readonly MudTheme _defaultTheme = ThemeHelper.GetDefaultTheme();
+    private MudThemeProvider _mudThemeProvider;
     private bool _drawerOpen = true;
+    private bool _isDarkMode;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender) return;
+
+        _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+        await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+        StateHasChanged();
+    }
+
+    private Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _isDarkMode = newValue;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
 
     private void DrawerToggle()
     {
