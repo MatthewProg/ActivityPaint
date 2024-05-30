@@ -6,13 +6,17 @@
     <MudToolBar Class="gap-2">
         <EditorToolbarToolSelectComponent @bind-CurrentTool="CurrentTool" />
         <EditorToolbarToolBrushSizeComponent @bind-BrushSize="BrushSize" SizeSelectEnabled="EnableBrushSize" />
-        <EditorToolbarToolIntensitySelectComponent @bind-SelectedIntensity="SelectedIntensity" IntensitySelectEnabled="EnableIntensitySelector" />
+        <EditorToolbarToolIntensitySelectComponent @bind-SelectedIntensity="SelectedIntensity" IsDarkMode="IsDarkMode" IntensitySelectEnabled="EnableIntensitySelector" />
         <MudSpacer />
-        <EditorToolbarToolThemeComponent OnDarkModeChanged="OnDarkModeChanged" />
+        <EditorToolbarToolYearPickComponent />
+        <EditorToolbarToolThemeComponent OnDarkModeChanged="OnEditorThemeChanged" />
     </MudToolBar>
 </MudPaper>
 
 @code {
+    [Parameter, EditorRequired]
+    public bool IsDarkMode { get; set; }
+
     [Parameter]
     public EditorToolEnum CurrentTool { get; set; } = EditorToolEnum.Brush;
 
@@ -23,7 +27,7 @@
     public IntensityEnum SelectedIntensity { get; set; } = IntensityEnum.Level0;
 
     [Parameter]
-    public EventCallback<bool> OnDarkModeChanged { get; set; }
+    public EventCallback<bool> OnEditorThemeChanged { get; set; }
 
     private bool EnableBrushSize => CurrentTool is EditorToolEnum.Brush or EditorToolEnum.Eraser;
 

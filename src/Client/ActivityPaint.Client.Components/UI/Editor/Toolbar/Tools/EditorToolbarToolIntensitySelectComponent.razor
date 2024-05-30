@@ -12,7 +12,7 @@
 </MudToggleGroup>
 
 @code {
-    [CascadingParameter(Name = "IsDarkMode")]
+    [Parameter, EditorRequired]
     public bool IsDarkMode { get; set; }
 
     [Parameter]

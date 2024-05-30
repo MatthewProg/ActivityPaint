@@ -1,0 +1,15 @@
+﻿<div style="max-width: 7rem;">
+    <MudDatePicker Label="Picked year" @bind-Date:get="PickedDate" @bind-Date:set="PickedDateChanged"
+                   FixDay="1" FixMonth="1" OpenTo="OpenTo.Year" DateFormat="yyyy" MinDate="@MinDate" MaxDate="@MaxDate" />
+</div>
+
+@code {
+    private static readonly DateTime? MinDate = new DateTime(2000, 1, 1);
+    private static readonly DateTime? MaxDate = new DateTime(DateTime.Now.Year, 1, 1);
+
+    [Parameter]
+    public DateTime? PickedDate { get; set; } = MaxDate;
+
+    [Parameter]
+    public EventCallback<DateTime?> PickedDateChanged { get; set; }
+}

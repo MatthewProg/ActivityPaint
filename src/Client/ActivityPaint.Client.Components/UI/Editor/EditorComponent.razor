@@ -3,17 +3,18 @@
 
 <div class="d-flex flex-column" style="width: 100%;">
     <h3>EditorComponent</h3>
-    <EditorToolbarComponent OnDarkModeChanged="OnDarkModeChanged" />
-    <div style="width: 100px; height: 100px; background-color: @(_darkModeOverwrite ?? Theme?.IsDarkMode  ?? false ? "black" : "white")"></div>
+    <EditorToolbarComponent IsDarkMode="IsDarkMode" OnEditorThemeChanged="OnEditorThemeChanged" />
+    <div style="width: 100px; height: 100px; background-color: @(IsDarkMode ? "black" : "white")"></div>
 </div>
 
 @code {
     [CascadingParameter(Name = "Theme")]
     protected ThemeModel? Theme { get; set; }
 
+    private bool IsDarkMode => _darkModeOverwrite ?? Theme?.IsDarkMode ?? false;
     private bool? _darkModeOverwrite;
 
-    private void OnDarkModeChanged(bool newValue)
+    private void OnEditorThemeChanged(bool newValue)
     {
         _darkModeOverwrite = newValue;
         StateHasChanged();

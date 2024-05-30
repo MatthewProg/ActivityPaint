@@ -4,6 +4,7 @@
 @inherits LayoutComponentBase
 
 <MudThemeProvider @ref="@_mudThemeProvider" IsDarkMode="_defaultTheme.IsDarkMode" Theme="_defaultTheme.MudTheme" />
+<MudPopoverProvider />
 <CascadingValue Value="@_defaultTheme" Name="Theme">
     <MudLayout>
         <MudAppBar Elevation="1">
