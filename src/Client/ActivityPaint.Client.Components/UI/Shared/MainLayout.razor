@@ -1,8 +1,10 @@
-﻿@using ActivityPaint.Client.Components.Helpers
+﻿@using ActivityPaint.Client.Components.Enums
+@using ActivityPaint.Client.Components.Helpers
+@using ActivityPaint.Client.Components.Models
 @inherits LayoutComponentBase
 
-<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" Theme="_defaultTheme" />
-<CascadingValue Value="@_isDarkMode" Name="IsDarkMode">
+<MudThemeProvider @ref="@_mudThemeProvider" IsDarkMode="_defaultTheme.IsDarkMode" Theme="_defaultTheme.MudTheme" />
+<CascadingValue Value="@_defaultTheme" Name="Theme">
     <MudLayout>
         <MudAppBar Elevation="1">
             <MudText Typo="Typo.h5" Class="ml-3">Activity Paint</MudText>
@@ -17,23 +19,22 @@
 </CascadingValue>
 
 @code {
-    private readonly MudTheme _defaultTheme = ThemeHelper.GetDefaultTheme();
+    private ThemeModel _defaultTheme = new ThemeModel();
     private MudThemeProvider _mudThemeProvider;
     private bool _drawerOpen = true;
-    private bool _isDarkMode;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender) return;
+        if (!firstRender || _defaultTheme.Theme != ThemeEnum.System) return;
 
-        _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+        _defaultTheme.ResolvedTheme = (await _mudThemeProvider.GetSystemPreference()) ? ThemeEnum.Dark : ThemeEnum.Light;
         await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
         StateHasChanged();
     }
 
     private Task OnSystemPreferenceChanged(bool newValue)
     {
-        _isDarkMode = newValue;
+        _defaultTheme.ResolvedTheme = newValue ? ThemeEnum.Dark : ThemeEnum.Light;
         StateHasChanged();
         return Task.CompletedTask;
     }

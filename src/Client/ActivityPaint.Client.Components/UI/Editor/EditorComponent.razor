@@ -1,10 +1,21 @@
-﻿@using ActivityPaint.Client.Components.UI.Editor.Toolbar
+﻿@using ActivityPaint.Client.Components.Models
+@using ActivityPaint.Client.Components.UI.Editor.Toolbar
 
 <div class="d-flex flex-column" style="width: 100%;">
     <h3>EditorComponent</h3>
-    <EditorToolbarComponent />
+    <EditorToolbarComponent OnDarkModeChanged="OnDarkModeChanged" />
+    <div style="width: 100px; height: 100px; background-color: @(_darkModeOverwrite ?? Theme?.IsDarkMode  ?? false ? "black" : "white")"></div>
 </div>
 
 @code {
+    [CascadingParameter(Name = "Theme")]
+    protected ThemeModel? Theme { get; set; }
 
+    private bool? _darkModeOverwrite;
+
+    private void OnDarkModeChanged(bool newValue)
+    {
+        _darkModeOverwrite = newValue;
+        StateHasChanged();
+    }
 }
