@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Application;
+using ActivityPaint.Client.Components.Integration;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 
@@ -11,5 +12,11 @@ public static class DependencyInjection
         services.AddApplication();
 
         services.AddMudServices();
+        services.AddIntegration();
+    }
+
+    private static void AddIntegration(this IServiceCollection services)
+    {
+        services.AddScoped<EditorCanvasInterop>();
     }
 }

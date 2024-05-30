@@ -1,0 +1,29 @@
+﻿@using ActivityPaint.Client.Components.Integration
+@inject EditorCanvasInterop CanvasInterop
+
+<table id="editor-canvas">
+    @for (int r = 0; r < 7; r++)
+    {
+        <tr>
+            @for (int c = 0; c < 53; c++)
+            {
+                <td class="canvas-cell" data-level="@(c % 5)"></td>
+            }
+        </tr>
+    }
+</table>
+
+@code {
+    [Parameter, EditorRequired]
+    public bool IsDarkMode { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            await CanvasInterop.Init();
+        }
+    }
+}

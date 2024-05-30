@@ -4,7 +4,7 @@
 <div class="d-flex flex-column" style="width: 100%;">
     <h3>EditorComponent</h3>
     <EditorToolbarComponent IsDarkMode="IsDarkMode" OnEditorThemeChanged="OnEditorThemeChanged" />
-    <div style="width: 100px; height: 100px; background-color: @(IsDarkMode ? "black" : "white")"></div>
+    <EditorCanvasComponent IsDarkMode="IsDarkMode" />
 </div>
 
 @code {
