@@ -14,9 +14,9 @@
 
     protected override void OnParametersSet()
     {
-        base.OnParametersSet();
-
         Settings.IsDarkMode = IsDarkMode;
+
+        base.OnParametersSet();
     }
 
     private void DarkModeChanged(bool newValue)

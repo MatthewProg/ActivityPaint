@@ -28,9 +28,9 @@
 
     protected override void OnInitialized()
     {
-        base.OnInitialized();
-
         _settings.PropertyChanged += OnSettingsChanged;
+
+        base.OnInitialized();
     }
 
     public void Dispose()

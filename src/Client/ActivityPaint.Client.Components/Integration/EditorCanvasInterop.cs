@@ -1,4 +1,5 @@
-﻿using Microsoft.JSInterop;
+﻿using ActivityPaint.Client.Components.Models;
+using Microsoft.JSInterop;
 
 namespace ActivityPaint.Client.Components.Integration;
 
@@ -16,6 +17,12 @@ public class EditorCanvasInterop : IAsyncDisposable
     {
         var module = await moduleTask.Value;
         await module.InvokeVoidAsync("init");
+    }
+
+    public async ValueTask UpdateSettings(EditorSettingsModel settings)
+    {
+        var module = await moduleTask.Value;
+        await module.InvokeVoidAsync("updateSettings", settings);
     }
 
     public async ValueTask DisposeAsync()
