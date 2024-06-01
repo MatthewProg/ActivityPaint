@@ -1,31 +1,28 @@
 ﻿<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-    <MudIconButton Disabled="!SizeSelectEnabled" Icon="@Icons.Material.TwoTone.Add" OnClick="() => ++BrushSize" />
-    <input class="brush-size__input" type="number" min="@MinSize" @bind-value="BrushSize" max="@MaxSize" disabled="@(!SizeSelectEnabled)" />
-    <MudIconButton Disabled="!SizeSelectEnabled" Icon="@Icons.Material.TwoTone.Remove" OnClick="() => --BrushSize" />
+    <MudIconButton Disabled="!SizeSelectEnabled" Icon="@Icons.Material.TwoTone.Add" OnClick="() => UpdateBrushSize(BrushSize + 1)" />
+    <input class="brush-size__input" type="number" min="@MinSize" @bind-value:get="BrushSize" @bind-value:set="UpdateBrushSize" max="@MaxSize" disabled="@(!SizeSelectEnabled)" />
+    <MudIconButton Disabled="!SizeSelectEnabled" Icon="@Icons.Material.TwoTone.Remove" OnClick="() => UpdateBrushSize(BrushSize - 1)" />
 </MudButtonGroup>
 
 @code {
     private const int MinSize = 1;
-    private const int MaxSize = 60;
-
-    private int _brushSize = 1;
+    private const int MaxSize = 30;
 
     [Parameter]
     public bool SizeSelectEnabled { get; set; } = true;
 
     [Parameter]
-    public int BrushSize
-    {
-        get => _brushSize;
-        set
-        {
-            if (value == _brushSize) return;
-
-            _brushSize = Math.Clamp(value, MinSize, MaxSize);
-            BrushSizeChanged.InvokeAsync(value);
-        }
-    }
+    public int BrushSize { get; set; }
 
     [Parameter]
     public EventCallback<int> BrushSizeChanged { get; set; }
+
+    private async void UpdateBrushSize(int value)
+    {
+        var newSize = Math.Clamp(value, MinSize, MaxSize);
+        if (newSize != BrushSize)
+        {
+            await BrushSizeChanged.InvokeAsync(newSize);
+        }
+    }
 }
