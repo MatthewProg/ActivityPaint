@@ -1,20 +1,28 @@
 ﻿@using ActivityPaint.Client.Components.Models
-<MudToggleIconButton @bind-Toggled:get="_modeOverwrite ?? Theme?.IsDarkMode ?? false" @bind-Toggled:set="DarkModeChanged"
+<MudToggleIconButton @bind-Toggled:get="IsDarkMode" @bind-Toggled:set="DarkModeChanged"
                      Icon="@Icons.Material.Filled.WbSunny" ToggledIcon="@Icons.Material.Filled.NightsStay" />
 
 @code {
     [CascadingParameter(Name = "Theme")]
     protected ThemeModel? Theme { get; set; }
 
-    [Parameter]
-    public EventCallback<bool> OnDarkModeChanged { get; set; }
+    [Parameter, EditorRequired]
+    public EditorSettingsModel Settings { get; set; }
 
     private bool? _modeOverwrite;
+    private bool IsDarkMode => _modeOverwrite ?? Theme?.IsDarkMode ?? false;
 
-    private async Task DarkModeChanged(bool newValue)
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        Settings.IsDarkMode = IsDarkMode;
+    }
+
+    private void DarkModeChanged(bool newValue)
     {
         _modeOverwrite = newValue;
-        await OnDarkModeChanged.InvokeAsync(newValue);
+        Settings.IsDarkMode = IsDarkMode;
         StateHasChanged();
     }
 }

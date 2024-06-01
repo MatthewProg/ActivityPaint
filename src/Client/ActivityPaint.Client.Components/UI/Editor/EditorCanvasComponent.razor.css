@@ -1,5 +1,4 @@
 ﻿#editor-canvas {
-    --canvas-item-width: calc(70vw / 54);
     --canvas-item-hover-color: #fffc;
     --canvas-item-level0-color: #161b22;
     --canvas-item-level1-color: #0e4429;
@@ -13,30 +12,27 @@
     table-layout: fixed;
 }
 
-    #editor-canvas tr {
-        height: var(--canvas-item-width);
-    }
-
-    #editor-canvas td {
+    #editor-canvas div {
+        aspect-ratio: 1 / 1;
         border: 1px solid black;
     }
 
-    #editor-canvas td[data-level="0"] {
-        background-color: var(--canvas-item-level0-color);
-    }
+        #editor-canvas div[data-level="0"] {
+            background-color: var(--canvas-item-level0-color);
+        }
 
-    #editor-canvas td[data-level="1"] {
-        background-color: var(--canvas-item-level1-color);
-    }
+        #editor-canvas div[data-level="1"] {
+            background-color: var(--canvas-item-level1-color);
+        }
 
-    #editor-canvas td[data-level="2"] {
-        background-color: var(--canvas-item-level2-color);
-    }
+        #editor-canvas div[data-level="2"] {
+            background-color: var(--canvas-item-level2-color);
+        }
 
-    #editor-canvas td[data-level="3"] {
-        background-color: var(--canvas-item-level3-color);
-    }
+        #editor-canvas div[data-level="3"] {
+            background-color: var(--canvas-item-level3-color);
+        }
 
-    #editor-canvas td[data-level="4"] {
-        background-color: var(--canvas-item-level4-color);
-    }
+        #editor-canvas div[data-level="4"] {
+            background-color: var(--canvas-item-level4-color);
+        }

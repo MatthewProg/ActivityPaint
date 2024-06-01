@@ -1,35 +1,24 @@
 ﻿@using ActivityPaint.Client.Components.Enums
+@using ActivityPaint.Client.Components.Models
 @using ActivityPaint.Client.Components.UI.Editor.Toolbar.Tools
 @using ActivityPaint.Core.Enums
 
 <MudPaper Elevation="25">
     <MudToolBar Class="gap-2">
-        <EditorToolbarToolSelectComponent @bind-CurrentTool="CurrentTool" />
-        <EditorToolbarToolBrushSizeComponent @bind-BrushSize="BrushSize" SizeSelectEnabled="EnableBrushSize" />
-        <EditorToolbarToolIntensitySelectComponent @bind-SelectedIntensity="SelectedIntensity" IsDarkMode="IsDarkMode" IntensitySelectEnabled="EnableIntensitySelector" />
+        <EditorToolbarToolSelectComponent @bind-CurrentTool="Settings.SelectedTool" />
+        <EditorToolbarToolBrushSizeComponent @bind-BrushSize="Settings.BrushSize" SizeSelectEnabled="EnableBrushSize" />
+        <EditorToolbarToolIntensitySelectComponent @bind-SelectedIntensity="Settings.SelectedIntensity" IsDarkMode="Settings.IsDarkMode" IntensitySelectEnabled="EnableIntensitySelector" />
         <MudSpacer />
-        <EditorToolbarToolYearPickComponent />
-        <EditorToolbarToolThemeComponent OnDarkModeChanged="OnEditorThemeChanged" />
+        <EditorToolbarToolYearPickComponent @bind-PickedDate="Settings.StartDate" />
+        <EditorToolbarToolThemeComponent Settings="Settings" />
     </MudToolBar>
 </MudPaper>
 
 @code {
     [Parameter, EditorRequired]
-    public bool IsDarkMode { get; set; }
+    public EditorSettingsModel Settings { get; set; }
 
-    [Parameter]
-    public EditorToolEnum CurrentTool { get; set; } = EditorToolEnum.Brush;
+    private bool EnableBrushSize => Settings.SelectedTool is EditorToolEnum.Brush or EditorToolEnum.Eraser;
 
-    [Parameter]
-    public int BrushSize { get; set; } = 1;
-
-    [Parameter]
-    public IntensityEnum SelectedIntensity { get; set; } = IntensityEnum.Level0;
-
-    [Parameter]
-    public EventCallback<bool> OnEditorThemeChanged { get; set; }
-
-    private bool EnableBrushSize => CurrentTool is EditorToolEnum.Brush or EditorToolEnum.Eraser;
-
-    private bool EnableIntensitySelector => CurrentTool is EditorToolEnum.Brush or EditorToolEnum.Fill;
+    private bool EnableIntensitySelector => Settings.SelectedTool is EditorToolEnum.Brush or EditorToolEnum.Fill;
 }

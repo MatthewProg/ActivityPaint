@@ -1,22 +1,40 @@
-﻿@using ActivityPaint.Client.Components.Models
+﻿@using ActivityPaint.Client.Components.Enums
+@using ActivityPaint.Client.Components.Models
 @using ActivityPaint.Client.Components.UI.Editor.Toolbar
+@using ActivityPaint.Core.Enums
+@using System.ComponentModel
+@implements IDisposable
 
 <div class="d-flex flex-column" style="width: 100%;">
     <h3>EditorComponent</h3>
-    <EditorToolbarComponent IsDarkMode="IsDarkMode" OnEditorThemeChanged="OnEditorThemeChanged" />
-    <EditorCanvasComponent IsDarkMode="IsDarkMode" />
+    <EditorToolbarComponent Settings="_settings" />
+    <EditorCanvasComponent Settings="_settings" />
 </div>
 
 @code {
-    [CascadingParameter(Name = "Theme")]
-    protected ThemeModel? Theme { get; set; }
-
-    private bool IsDarkMode => _darkModeOverwrite ?? Theme?.IsDarkMode ?? false;
-    private bool? _darkModeOverwrite;
-
-    private void OnEditorThemeChanged(bool newValue)
+    private EditorSettingsModel _settings = new EditorSettingsModel
     {
-        _darkModeOverwrite = newValue;
+        BrushSize = 1,
+        IsDarkMode = false,
+        SelectedIntensity = IntensityEnum.Level0,
+        SelectedTool = EditorToolEnum.Brush,
+        StartDate = new DateTime(DateTime.Now.Year, 1, 1)
+    };
+
+    private void OnSettingsChanged(object? sender, PropertyChangedEventArgs e)
+    {
         StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        _settings.PropertyChanged += OnSettingsChanged;
+    }
+
+    public void Dispose()
+    {
+        _settings.PropertyChanged -= OnSettingsChanged;
     }
 }
