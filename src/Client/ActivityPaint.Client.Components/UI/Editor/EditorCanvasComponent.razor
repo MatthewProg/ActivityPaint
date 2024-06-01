@@ -9,7 +9,13 @@
             @for (int c = 0; c < 54; c++)
             {
                 <td>
-                    <div class="canvas-cell" data-level="@(c % 5)"></div>
+                    @{
+                        var doy = GetDayOfYear(r, c, StartDate, EndDate);
+                        if (doy.HasValue)
+                        {
+                            <div class="canvas-cell" data-level="@(c % 5)" data-doy="@doy"></div>
+                        }
+                    }
                 </td>
             }
         </tr>
@@ -19,6 +25,22 @@
 @code {
     [Parameter, EditorRequired]
     public EditorSettingsModel Settings { get; set; }
+
+    private DateTime StartDate => Settings.StartDate ?? new DateTime((Settings.StartDate ?? DateTime.Now).Year, 1, 1);
+    private DateTime EndDate => new DateTime((Settings.StartDate ?? DateTime.Now).Year, 12, 31);
+
+    private static int? GetDayOfYear(int dayOfWeek, int week, DateTime startDate, DateTime endDate)
+    {
+        var dayOfWeekNormalized = ((int)startDate.DayOfWeek + 6) % 7;
+        if (week == 0 && dayOfWeek < dayOfWeekNormalized)
+        {
+            return null;
+        }
+
+        var doy = (week * 7) + dayOfWeek + 1 - dayOfWeekNormalized;
+
+        return doy > endDate.DayOfYear ? null : doy;
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
