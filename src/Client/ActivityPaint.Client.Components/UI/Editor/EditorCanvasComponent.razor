@@ -10,13 +10,11 @@
         <tr>
             @for (int c = 0; c < 54; c++)
             {
-                <td>
-                    @{
-                        var doy = GetDayOfYear(r, c, StartDate, EndDate);
-                        if (doy.HasValue)
-                        {
-                            <div class="canvas-cell" data-level="@(c % 5)" data-doy="@doy"></div>
-                        }
+                var doy = GetDayOfYear(r, c, StartDate, EndDate);
+                <td class="@(doy.HasValue ? "" : "disabled")">
+                    @if (doy.HasValue)
+                    {
+                        <div id="@($"cell-{c}-{r}")" class="canvas-cell" data-level="0" data-doy="@doy"></div>
                     }
                 </td>
             }

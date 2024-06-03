@@ -1,5 +1,4 @@
 ﻿#editor-canvas {
-    --canvas-item-hover-color: #fffc;
     --canvas-item-level0-color: #161b22;
     --canvas-item-level1-color: #0e4429;
     --canvas-item-level2-color: #006d32;
@@ -10,9 +9,20 @@
     height: auto;
     margin: 0 auto;
     table-layout: fixed;
+    border-spacing: 3px;
 }
 
+    #editor-canvas * {
+        user-select: none;
+    }
+
+    #editor-canvas td:not(.disabled) {
+        /*background: #39d353;*/
+    }
+
     #editor-canvas div {
+        /*opacity: 0;*/
+        z-index: -1;
         aspect-ratio: 1 / 1;
         border: 1px solid black;
     }
