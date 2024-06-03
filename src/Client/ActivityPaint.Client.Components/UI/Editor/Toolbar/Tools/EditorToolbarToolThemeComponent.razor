@@ -7,7 +7,7 @@
     protected ThemeModel? Theme { get; set; }
 
     [Parameter, EditorRequired]
-    public EditorSettingsModel Settings { get; set; }
+    public required EditorSettingsModel Settings { get; set; }
 
     private bool? _modeOverwrite;
     private bool IsDarkMode => _modeOverwrite ?? Theme?.IsDarkMode ?? false;

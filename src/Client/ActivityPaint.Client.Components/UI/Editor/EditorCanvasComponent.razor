@@ -26,7 +26,7 @@
 
 @code {
     [Parameter, EditorRequired]
-    public EditorSettingsModel Settings { get; set; }
+    public required EditorSettingsModel Settings { get; set; }
 
     private DateTime StartDate => Settings.StartDate ?? new DateTime((Settings.StartDate ?? DateTime.Now).Year, 1, 1);
     private DateTime EndDate => new DateTime((Settings.StartDate ?? DateTime.Now).Year, 12, 31);

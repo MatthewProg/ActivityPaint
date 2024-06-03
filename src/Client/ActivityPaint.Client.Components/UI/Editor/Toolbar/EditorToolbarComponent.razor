@@ -16,7 +16,7 @@
 
 @code {
     [Parameter, EditorRequired]
-    public EditorSettingsModel Settings { get; set; }
+    public required EditorSettingsModel Settings { get; set; }
 
     private bool EnableBrushSize => Settings.SelectedTool is EditorToolEnum.Brush or EditorToolEnum.Eraser;
 
