@@ -10,39 +10,46 @@
     margin: 0 auto;
     table-layout: fixed;
     border-spacing: 3px;
+    background-color: var(--canvas-item-level0-color);
 }
 
     #editor-canvas * {
         user-select: none;
     }
 
-    #editor-canvas td:not(.disabled) {
-        /*background: #39d353;*/
-    }
-
-    #editor-canvas div {
-        /*opacity: 0;*/
+    #editor-canvas td {
         z-index: -1;
-        aspect-ratio: 1 / 1;
-        border: 1px solid black;
     }
 
-        #editor-canvas div[data-level="0"] {
+        #editor-canvas td:not(.disabled) {
+            border: 1px solid black;
+        }
+
+        #editor-canvas td[data-level="0"], #editor-canvas td > div.hover[data-level="0"] {
             background-color: var(--canvas-item-level0-color);
         }
 
-        #editor-canvas div[data-level="1"] {
+        #editor-canvas td[data-level="1"], #editor-canvas td > div.hover[data-level="1"] {
             background-color: var(--canvas-item-level1-color);
         }
 
-        #editor-canvas div[data-level="2"] {
+        #editor-canvas td[data-level="2"], #editor-canvas td > div.hover[data-level="2"] {
             background-color: var(--canvas-item-level2-color);
         }
 
-        #editor-canvas div[data-level="3"] {
+        #editor-canvas td[data-level="3"], #editor-canvas td > div.hover[data-level="3"] {
             background-color: var(--canvas-item-level3-color);
         }
 
-        #editor-canvas div[data-level="4"] {
+        #editor-canvas td[data-level="4"], #editor-canvas td > div.hover[data-level="4"] {
             background-color: var(--canvas-item-level4-color);
         }
+
+        #editor-canvas td > div {
+            opacity: 0;
+            aspect-ratio: 1 / 1;
+        }
+
+            #editor-canvas td > div.hover {
+                opacity: 0.75;
+            }
