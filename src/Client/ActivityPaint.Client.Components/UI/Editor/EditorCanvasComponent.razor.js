@@ -51,7 +51,11 @@ function handleMouseDown(e) {
         return;
     }
 
-    paint(canvas, cell.indexX, cell.indexY);
+    if (currentSettings.selectedTool === 2) {
+        fill(canvas, cell.indexX, cell.indexY, currentSettings.selectedIntensity);
+    } else {
+        paint(canvas, cell.indexX, cell.indexY);
+    }
 }
 
 function handleMouseMove(e) {
@@ -101,6 +105,34 @@ function resetHover(canvas, skipCells = []) {
     }
 }
 
+function fill(canvas, indexX, indexY, to, from = undefined, visitedSet = new Set()) {
+    const key = `#cell-${indexX}-${indexY}`;
+    if (visitedSet.has(key)) {
+        return;
+    }
+
+    visitedSet.add(key);
+
+    const cell = canvas.querySelector(key);
+    if (!cell) {
+        return;
+    }
+
+    const cellLevel = cell.dataset['level'] ?? 0;
+    const fromValid = from ?? cellLevel;
+
+    if (cellLevel != fromValid) {
+        return;
+    }
+
+    cell.dataset['level'] = to;
+
+    if (indexX > 0) fill(canvas, indexX - 1, indexY, to, fromValid, visitedSet);
+    if (indexY > 0) fill(canvas, indexX, indexY - 1, to, fromValid, visitedSet);
+    if (indexX < 52) fill(canvas, indexX + 1, indexY, to, fromValid, visitedSet);
+    if (indexY < 6) fill(canvas, indexX, indexY + 1, to, fromValid, visitedSet);
+}
+
 function paint(canvas, indexX, indexY) {
     const cell = canvas.querySelector(`#cell-${indexX}-${indexY}`);
     if (!cell) {
@@ -135,13 +167,9 @@ function pointInRect(x, y, rect) {
 }
 
 function getCurrentIntensity() {
-    if (currentSettings.selectedTool == 0) { // Brush
-        return currentSettings.selectedIntensity;
-    }
-
     if (currentSettings.selectedTool == 1) { // Eraser
         return 0;
     }
 
-    return 0;
+    return currentSettings.selectedIntensity;
 }
