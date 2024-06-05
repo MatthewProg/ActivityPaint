@@ -1,4 +1,5 @@
 ﻿#editor-canvas {
+    --canvas-background-color: #0d1117;
     --canvas-item-level0-color: #161b22;
     --canvas-item-level1-color: #0e4429;
     --canvas-item-level2-color: #006d32;
@@ -10,7 +11,7 @@
     margin: 0 auto;
     table-layout: fixed;
     border-spacing: 3px;
-    background-color: var(--canvas-item-level0-color);
+    background-color: var(--canvas-background-color);
 }
 
     #editor-canvas * {

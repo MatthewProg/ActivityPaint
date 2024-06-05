@@ -8,6 +8,7 @@ const currentSettings = {
 
 function getColors(isDarkMode = false) {
     return {
+        '--canvas-background-color': isDarkMode ? '#0d1117' : '#ffffff',
         '--canvas-item-level0-color': isDarkMode ? '#161b22' : '#ebedf0',
         '--canvas-item-level1-color': isDarkMode ? '#0e4429' : '#9be9a8',
         '--canvas-item-level2-color': isDarkMode ? '#006d32' : '#40c463',
@@ -40,55 +41,68 @@ export function destroy() {
 }
 
 function handleMouseDown(e) {
-    if ((e.buttons & 1) !== 1) { // LMB only
+    console.log(e);
+    // LMB not clicked
+    if ((e.buttons & 1) !== 1) {
         return;
     }
 
     const canvas = document.getElementById(canvasId);
-    const cell = getCellIndex(canvas, e.clientX, e.clientY);
+    const cells = getCellIndex(canvas, e.clientX, e.clientY, currentSettings.selectedTool === 2 ? 1 : currentSettings.brushSize);
 
-    if (!cell) {
+    if (cells.length === 0) {
         return;
     }
 
     if (currentSettings.selectedTool === 2) {
+        const cell = cells[0];
         fill(canvas, cell.indexX, cell.indexY, currentSettings.selectedIntensity);
     } else {
-        paint(canvas, cell.indexX, cell.indexY);
+        paint(canvas, cells);
     }
 }
 
 function handleMouseMove(e) {
     const canvas = document.getElementById(canvasId);
-    const cell = getCellIndex(canvas, e.clientX, e.clientY);
+    const cells = getCellIndex(canvas, e.clientX, e.clientY, currentSettings.brushSize);
 
-    if (!cell) {
+    if (cells.length === 0) {
         resetHover(canvas);
         return;
     }
 
-    if ((e.buttons & 1) !== 1) { // LMB only
-        hover(canvas, cell.indexX, cell.indexY);
+    // LMB not clicked
+    if ((e.buttons & 1) !== 1) {
+        hover(canvas, cells);
         return;
     }
 
-    paint(canvas, cell.indexX, cell.indexY);
+    paint(canvas, cells);
 }
 
-function hover(canvas, indexX, indexY) {
-    const cell = canvas.querySelector(`#cell-${indexX}-${indexY} > div`);
-    if (!cell) {
-        resetHover(canvas);
+function hover(canvas, cells) {
+    const cellElements = [];
+    for (const { indexX, indexY } of cells) {
+        const cell = canvas.querySelector(`#cell-${indexX}-${indexY} > div`);
+        if (!cell) {
+            continue;
+        }
+        cellElements.push(cell);
+    }
+
+    resetHover(canvas, cellElements);
+
+    if (cellElements.length === 0) {
         return;
     }
 
-    resetHover(canvas, [cell]);
+    for (const cell of cellElements) {
+        if (!cell.classList.contains('hover')) {
+            cell.classList.add('hover');
+        }
 
-    if (!cell.classList.contains('hover')) {
-        cell.classList.add('hover');
+        cell.dataset['level'] = getCurrentIntensity();
     }
-
-    cell.dataset['level'] = getCurrentIntensity();
 }
 
 function resetHover(canvas, skipCells = []) {
@@ -133,37 +147,56 @@ function fill(canvas, indexX, indexY, to, from = undefined, visitedSet = new Set
     if (indexY < 6) fill(canvas, indexX, indexY + 1, to, fromValid, visitedSet);
 }
 
-function paint(canvas, indexX, indexY) {
-    const cell = canvas.querySelector(`#cell-${indexX}-${indexY}`);
-    if (!cell) {
-        return;
-    }
+function paint(canvas, cells) {
+    for (const { indexX, indexY } of cells) {
+        const cell = canvas.querySelector(`#cell-${indexX}-${indexY}`);
+        if (!cell) {
+            continue;
+        }
 
-    cell.dataset['level'] = getCurrentIntensity();
+        cell.dataset['level'] = getCurrentIntensity();
+    }
 }
 
-function getCellIndex(canvas, x, y) {
+function getCellIndex(canvas, x, y, size) {
     const canvasRect = canvas.getBoundingClientRect();
-    if (!pointInRect(x, y, canvasRect)) {
-        return undefined;
+    const blockSize = canvasRect.width / 54.0;
+    const brushR = size / 2.0;
+
+    const selectRect = new DOMRect(x - (brushR * blockSize), y - (brushR * blockSize), size * blockSize, size * blockSize);
+
+    if (!rectsOverlap(canvasRect, selectRect)) {
+        return [];
     }
 
-    const relX = x - canvasRect.x;
-    const relY = y - canvasRect.y;
+    const relRect = new DOMRect(selectRect.x - canvasRect.x, selectRect.y - canvasRect.y, selectRect.width, selectRect.height);
 
-    const blockSize = canvasRect.width / 54;
+    const clampedLeft = Math.max(0, relRect.left) / blockSize;
+    const clampedRight = Math.min(canvasRect.width, relRect.right) / blockSize;
+    const clampedTop = Math.max(0, relRect.top) / blockSize;
+    const clampedBottom = Math.min(canvasRect.height, relRect.bottom) / blockSize;
 
-    const indexX = Math.min(Math.floor(relX / blockSize), 53);
-    const indexY = Math.min(Math.floor(relY / blockSize), 6);
+    const minX = Math.max(0, clampedLeft);
+    const maxX = Math.min(54, clampedRight);
+    const minY = Math.max(0, clampedTop);
+    const maxY = Math.min(7, clampedBottom);
 
-    return { indexX, indexY };
+    const cellsInFoucs = [];
+    for (let centerX = Math.round(minX) + 0.5; centerX < maxX; centerX++) {
+        for (let centerY = Math.round(minY) + 0.5; centerY < maxY; centerY++) {
+            const indexX = Math.floor(centerX);
+            const indexY = Math.floor(centerY);
+            cellsInFoucs.push({ indexX, indexY });
+        }
+    }
+    return cellsInFoucs;
 }
 
-function pointInRect(x, y, rect) {
-    return x >= rect.x
-        && x <= rect.x + rect.width
-        && y >= rect.y
-        && y <= rect.y + rect.height;
+function rectsOverlap(rect1, rect2) {
+    return !(rect1.right < rect2.left ||
+             rect1.left > rect2.right ||
+             rect1.bottom < rect2.top ||
+             rect1.top > rect2.bottom)
 }
 
 function getCurrentIntensity() {
