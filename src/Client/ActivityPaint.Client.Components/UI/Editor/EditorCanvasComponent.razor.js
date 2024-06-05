@@ -18,8 +18,10 @@ function getColors(isDarkMode = false) {
 }
 
 export function init() {
-    addEventListener('mousemove', handleMouseMove);
-    addEventListener('mousedown', handleMouseDown);
+    const canvas = document.getElementById(canvasId);
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mousedown', handleMouseDown);
+    canvas.addEventListener('mouseleave', handleMouseLeave);
 }
 
 export function updateSettings(settings) {
@@ -36,8 +38,10 @@ export function updateSettings(settings) {
 }
 
 export function destroy() {
-    removeEventListener('mousemove', handleMouseMove);
-    removeEventListener('mousedown', handleMouseDown);
+    const canvas = document.getElementById(canvasId);
+    canvas.removeEventListener('mousemove', handleMouseMove);
+    canvas.removeEventListener('mousedown', handleMouseDown);
+    canvas.removeEventListener('mouseleave', handleMouseLeave);
 }
 
 function handleMouseDown(e) {
@@ -64,7 +68,7 @@ function handleMouseDown(e) {
 
 function handleMouseMove(e) {
     const canvas = document.getElementById(canvasId);
-    const cells = getCellIndex(canvas, e.clientX, e.clientY, currentSettings.brushSize);
+    const cells = getCellIndex(canvas, e.clientX, e.clientY, currentSettings.selectedTool === 2 ? 1 : currentSettings.brushSize);
 
     if (cells.length === 0) {
         resetHover(canvas);
@@ -73,11 +77,16 @@ function handleMouseMove(e) {
 
     // LMB not clicked
     if ((e.buttons & 1) !== 1) {
-        hover(canvas, cells);
+        hover(canvas, currentSettings.selectedTool === 2 ? [cells[0]] : cells);
         return;
     }
 
     paint(canvas, cells);
+}
+
+function handleMouseLeave(e) {
+    const canvas = document.getElementById(canvasId);
+    resetHover(canvas);
 }
 
 function hover(canvas, cells) {
