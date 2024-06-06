@@ -26,11 +26,14 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender || _defaultTheme.Theme != ThemeEnum.System) return;
+        if (firstRender && _defaultTheme.Theme == ThemeEnum.System)
+        {
+            _defaultTheme.ResolvedTheme = (await _mudThemeProvider.GetSystemPreference()) ? ThemeEnum.Dark : ThemeEnum.Light;
+            await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+            StateHasChanged();
+        }
 
-        _defaultTheme.ResolvedTheme = (await _mudThemeProvider.GetSystemPreference()) ? ThemeEnum.Dark : ThemeEnum.Light;
-        await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
-        StateHasChanged();
+        await base.OnAfterRenderAsync(firstRender);
     }
 
     private Task OnSystemPreferenceChanged(bool newValue)

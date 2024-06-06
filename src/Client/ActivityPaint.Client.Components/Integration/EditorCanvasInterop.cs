@@ -25,12 +25,17 @@ public class EditorCanvasInterop : IAsyncDisposable
         await module.InvokeVoidAsync("updateSettings", settings);
     }
 
+    public async ValueTask Destroy()
+    {
+        var module = await moduleTask.Value;
+        await module.InvokeVoidAsync("destroy");
+    }
+
     public async ValueTask DisposeAsync()
     {
         if (moduleTask.IsValueCreated)
         {
             var module = await moduleTask.Value;
-            await module.InvokeVoidAsync("destroy");
             await module.DisposeAsync();
         }
     }

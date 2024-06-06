@@ -1,10 +1,17 @@
 ﻿const canvasId = 'editor-canvas';
+const tools = {
+    brush: 0,
+    eraser: 1,
+    fill: 2
+};
 const currentSettings = {
     isDarkMode: false,
     brushSize: 1,
     selectedTool: 0,
     selectedIntensity: 0
 };
+
+let canvas = {};
 
 function getColors(isDarkMode = false) {
     return {
@@ -18,7 +25,7 @@ function getColors(isDarkMode = false) {
 }
 
 export function init() {
-    const canvas = document.getElementById(canvasId);
+    canvas = document.getElementById(canvasId);
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mousedown', handleMouseDown);
     canvas.addEventListener('mouseleave', handleMouseLeave);
@@ -30,7 +37,6 @@ export function updateSettings(settings) {
     currentSettings.selectedTool = settings.selectedTool;
     currentSettings.selectedIntensity = settings.selectedIntensity;
 
-    const canvas = document.getElementById(canvasId);
     const colors = getColors(settings.isDarkMode);
     for (const key in colors) {
         canvas.style.setProperty(key, colors[key]);
@@ -38,58 +44,51 @@ export function updateSettings(settings) {
 }
 
 export function destroy() {
-    const canvas = document.getElementById(canvasId);
     canvas.removeEventListener('mousemove', handleMouseMove);
     canvas.removeEventListener('mousedown', handleMouseDown);
     canvas.removeEventListener('mouseleave', handleMouseLeave);
 }
 
 function handleMouseDown(e) {
-    console.log(e);
-    // LMB not clicked
-    if ((e.buttons & 1) !== 1) {
+    if (!isLMBPressed(e)) {
         return;
     }
 
-    const canvas = document.getElementById(canvasId);
-    const cells = getCellIndex(canvas, e.clientX, e.clientY, currentSettings.selectedTool === 2 ? 1 : currentSettings.brushSize);
+    const cells = getCellsInRange(e.clientX, e.clientY);
 
     if (cells.length === 0) {
         return;
     }
 
-    if (currentSettings.selectedTool === 2) {
+    if (currentSettings.selectedTool === tools.fill) {
         const cell = cells[0];
-        fill(canvas, cell.indexX, cell.indexY, currentSettings.selectedIntensity);
+        fill(cell.indexX, cell.indexY, getCurrentIntensity());
     } else {
-        paint(canvas, cells);
+        paint(cells);
     }
 }
 
 function handleMouseMove(e) {
-    const canvas = document.getElementById(canvasId);
-    const cells = getCellIndex(canvas, e.clientX, e.clientY, currentSettings.selectedTool === 2 ? 1 : currentSettings.brushSize);
+    const cells = getCellsInRange(e.clientX, e.clientY);
 
     if (cells.length === 0) {
-        resetHover(canvas);
+        resetHover();
         return;
     }
 
-    // LMB not clicked
-    if ((e.buttons & 1) !== 1) {
-        hover(canvas, currentSettings.selectedTool === 2 ? [cells[0]] : cells);
+    if (!isLMBPressed(e)) {
+        hover(currentSettings.selectedTool === tools.fill ? [cells[0]] : cells);
         return;
     }
 
-    paint(canvas, cells);
+    paint(cells);
 }
 
 function handleMouseLeave(e) {
-    const canvas = document.getElementById(canvasId);
-    resetHover(canvas);
+    resetHover();
 }
 
-function hover(canvas, cells) {
+function hover(cells) {
     const cellElements = [];
     for (const { indexX, indexY } of cells) {
         const cell = canvas.querySelector(`#cell-${indexX}-${indexY} > div`);
@@ -99,7 +98,7 @@ function hover(canvas, cells) {
         cellElements.push(cell);
     }
 
-    resetHover(canvas, cellElements);
+    resetHover(cellElements);
 
     if (cellElements.length === 0) {
         return;
@@ -114,7 +113,7 @@ function hover(canvas, cells) {
     }
 }
 
-function resetHover(canvas, skipCells = []) {
+function resetHover(skipCells = []) {
     const skipSet = new Set(skipCells);
     const oldCells = canvas.querySelectorAll('div.hover');
     for (let i = 0; i < oldCells.length; i++) {
@@ -128,7 +127,7 @@ function resetHover(canvas, skipCells = []) {
     }
 }
 
-function fill(canvas, indexX, indexY, to, from = undefined, visitedSet = new Set()) {
+function fill(indexX, indexY, to, from = undefined, visitedSet = new Set()) {
     const key = `#cell-${indexX}-${indexY}`;
     if (visitedSet.has(key)) {
         return;
@@ -150,13 +149,13 @@ function fill(canvas, indexX, indexY, to, from = undefined, visitedSet = new Set
 
     cell.dataset['level'] = to;
 
-    if (indexX > 0) fill(canvas, indexX - 1, indexY, to, fromValid, visitedSet);
-    if (indexY > 0) fill(canvas, indexX, indexY - 1, to, fromValid, visitedSet);
-    if (indexX < 52) fill(canvas, indexX + 1, indexY, to, fromValid, visitedSet);
-    if (indexY < 6) fill(canvas, indexX, indexY + 1, to, fromValid, visitedSet);
+    if (indexX > 0) fill(indexX - 1, indexY, to, fromValid, visitedSet);
+    if (indexY > 0) fill(indexX, indexY - 1, to, fromValid, visitedSet);
+    if (indexX < 52) fill(indexX + 1, indexY, to, fromValid, visitedSet);
+    if (indexY < 6) fill(indexX, indexY + 1, to, fromValid, visitedSet);
 }
 
-function paint(canvas, cells) {
+function paint(cells) {
     for (const { indexX, indexY } of cells) {
         const cell = canvas.querySelector(`#cell-${indexX}-${indexY}`);
         if (!cell) {
@@ -167,12 +166,15 @@ function paint(canvas, cells) {
     }
 }
 
-function getCellIndex(canvas, x, y, size) {
+function getCellsInRange(x, y) {
     const canvasRect = canvas.getBoundingClientRect();
     const blockSize = canvasRect.width / 54.0;
-    const brushR = size / 2.0;
+    const brushSize = getCurrentBrushSize();
 
-    const selectRect = new DOMRect(x - (brushR * blockSize), y - (brushR * blockSize), size * blockSize, size * blockSize);
+    const brushSizePx = brushSize * blockSize;
+    const brushRadiusPx = (brushSize / 2.0) * blockSize;
+
+    const selectRect = new DOMRect(x - brushRadiusPx, y - brushRadiusPx, brushSizePx, brushSizePx);
 
     if (!rectsOverlap(canvasRect, selectRect)) {
         return [];
@@ -208,10 +210,8 @@ function rectsOverlap(rect1, rect2) {
              rect1.top > rect2.bottom)
 }
 
-function getCurrentIntensity() {
-    if (currentSettings.selectedTool == 1) { // Eraser
-        return 0;
-    }
+const getCurrentBrushSize = () => currentSettings.selectedTool === tools.fill ? 1 : currentSettings.brushSize;
 
-    return currentSettings.selectedIntensity;
-}
+const getCurrentIntensity = () => currentSettings.selectedTool === tools.eraser ? 0 : currentSettings.selectedIntensity;
+
+const isLMBPressed = (e) => (e.buttons & 1) === 1;

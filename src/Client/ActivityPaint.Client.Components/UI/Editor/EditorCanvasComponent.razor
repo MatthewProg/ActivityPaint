@@ -2,7 +2,7 @@
 @using ActivityPaint.Client.Components.Models
 @using System.ComponentModel
 @inject EditorCanvasInterop CanvasInterop
-@implements IDisposable
+@implements IAsyncDisposable
 
 <table id="editor-canvas">
     @for (int r = 0; r < 7; r++)
@@ -33,16 +33,25 @@
     private DateTime StartDate => Settings.StartDate ?? new DateTime((Settings.StartDate ?? DateTime.Now).Year, 1, 1);
     private DateTime EndDate => new DateTime((Settings.StartDate ?? DateTime.Now).Year, 12, 31);
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
         Settings.PropertyChanged -= OnSettingsChanged;
+        await CanvasInterop.Destroy();
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await CanvasInterop.Init();
+            await CanvasInterop.UpdateSettings(Settings);
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
     protected override async Task OnInitializedAsync()
     {
         Settings.PropertyChanged += OnSettingsChanged;
-        await CanvasInterop.Init();
-        await CanvasInterop.UpdateSettings(Settings);
 
         await base.OnInitializedAsync();
     }
