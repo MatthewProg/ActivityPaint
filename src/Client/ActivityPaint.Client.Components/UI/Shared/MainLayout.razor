@@ -21,12 +21,12 @@
 
 @code {
     private ThemeModel _defaultTheme = new ThemeModel();
-    private MudThemeProvider _mudThemeProvider;
+    private MudThemeProvider? _mudThemeProvider;
     private bool _drawerOpen = true;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && _defaultTheme.Theme == ThemeEnum.System)
+        if (firstRender && _defaultTheme.Theme == ThemeEnum.System && _mudThemeProvider is not null)
         {
             _defaultTheme.ResolvedTheme = (await _mudThemeProvider.GetSystemPreference()) ? ThemeEnum.Dark : ThemeEnum.Light;
             await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);

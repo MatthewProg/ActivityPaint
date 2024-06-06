@@ -8,10 +8,12 @@
 <div class="d-flex flex-column" style="width: 100%;">
     <h3>EditorComponent</h3>
     <EditorToolbarComponent Settings="_settings" />
-    <EditorCanvasComponent Settings="_settings" />
+    <EditorCanvasComponent @ref="_canvas" Settings="_settings" />
+    <button @onclick="OnSaveClicked">Save</button>
 </div>
 
 @code {
+    private EditorCanvasComponent? _canvas;
     private EditorSettingsModel _settings = new EditorSettingsModel
     {
         BrushSize = 1,
@@ -21,9 +23,9 @@
         StartDate = new DateTime(DateTime.Now.Year, 1, 1)
     };
 
-    private void OnSettingsChanged(object? sender, PropertyChangedEventArgs e)
+    public void Dispose()
     {
-        StateHasChanged();
+        _settings.PropertyChanged -= OnSettingsChanged;
     }
 
     protected override void OnInitialized()
@@ -33,8 +35,15 @@
         base.OnInitialized();
     }
 
-    public void Dispose()
+    private void OnSettingsChanged(object? sender, PropertyChangedEventArgs e)
     {
-        _settings.PropertyChanged -= OnSettingsChanged;
+        StateHasChanged();
+    }
+
+    private async Task OnSaveClicked(MouseEventArgs e)
+    {
+        if (_canvas is null) return;
+
+        _ = await _canvas.GetCanvasData();
     }
 }

@@ -43,6 +43,26 @@ export function updateSettings(settings) {
     }
 }
 
+export function serializeCanvas() {
+    const cells = canvas.querySelectorAll('td[data-doy]').values();
+
+    const data = new Map(cells.map(c => {
+        const doy = parseInt(c.dataset['doy']);
+        const level = parseInt(c.dataset['level'] ?? 0);
+        return [doy, level];
+    }));
+
+    const sorted = [...data.entries()].sort((a, b) => {
+        if (a[0] > b[0]) return 1;
+        if (a[0] < b[0]) return -1;
+        return 0;
+    });
+
+    const serialized = sorted.map(x => x[1]);
+
+    return serialized;
+}
+
 export function destroy() {
     canvas.removeEventListener('mousemove', handleMouseMove);
     canvas.removeEventListener('mousedown', handleMouseDown);
