@@ -1,0 +1,32 @@
+﻿@using ActivityPaint.Client.Components.Enums
+@using ActivityPaint.Client.Components.Helpers
+@using ActivityPaint.Core.Enums
+
+<MudToggleGroup T="IntensityEnum" SelectionMode="SelectionMode.SingleSelection" @bind-Value:get="SelectedIntensity" @bind-Value:set="SelectedIntensityChanged" Disabled="!IntensitySelectEnabled">
+    @foreach (var level in Enum.GetValues<IntensityEnum>())
+    {
+        <MudToggleItem Value="level">
+            <MudIcon Icon="@Icons.Material.Filled.Square" Style="@GetIntensityStyle(level)" />
+        </MudToggleItem>
+    }
+</MudToggleGroup>
+
+@code {
+    [Parameter, EditorRequired]
+    public bool IsDarkMode { get; set; }
+
+    [Parameter]
+    public bool IntensitySelectEnabled { get; set; } = true;
+
+    [Parameter]
+    public IntensityEnum SelectedIntensity { get; set; } = IntensityEnum.Level0;
+
+    [Parameter]
+    public EventCallback<IntensityEnum> SelectedIntensityChanged { get; set; }
+
+    private string GetIntensityStyle(IntensityEnum intensity)
+    {
+        var color = ThemeHelper.GetIntensityColor(intensity, IsDarkMode);
+        return $"color: rgb({color.R}, {color.G}, {color.B});";
+    }
+}

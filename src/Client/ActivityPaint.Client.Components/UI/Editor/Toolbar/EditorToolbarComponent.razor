@@ -1,0 +1,24 @@
+﻿@using ActivityPaint.Client.Components.Enums
+@using ActivityPaint.Client.Components.Models
+@using ActivityPaint.Client.Components.UI.Editor.Toolbar.Tools
+@using ActivityPaint.Core.Enums
+
+<MudPaper Elevation="25">
+    <MudToolBar Class="gap-2">
+        <EditorToolbarToolSelectComponent @bind-CurrentTool="Settings.SelectedTool" />
+        <EditorToolbarToolBrushSizeComponent @bind-BrushSize="Settings.BrushSize" SizeSelectEnabled="EnableBrushSize" />
+        <EditorToolbarToolIntensitySelectComponent @bind-SelectedIntensity="Settings.SelectedIntensity" IsDarkMode="Settings.IsDarkMode" IntensitySelectEnabled="EnableIntensitySelector" />
+        <MudSpacer />
+        <EditorToolbarToolYearPickComponent @bind-PickedDate="Settings.StartDate" />
+        <EditorToolbarToolThemeComponent Settings="Settings" />
+    </MudToolBar>
+</MudPaper>
+
+@code {
+    [Parameter, EditorRequired]
+    public required EditorSettingsModel Settings { get; set; }
+
+    private bool EnableBrushSize => Settings.SelectedTool is EditorToolEnum.Brush or EditorToolEnum.Eraser;
+
+    private bool EnableIntensitySelector => Settings.SelectedTool is EditorToolEnum.Brush or EditorToolEnum.Fill;
+}
