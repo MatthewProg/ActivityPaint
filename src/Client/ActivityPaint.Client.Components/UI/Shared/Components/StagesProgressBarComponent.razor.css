@@ -1,0 +1,14 @@
+﻿.stage-indicator {
+    width: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+::deep .stages-progressbar {
+    position: relative;
+    top: 1.5rem;
+    width: 90%;
+    margin-left: 5%;
+}

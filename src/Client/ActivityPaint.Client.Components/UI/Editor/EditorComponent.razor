@@ -12,13 +12,13 @@
     <EditorCanvasComponent @ref="_canvas" Settings="_settings" />
     <button @onclick="OnSaveClicked">Save</button>
     <StagesContainerComponent>
-        <StageComponent>
+        <StageComponent Caption="Load">
             <h1>Stage 0</h1>
         </StageComponent>
-        <StageComponent>
+        <StageComponent Caption="Edit" Icon="@Icons.Material.Filled.Brush">
             <h1>Stage 1</h1>
         </StageComponent>
-        <StageComponent>
+        <StageComponent Caption="Generate" Icon="@Icons.Material.Filled.DiscFull">
             <h1>Stage 2</h1>
         </StageComponent>
     </StagesContainerComponent>

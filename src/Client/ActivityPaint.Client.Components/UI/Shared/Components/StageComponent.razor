@@ -1,25 +1,31 @@
-﻿@if (SelectedStage.HasValue && SelectedStage == _stageId)
+﻿@if (CurrentStage.HasValue && CurrentStage == StageId)
 {
-    <h1>Stage #@(_stageId ?? -1)</h1>
+    <h1>Stage #@(StageId ?? -1)</h1>
     @ChildContent
 }
 
 @code 
 {
-    private int? _stageId;
+    public int? StageId { get; private set; }
 
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public string? Caption { get; set; }
+
     [CascadingParameter(Name = "RegisterStage")]
     protected Func<StageComponent, int>? RegisterStage { get; set; }
 
-    [CascadingParameter(Name = "SelectedStage")]
-    protected int? SelectedStage { get; set; }
+    [CascadingParameter(Name = "CurrentStage")]
+    protected int? CurrentStage { get; set; }
 
     protected override void OnInitialized()
     {
-        _stageId = RegisterStage?.Invoke(this);
+        StageId = RegisterStage?.Invoke(this);
 
         base.OnInitialized();
     }

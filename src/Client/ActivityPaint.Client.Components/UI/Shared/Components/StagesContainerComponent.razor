@@ -1,23 +1,26 @@
-﻿<CascadingValue Name="RegisterStage" Value="RegisterStage">
-    <CascadingValue Name="SelectedStage" Value="SelectedStage">
-        @ChildContent
+﻿<div>
+    <StagesProgressBarComponent Stages="_stages" CurrentStage="CurrentStage" />
+    <CascadingValue Name="RegisterStage" Value="RegisterStage">
+        <CascadingValue Name="CurrentStage" Value="CurrentStage">
+            @ChildContent
+        </CascadingValue>
     </CascadingValue>
-</CascadingValue>
-<button @onclick="() => SelectedStage--">Prev</button>
-<button @onclick="() => SelectedStage++">Next</button>
+    <button @onclick="() => CurrentStage--">Prev</button>
+    <button @onclick="() => CurrentStage++">Next</button>
+</div>
 
 @code {
-    private List<StageComponent> _items = new();
+    private List<StageComponent> _stages = new();
 
     [Parameter]
-    public int? SelectedStage { get; set; } = 0;
+    public int? CurrentStage { get; set; } = 0;
 
     [Parameter]
     public RenderFragment? ChildContent{ get; set; }
 
     private int RegisterStage(StageComponent stage)
     {
-        _items.Add(stage);
-        return _items.Count - 1;
+        _stages.Add(stage);
+        return _stages.Count - 1;
     }
 }
