@@ -1,0 +1,23 @@
+﻿<CascadingValue Name="RegisterStage" Value="RegisterStage">
+    <CascadingValue Name="SelectedStage" Value="SelectedStage">
+        @ChildContent
+    </CascadingValue>
+</CascadingValue>
+<button @onclick="() => SelectedStage--">Prev</button>
+<button @onclick="() => SelectedStage++">Next</button>
+
+@code {
+    private List<StageComponent> _items = new();
+
+    [Parameter]
+    public int? SelectedStage { get; set; } = 0;
+
+    [Parameter]
+    public RenderFragment? ChildContent{ get; set; }
+
+    private int RegisterStage(StageComponent stage)
+    {
+        _items.Add(stage);
+        return _items.Count - 1;
+    }
+}

@@ -1,6 +1,7 @@
 ﻿@using ActivityPaint.Client.Components.Enums
 @using ActivityPaint.Client.Components.Models
 @using ActivityPaint.Client.Components.UI.Editor.Toolbar
+@using ActivityPaint.Client.Components.UI.Shared.Components
 @using ActivityPaint.Core.Enums
 @using System.ComponentModel
 @implements IDisposable
@@ -10,6 +11,17 @@
     <EditorToolbarComponent Settings="_settings" />
     <EditorCanvasComponent @ref="_canvas" Settings="_settings" />
     <button @onclick="OnSaveClicked">Save</button>
+    <StagesContainerComponent>
+        <StageComponent>
+            <h1>Stage 0</h1>
+        </StageComponent>
+        <StageComponent>
+            <h1>Stage 1</h1>
+        </StageComponent>
+        <StageComponent>
+            <h1>Stage 2</h1>
+        </StageComponent>
+    </StagesContainerComponent>
 </div>
 
 @code {
