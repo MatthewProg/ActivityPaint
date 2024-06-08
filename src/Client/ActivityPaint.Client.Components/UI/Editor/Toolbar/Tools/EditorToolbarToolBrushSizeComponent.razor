@@ -1,8 +1,10 @@
-﻿<MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
-    <MudIconButton Disabled="!SizeSelectEnabled" Icon="@Icons.Material.TwoTone.Add" OnClick="async () => await UpdateBrushSize(BrushSize + 1)" />
-    <input class="brush-size__input" type="number" min="@MinSize" @bind-value:get="BrushSize" @bind-value:set="UpdateBrushSize" max="@MaxSize" disabled="@(!SizeSelectEnabled)" />
-    <MudIconButton Disabled="!SizeSelectEnabled" Icon="@Icons.Material.TwoTone.Remove" OnClick="async () => await UpdateBrushSize(BrushSize - 1)" />
-</MudButtonGroup>
+﻿<div>
+    <MudButtonGroup Color="Color.Primary" Variant="Variant.Filled">
+        <MudIconButton Disabled="!SizeSelectEnabled" Icon="@Icons.Material.TwoTone.Add" OnClick="async () => await UpdateBrushSize(BrushSize + 1)" />
+        <MudNumericField Disabled="!SizeSelectEnabled" HideSpinButtons="true" @bind-Value:get="BrushSize" @bind-Value:set="UpdateBrushSize" Min="@MinSize" Max="@MaxSize" Class="brush-size__input" />
+        <MudIconButton Disabled="!SizeSelectEnabled" Icon="@Icons.Material.TwoTone.Remove" OnClick="async () => await UpdateBrushSize(BrushSize - 1)" />
+    </MudButtonGroup>
+</div>
 
 @code {
     private const int MinSize = 1;
