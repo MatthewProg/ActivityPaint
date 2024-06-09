@@ -1,61 +1,23 @@
 ﻿@using ActivityPaint.Client.Components.Enums
-@using ActivityPaint.Client.Components.Models
-@using ActivityPaint.Client.Components.UI.Editor.Toolbar
-@using ActivityPaint.Client.Components.UI.Shared.Components
-@using ActivityPaint.Core.Enums
-@using System.ComponentModel
-@implements IDisposable
+@using ActivityPaint.Client.Components.UI.Editor.PaintStage
+@using ActivityPaint.Client.Components.UI.Shared.Components.Stage
 
 <div class="d-flex flex-column" style="width: 100%;">
-    <h3>EditorComponent</h3>
-    <EditorToolbarComponent Settings="_settings" />
-    <EditorCanvasComponent @ref="_canvas" Settings="_settings" />
-    <button @onclick="OnSaveClicked">Save</button>
-    <StagesContainerComponent>
-        <StageComponent Caption="Load">
-            <h1>Stage 0</h1>
+    <StagesContainerComponent @ref="_stagesContainer">
+        <StageComponent Caption="Create new" Icon="@Icons.Material.Filled.OpenInNew">
+            <h1>Create new stage</h1>
         </StageComponent>
         <StageComponent Caption="Edit" Icon="@Icons.Material.Filled.Brush">
-            <h1>Stage 1</h1>
+            <EditorPaintComponent />
         </StageComponent>
-        <StageComponent Caption="Generate" Icon="@Icons.Material.Filled.DiscFull">
-            <h1>Stage 2</h1>
+        <StageComponent Caption="Generate" Icon="@CustomIcons.Gears">
+            <h1>Generate stage</h1>
         </StageComponent>
     </StagesContainerComponent>
+    <button @onclick="async () => await _stagesContainer.NextStage()">Next</button>
+    <button @onclick="async () => await _stagesContainer.PreviousStage()">Previous</button>
 </div>
 
 @code {
-    private EditorCanvasComponent? _canvas;
-    private EditorSettingsModel _settings = new EditorSettingsModel
-    {
-        BrushSize = 1,
-        IsDarkMode = false,
-        SelectedIntensity = IntensityEnum.Level0,
-        SelectedTool = EditorToolEnum.Brush,
-        StartDate = new DateTime(DateTime.Now.Year, 1, 1)
-    };
-
-    public void Dispose()
-    {
-        _settings.PropertyChanged -= OnSettingsChanged;
-    }
-
-    protected override void OnInitialized()
-    {
-        _settings.PropertyChanged += OnSettingsChanged;
-
-        base.OnInitialized();
-    }
-
-    private void OnSettingsChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        StateHasChanged();
-    }
-
-    private async Task OnSaveClicked(MouseEventArgs e)
-    {
-        if (_canvas is null) return;
-
-        _ = await _canvas.GetCanvasData();
-    }
+    private StagesContainerComponent? _stagesContainer;
 }

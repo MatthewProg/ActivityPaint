@@ -1,5 +1,5 @@
 ﻿<div>
-    <MudProgressLinear Min="0" Value="CurrentStage ?? 0" Max="(Stages?.Count ?? 2) - 1" Size="Size.Medium" class="stages-progressbar" />
+    <MudProgressLinear Min="0" Value="CurrentStage ?? 0" Max="(Stages?.Count ?? 2) - 1" Color="Color.Primary" Size="Size.Medium" class="stages-progressbar" />
     <div class="d-flex flex-nowrap justify-space-between">
         @foreach (var stage in Stages ?? Enumerable.Empty<StageComponent>())
         {
@@ -7,7 +7,7 @@
                 <MudAvatar Color="@(IsStageActive(stage, CurrentStage) ? Color.Primary : Color.Dark)" Size="Size.Medium">
                     @if(string.IsNullOrEmpty(stage.Icon))
                     {
-                        @(stage.StageId)
+                        @((stage.StageId ?? 0) + 1)
                     }
                     else
                     {

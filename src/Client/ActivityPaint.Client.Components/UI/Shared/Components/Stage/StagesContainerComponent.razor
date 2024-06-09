@@ -1,0 +1,54 @@
+﻿<div>
+    <StagesProgressBarComponent Stages="_stages" CurrentStage="CurrentStage" />
+    <CascadingValue Name="RegisterStage" Value="RegisterStage">
+        <CascadingValue Name="CurrentStage" Value="CurrentStage">
+            @ChildContent
+        </CascadingValue>
+    </CascadingValue>
+</div>
+
+@code {
+    private List<StageComponent> _stages = new();
+
+    [Parameter]
+    public RenderFragment? ChildContent{ get; set; }
+
+    [Parameter]
+    public EventCallback<int> CurrentStageChanged { get; set; }
+
+    public int CurrentStage { get; private set; } = 0;
+
+    public async Task NextStage()
+    {
+        if (CurrentStage < _stages.Count - 1)
+        {
+            CurrentStage++;
+            await CurrentStageChanged.InvokeAsync(CurrentStage);
+        }
+    }
+
+    public async Task PreviousStage()
+    {
+        if (CurrentStage > 0)
+        {
+            CurrentStage--;
+            await CurrentStageChanged.InvokeAsync(CurrentStage);
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            StateHasChanged();
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
+    private int RegisterStage(StageComponent stage)
+    {
+        _stages.Add(stage);
+        return _stages.Count - 1;
+    }
+}

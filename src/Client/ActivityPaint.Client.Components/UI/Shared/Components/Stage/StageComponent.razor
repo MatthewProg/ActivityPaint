@@ -1,10 +1,9 @@
 ﻿@if (CurrentStage.HasValue && CurrentStage == StageId)
 {
-    <h1>Stage #@(StageId ?? -1)</h1>
     @ChildContent
 }
 
-@code 
+@code
 {
     public int? StageId { get; private set; }
 
