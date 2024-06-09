@@ -1,14 +1,22 @@
-﻿<div>
-    <StagesProgressBarComponent Stages="_stages" CurrentStage="CurrentStage" />
-    <CascadingValue Name="RegisterStage" Value="RegisterStage">
-        <CascadingValue Name="CurrentStage" Value="CurrentStage">
-            @ChildContent
+﻿<StagesProgressBarComponent Stages="_stages" CurrentStage="CurrentStage" />
+<div>
+    <div class="stages-container">
+        <CascadingValue Name="RegisterStage" Value="RegisterStage">
+            <CascadingValue Name="StageReadyCallback" Value="StageReadyCallback">
+                <CascadingValue Name="CurrentStage" Value="CurrentStage">
+                    @ChildContent
+                </CascadingValue>
+            </CascadingValue>
         </CascadingValue>
-    </CascadingValue>
+        <div class="stages-container__overlay @(_isLoading ? "" : "d-none")">
+            <MudProgressCircular Indeterminate="true" Color="@Color.Primary" Size="@Size.Medium" />
+        </div>
+    </div>
 </div>
 
 @code {
     private List<StageComponent> _stages = new();
+    private bool _isLoading;
 
     [Parameter]
     public RenderFragment? ChildContent{ get; set; }
@@ -22,6 +30,8 @@
     {
         if (CurrentStage < _stages.Count - 1)
         {
+            _isLoading = true;
+            await Task.Delay(1);
             CurrentStage++;
             await CurrentStageChanged.InvokeAsync(CurrentStage);
         }
@@ -31,6 +41,8 @@
     {
         if (CurrentStage > 0)
         {
+            _isLoading = true;
+            await Task.Delay(1);
             CurrentStage--;
             await CurrentStageChanged.InvokeAsync(CurrentStage);
         }
@@ -50,5 +62,14 @@
     {
         _stages.Add(stage);
         return _stages.Count - 1;
+    }
+
+    private async Task StageReadyCallback(StageComponent stage)
+    {
+        if (_isLoading)
+        {
+            _isLoading = false;
+            await Task.Delay(1);
+        }
     }
 }
