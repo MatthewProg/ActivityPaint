@@ -11,7 +11,7 @@ public class EditorCanvasInterop : IAsyncDisposable
     public EditorCanvasInterop(IJSRuntime jsRuntime)
     {
         _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", "./_content/ActivityPaint.Client.Components/UI/Editor/EditorCanvasComponent.razor.js").AsTask());
+            "import", "./_content/ActivityPaint.Client.Components/UI/Editor/PaintStage/EditorCanvasComponent.razor.js").AsTask());
     }
 
     public async ValueTask Init()

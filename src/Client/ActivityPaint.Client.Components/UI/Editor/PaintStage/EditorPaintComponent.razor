@@ -1,0 +1,46 @@
+﻿@using ActivityPaint.Client.Components.Enums
+@using ActivityPaint.Client.Components.Models
+@using ActivityPaint.Client.Components.UI.Editor.PaintStage.Toolbar
+@using ActivityPaint.Core.Enums
+@using System.ComponentModel
+@implements IDisposable
+
+<EditorToolbarComponent Settings="_settings" />
+<EditorCanvasComponent @ref="_canvas" Settings="_settings" />
+<button @onclick="OnSaveClicked">Save</button>
+
+@code {
+    private EditorCanvasComponent? _canvas;
+    private EditorSettingsModel _settings = new EditorSettingsModel
+    {
+        BrushSize = 1,
+        IsDarkMode = false,
+        SelectedIntensity = IntensityEnum.Level0,
+        SelectedTool = EditorToolEnum.Brush,
+        StartDate = new DateTime(DateTime.Now.Year, 1, 1)
+    };
+
+    public void Dispose()
+    {
+        _settings.PropertyChanged -= OnSettingsChanged;
+    }
+
+    protected override void OnInitialized()
+    {
+        _settings.PropertyChanged += OnSettingsChanged;
+
+        base.OnInitialized();
+    }
+
+    private void OnSettingsChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    private async Task OnSaveClicked(MouseEventArgs e)
+    {
+        if (_canvas is null) return;
+
+        _ = await _canvas.GetCanvasData();
+    }
+}

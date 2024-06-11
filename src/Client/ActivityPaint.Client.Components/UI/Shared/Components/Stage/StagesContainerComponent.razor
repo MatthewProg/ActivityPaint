@@ -1,0 +1,79 @@
+﻿<StagesProgressBarComponent Stages="_stages" CurrentStage="CurrentStage" />
+<div>
+    <div class="stages-container">
+        <CascadingValue Name="RegisterStage" Value="RegisterStage">
+            <CascadingValue Name="NotifyStageReady" Value="NotifyStageReady">
+                <CascadingValue Name="CurrentStage" Value="CurrentStage">
+                    @ChildContent
+                </CascadingValue>
+            </CascadingValue>
+        </CascadingValue>
+        <div class="stages-container__overlay @(_isLoading ? "" : "d-none")">
+            <MudProgressCircular Indeterminate="true" Color="@Color.Primary" Size="@Size.Medium" />
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<StageComponent> _stages = new();
+    private bool _isLoading;
+
+    [Parameter]
+    public RenderFragment? ChildContent{ get; set; }
+
+    [Parameter]
+    public EventCallback<int> CurrentStageChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<int?> StageReadyCallback { get; set; }
+
+    public int CurrentStage { get; private set; } = 0;
+
+    public async Task NextStage()
+    {
+        if (CurrentStage < _stages.Count - 1)
+        {
+            _isLoading = true;
+            await Task.Delay(1);
+            CurrentStage++;
+            await CurrentStageChanged.InvokeAsync(CurrentStage);
+        }
+    }
+
+    public async Task PreviousStage()
+    {
+        if (CurrentStage > 0)
+        {
+            _isLoading = true;
+            await Task.Delay(1);
+            CurrentStage--;
+            await CurrentStageChanged.InvokeAsync(CurrentStage);
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            StateHasChanged();
+        }
+
+        base.OnAfterRender(firstRender);
+    }
+
+    private int RegisterStage(StageComponent stage)
+    {
+        _stages.Add(stage);
+        return _stages.Count - 1;
+    }
+
+    private async Task NotifyStageReady(StageComponent stage)
+    {
+        if (_isLoading)
+        {
+            _isLoading = false;
+            await Task.Delay(1);
+            await StageReadyCallback.InvokeAsync(stage.StageId);
+        }
+    }
+}

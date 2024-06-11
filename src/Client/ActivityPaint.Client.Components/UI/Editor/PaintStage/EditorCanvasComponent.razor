@@ -51,15 +51,10 @@
         {
             await CanvasInterop.Init();
             await CanvasInterop.UpdateSettings(Settings);
+            Settings.PropertyChanged += OnSettingsChanged;
         }
 
         await base.OnAfterRenderAsync(firstRender);
-    }
-    protected override async Task OnInitializedAsync()
-    {
-        Settings.PropertyChanged += OnSettingsChanged;
-
-        await base.OnInitializedAsync();
     }
 
     private async void OnSettingsChanged(object? sender, PropertyChangedEventArgs e)

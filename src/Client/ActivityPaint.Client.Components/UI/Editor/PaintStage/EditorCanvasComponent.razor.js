@@ -11,7 +11,7 @@ const currentSettings = {
     selectedIntensity: 0
 };
 
-let canvas = {};
+let canvas = undefined;
 
 function getColors(isDarkMode = false) {
     return {
@@ -32,6 +32,8 @@ export function init() {
 }
 
 export function updateSettings(settings) {
+    canvas ??= document.getElementById(canvasId);
+
     currentSettings.isDarkMode = settings.isDarkMode;
     currentSettings.brushSize = settings.brushSize;
     currentSettings.selectedTool = settings.selectedTool;
