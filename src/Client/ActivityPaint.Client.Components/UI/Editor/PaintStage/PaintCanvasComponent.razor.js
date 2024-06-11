@@ -1,4 +1,4 @@
-﻿const canvasId = 'editor-canvas';
+﻿const canvasId = 'paint-canvas';
 const tools = {
     brush: 0,
     eraser: 1,

@@ -1,6 +1,6 @@
 ﻿namespace ActivityPaint.Client.Components.Enums;
 
-public enum EditorToolEnum
+public enum PaintToolEnum
 {
     Brush, Eraser, Fill
 }

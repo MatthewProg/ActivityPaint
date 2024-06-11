@@ -16,7 +16,7 @@ public partial class EditorSettingsModel : ObservableObject
     private int _brushSize;
 
     [ObservableProperty]
-    private EditorToolEnum _selectedTool;
+    private PaintToolEnum _selectedTool;
 
     [ObservableProperty]
     private IntensityEnum _selectedIntensity;

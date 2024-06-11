@@ -1,4 +1,4 @@
-﻿#editor-canvas {
+﻿#paint-canvas {
     --canvas-background-color: #0d1117;
     --canvas-item-level0-color: #161b22;
     --canvas-item-level1-color: #0e4429;
@@ -14,43 +14,43 @@
     background-color: var(--canvas-background-color);
 }
 
-    #editor-canvas * {
+    #paint-canvas * {
         user-select: none;
     }
 
-    #editor-canvas td {
+    #paint-canvas td {
         z-index: -1;
     }
 
-        #editor-canvas td:not(.disabled) {
+        #paint-canvas td:not(.disabled) {
             border: 1px solid black;
         }
 
-        #editor-canvas td[data-level="0"], #editor-canvas td > div.hover[data-level="0"] {
+        #paint-canvas td[data-level="0"], #paint-canvas td > div.hover[data-level="0"] {
             background-color: var(--canvas-item-level0-color);
         }
 
-        #editor-canvas td[data-level="1"], #editor-canvas td > div.hover[data-level="1"] {
+        #paint-canvas td[data-level="1"], #paint-canvas td > div.hover[data-level="1"] {
             background-color: var(--canvas-item-level1-color);
         }
 
-        #editor-canvas td[data-level="2"], #editor-canvas td > div.hover[data-level="2"] {
+        #paint-canvas td[data-level="2"], #paint-canvas td > div.hover[data-level="2"] {
             background-color: var(--canvas-item-level2-color);
         }
 
-        #editor-canvas td[data-level="3"], #editor-canvas td > div.hover[data-level="3"] {
+        #paint-canvas td[data-level="3"], #paint-canvas td > div.hover[data-level="3"] {
             background-color: var(--canvas-item-level3-color);
         }
 
-        #editor-canvas td[data-level="4"], #editor-canvas td > div.hover[data-level="4"] {
+        #paint-canvas td[data-level="4"], #paint-canvas td > div.hover[data-level="4"] {
             background-color: var(--canvas-item-level4-color);
         }
 
-        #editor-canvas td > div {
+        #paint-canvas td > div {
             opacity: 0;
             aspect-ratio: 1 / 1;
         }
 
-            #editor-canvas td > div.hover {
+            #paint-canvas td > div.hover {
                 opacity: 0.75;
             }

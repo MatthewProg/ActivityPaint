@@ -17,6 +17,6 @@ public static class DependencyInjection
 
     private static void AddIntegration(this IServiceCollection services)
     {
-        services.AddScoped<EditorCanvasInterop>();
+        services.AddScoped<PaintCanvasInterop>();
     }
 }

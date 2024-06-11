@@ -5,18 +5,18 @@
 @using System.ComponentModel
 @implements IDisposable
 
-<EditorToolbarComponent Settings="_settings" />
-<EditorCanvasComponent @ref="_canvas" Settings="_settings" />
+<PaintToolbarComponent Settings="_settings" />
+<PaintCanvasComponent @ref="_canvas" Settings="_settings" />
 <button @onclick="OnSaveClicked">Save</button>
 
 @code {
-    private EditorCanvasComponent? _canvas;
+    private PaintCanvasComponent? _canvas;
     private EditorSettingsModel _settings = new EditorSettingsModel
     {
         BrushSize = 1,
         IsDarkMode = false,
         SelectedIntensity = IntensityEnum.Level0,
-        SelectedTool = EditorToolEnum.Brush,
+        SelectedTool = PaintToolEnum.Brush,
         StartDate = new DateTime(DateTime.Now.Year, 1, 1)
     };
 

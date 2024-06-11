@@ -4,14 +4,14 @@ using Microsoft.JSInterop;
 
 namespace ActivityPaint.Client.Components.Integration;
 
-public class EditorCanvasInterop : IAsyncDisposable
+public class PaintCanvasInterop : IAsyncDisposable
 {
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
 
-    public EditorCanvasInterop(IJSRuntime jsRuntime)
+    public PaintCanvasInterop(IJSRuntime jsRuntime)
     {
         _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", "./_content/ActivityPaint.Client.Components/UI/Editor/PaintStage/EditorCanvasComponent.razor.js").AsTask());
+            "import", "./_content/ActivityPaint.Client.Components/UI/Editor/PaintStage/PaintCanvasComponent.razor.js").AsTask());
     }
 
     public async ValueTask Init()

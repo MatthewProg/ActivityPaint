@@ -2,10 +2,10 @@
 @using ActivityPaint.Client.Components.Models
 @using ActivityPaint.Core.Enums
 @using System.ComponentModel
-@inject EditorCanvasInterop CanvasInterop
+@inject PaintCanvasInterop CanvasInterop
 @implements IAsyncDisposable
 
-<table id="editor-canvas">
+<table id="paint-canvas">
     @for (int r = 0; r < 7; r++)
     {
         <tr>
