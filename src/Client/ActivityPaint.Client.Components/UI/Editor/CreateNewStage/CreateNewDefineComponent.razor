@@ -1,0 +1,25 @@
+﻿@using ActivityPaint.Client.Components.Models
+@using ActivityPaint.Client.Components.UI.Editor.Shared
+
+<h3>Define new</h3>
+<MudForm Class="gap-2 my-4">
+    <EditorYearPickComponent @bind-PickedDate="_datePicked" />
+    <MudSwitch @bind-Value:get="IsDarkMode" @bind-Value:set="DarkModeChanged" Label="@(IsDarkMode ? "Dark mode is default" : "Light mode is default")" />
+</MudForm>
+<MudButton Size="@Size.Medium" Variant="@Variant.Filled">Next stage</MudButton>
+
+@code {
+    private bool? _isDarkModeDefault;
+    private DateTime? _datePicked;
+
+    private bool IsDarkMode => _isDarkModeDefault ?? Theme?.IsDarkMode ?? false;
+
+    [CascadingParameter(Name = "Theme")]
+    protected ThemeModel? Theme { get; set; }
+
+    private void DarkModeChanged(bool newValue)
+    {
+        _isDarkModeDefault = newValue;
+        StateHasChanged();
+    }
+}

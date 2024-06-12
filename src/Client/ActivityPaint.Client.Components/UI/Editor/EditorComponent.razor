@@ -1,11 +1,12 @@
 ﻿@using ActivityPaint.Client.Components.Enums
+@using ActivityPaint.Client.Components.UI.Editor.CreateNewStage
 @using ActivityPaint.Client.Components.UI.Editor.PaintStage
 @using ActivityPaint.Client.Components.UI.Shared.Components.Stage
 
 <div class="d-flex flex-column" style="width: 100%;">
     <StagesContainerComponent @ref="_stagesContainer">
         <StageComponent Caption="Create new" Icon="@Icons.Material.Filled.OpenInNew">
-            <h1>Create new stage</h1>
+            <CreateNewComponent />
         </StageComponent>
         <StageComponent Caption="Edit" Icon="@Icons.Material.Filled.Brush">
             <PaintComponent />
