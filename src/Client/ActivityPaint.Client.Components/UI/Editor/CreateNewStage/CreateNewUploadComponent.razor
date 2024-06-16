@@ -1,5 +1,40 @@
-﻿<h3>CreateNewUploadComponent</h3>
+﻿@using Microsoft.AspNetCore.Components.Forms
+
+<div class="h-100">
+    <MudFileUpload T="IBrowserFile"
+                   OnFilesChanged="OnInputFileChanged"
+                   Accept=".json"
+                   Class="mud-height-full"
+                   InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20"
+                   InputStyle="opacity:0"
+                   @ondragenter="@SetDragClass"
+                   @ondragleave="@ClearDragClass"
+                   @ondragend="@ClearDragClass">
+        <ActivatorContent>
+            <MudPaper Outlined="true" Class="@_dragClass">
+                <MudIcon Size="@Size.Large" Icon="@Icons.Material.Filled.FileUpload" />
+                <MudText Typo="Typo.button">
+                    Upload preset
+                </MudText>
+            </MudPaper>
+        </ActivatorContent>
+    </MudFileUpload>
+</div>
 
 @code {
+    private const string DefaultDragClass = "relative rounded-lg border-2 border-dashed pa-4 mud-width-full mud-height-full d-flex flex-column align-center justify-center";
 
+    private string _dragClass = DefaultDragClass;
+
+    private void OnInputFileChanged(InputFileChangeEventArgs e)
+    {
+        ClearDragClass();
+        var file = e.File;
+    }
+
+    private void SetDragClass()
+        => _dragClass = $"{DefaultDragClass} mud-border-primary";
+
+    private void ClearDragClass()
+        => _dragClass = DefaultDragClass;
 }

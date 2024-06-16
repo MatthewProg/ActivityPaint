@@ -1,0 +1,6 @@
+﻿.h-100,
+::deep .mud-input-control-input-container,
+::deep .mud-input-control-input-container > div {
+    height: 100%;
+    min-height: 200px;
+}
