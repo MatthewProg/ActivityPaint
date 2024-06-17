@@ -6,19 +6,21 @@
 @implements IDisposable
 
 <PaintToolbarComponent Settings="_settings" />
-<PaintCanvasComponent @ref="_canvas" Settings="_settings" />
+<PaintCanvasComponent @ref="_canvas" CanvasModel="_settings" />
 <button @onclick="OnSaveClicked">Save</button>
 
 @code {
     private PaintCanvasComponent? _canvas;
-    private EditorSettingsModel _settings = new EditorSettingsModel
+    private PaintCanvasModel _settings = new PaintCanvasModel
     {
-        BrushSize = 1,
         IsDarkMode = false,
+        BrushSize = 1,
         SelectedIntensity = IntensityEnum.Level0,
         SelectedTool = PaintToolEnum.Brush,
-        StartDate = new DateTime(DateTime.Now.Year, 1, 1)
     };
+
+    [CascadingParameter(Name = "EditorModel")]
+    protected EditorModel? EditorModel { get; set; }
 
     public void Dispose()
     {
@@ -27,6 +29,7 @@
 
     protected override void OnInitialized()
     {
+        _settings.IsDarkMode = EditorModel?.IsDarkModeDefault ?? false;
         _settings.PropertyChanged += OnSettingsChanged;
 
         base.OnInitialized();
@@ -39,8 +42,11 @@
 
     private async Task OnSaveClicked(MouseEventArgs e)
     {
-        if (_canvas is null) return;
+        if (_canvas is null || EditorModel is null)
+        {
+            return;
+        }
 
-        _ = await _canvas.GetCanvasData();
+        EditorModel.CanvasData = await _canvas.GetCanvasData();
     }
 }

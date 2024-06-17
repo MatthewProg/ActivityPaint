@@ -1,25 +1,55 @@
-﻿@using ActivityPaint.Client.Components.Models
+﻿@using ActivityPaint.Client.Components.Enums
+@using ActivityPaint.Client.Components.Models
 @using ActivityPaint.Client.Components.UI.Editor.Shared
+@implements IDisposable
 
 <h3>Define new</h3>
 <MudForm Class="gap-2 my-4">
-    <EditorYearPickComponent @bind-PickedDate="_datePicked" />
+    <MudTextField @bind-Value="EditorModel!.Name" Label="Name" Required="true" RequiredError="Preset name is required!" />
+    <EditorYearPickComponent @bind-PickedDate="EditorModel!.StartDate" />
     <MudSwitch @bind-Value:get="IsDarkMode" @bind-Value:set="DarkModeChanged" Label="@(IsDarkMode ? "Dark mode is default" : "Light mode is default")" />
 </MudForm>
 <MudButton Size="@Size.Medium" Variant="@Variant.Filled">Next stage</MudButton>
 
 @code {
-    private bool? _isDarkModeDefault;
-    private DateTime? _datePicked;
-
-    private bool IsDarkMode => _isDarkModeDefault ?? Theme?.IsDarkMode ?? false;
+    private bool IsDarkMode => EditorModel?.IsDarkModeDefault ?? Theme?.IsDarkMode ?? false;
 
     [CascadingParameter(Name = "Theme")]
     protected ThemeModel? Theme { get; set; }
 
+    [CascadingParameter(Name = "EditorModel")]
+    protected EditorModel? EditorModel { get; set; }
+
+    public void Dispose()
+    {
+        if (Theme is not null)
+        {
+            Theme.OnThemeResolved -= ThemeUpdated;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        if (Theme is not null)
+        {
+            Theme.OnThemeResolved += ThemeUpdated;
+        }
+
+        base.OnInitialized();
+    }
+
+    private void ThemeUpdated(object? _, ThemeEnum theme)
+    {
+        DarkModeChanged(theme == ThemeEnum.Dark);
+    }
+
     private void DarkModeChanged(bool newValue)
     {
-        _isDarkModeDefault = newValue;
-        StateHasChanged();
+        if (EditorModel is not null)
+        {
+            EditorModel.IsDarkModeDefault = newValue;
+            StateHasChanged();
+        }
+
     }
 }

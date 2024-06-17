@@ -10,16 +10,13 @@
         <PaintToolbarToolBrushSizeComponent @bind-BrushSize="Settings.BrushSize" SizeSelectEnabled="EnableBrushSize" />
         <PaintToolbarToolIntensitySelectComponent @bind-SelectedIntensity="Settings.SelectedIntensity" IsDarkMode="Settings.IsDarkMode" IntensitySelectEnabled="EnableIntensitySelector" />
         <MudSpacer />
-        <div style="max-width: 7rem;">
-            <EditorYearPickComponent @bind-PickedDate="Settings.StartDate" />
-        </div>
-        <PaintToolbarToolThemeComponent Settings="Settings" />
+        <PaintToolbarToolThemeComponent @bind-IsDarkMode="Settings.IsDarkMode" />
     </MudToolBar>
 </MudPaper>
 
 @code {
     [Parameter, EditorRequired]
-    public required EditorSettingsModel Settings { get; set; }
+    public required PaintCanvasModel Settings { get; set; }
 
     private bool EnableBrushSize => Settings.SelectedTool is PaintToolEnum.Brush or PaintToolEnum.Eraser;
 

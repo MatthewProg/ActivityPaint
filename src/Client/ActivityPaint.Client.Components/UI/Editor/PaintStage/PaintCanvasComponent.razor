@@ -14,7 +14,8 @@
                 var doy = GetDayOfYear(r, c, StartDate, EndDate);
                 if (doy.HasValue)
                 {
-                    <td id="@($"cell-{c}-{r}")" data-level="0" data-doy="@doy">
+                    var lvl = EditorModel?.CanvasData?.ElementAtOrDefault(doy.Value) ?? IntensityEnum.Level0;
+                    <td id="@($"cell-{c}-{r}")" data-level="@lvl" data-doy="@doy">
                         <div></div>
                     </td>
                 }
@@ -29,19 +30,22 @@
 
 @code {
     [Parameter, EditorRequired]
-    public required EditorSettingsModel Settings { get; set; }
+    public required PaintCanvasModel CanvasModel { get; set; }
 
-    private DateTime StartDate => Settings.StartDate ?? new DateTime((Settings.StartDate ?? DateTime.Now).Year, 1, 1);
-    private DateTime EndDate => new DateTime((Settings.StartDate ?? DateTime.Now).Year, 12, 31);
+    [CascadingParameter(Name = "EditorModel")]
+    protected EditorModel? EditorModel { get; set; }
 
-    public async ValueTask<IntensityEnum[]> GetCanvasData()
+    private DateTime StartDate => EditorModel?.StartDate ?? new DateTime((EditorModel?.StartDate ?? DateTime.Now).Year, 1, 1);
+    private DateTime EndDate => new DateTime((EditorModel?.StartDate ?? DateTime.Now).Year, 12, 31);
+
+    public async ValueTask<List<IntensityEnum>> GetCanvasData()
     {
         return await CanvasInterop.SerializeCanvas();
     }
 
     public async ValueTask DisposeAsync()
     {
-        Settings.PropertyChanged -= OnSettingsChanged;
+        CanvasModel.PropertyChanged -= OnSettingsChanged;
         await CanvasInterop.Destroy();
     }
 
@@ -50,8 +54,8 @@
         if (firstRender)
         {
             await CanvasInterop.Init();
-            await CanvasInterop.UpdateSettings(Settings);
-            Settings.PropertyChanged += OnSettingsChanged;
+            await CanvasInterop.UpdateSettings(CanvasModel);
+            CanvasModel.PropertyChanged += OnSettingsChanged;
         }
 
         await base.OnAfterRenderAsync(firstRender);
@@ -59,7 +63,7 @@
 
     private async void OnSettingsChanged(object? sender, PropertyChangedEventArgs e)
     {
-        await CanvasInterop.UpdateSettings(Settings);
+        await CanvasInterop.UpdateSettings(CanvasModel);
     }
 
     private static int? GetDayOfYear(int dayOfWeek, int week, DateTime startDate, DateTime endDate)
