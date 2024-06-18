@@ -34,7 +34,7 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (NotifyStageReady is not null)
+        if (StageId == CurrentStage && NotifyStageReady is not null)
         {
             await NotifyStageReady.Invoke(this);
         }

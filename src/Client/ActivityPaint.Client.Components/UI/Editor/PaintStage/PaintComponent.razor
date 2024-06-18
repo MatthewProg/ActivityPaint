@@ -7,7 +7,11 @@
 
 <PaintToolbarComponent Settings="_settings" />
 <PaintCanvasComponent @ref="_canvas" CanvasModel="_settings" />
-<button @onclick="OnSaveClicked">Save</button>
+<div class="d-flex justify-space-between gap-2 mt-2">
+    <MudButton Variant="@Variant.Text" OnClick="PreviousStage">Previous stage</MudButton>
+    <MudButton Variant="@Variant.Text" OnClick="Reset">Reset</MudButton>
+    <MudButton Variant="@Variant.Filled" OnClick="NextStage">Next stage</MudButton>
+</div>
 
 @code {
     private PaintCanvasComponent? _canvas;
@@ -21,6 +25,15 @@
 
     [CascadingParameter(Name = "EditorModel")]
     protected EditorModel? EditorModel { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback OnNextStageClicked { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback OnPreviousStageClicked { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<bool> SetIsBusy { get; set; }
 
     public void Dispose()
     {
@@ -40,13 +53,41 @@
         StateHasChanged();
     }
 
-    private async Task OnSaveClicked(MouseEventArgs e)
+    private void Reset()
+    {
+        if (EditorModel is null) return;
+
+        EditorModel.CanvasData = null;
+        StateHasChanged();
+    }
+
+    private async Task PreviousStage()
     {
         if (_canvas is null || EditorModel is null)
         {
             return;
         }
 
+        await SetIsBusy.InvokeAsync(true);
+
+        await Task.Delay(2000);
+
         EditorModel.CanvasData = await _canvas.GetCanvasData();
+
+        await OnPreviousStageClicked.InvokeAsync();
+    }
+
+    private async Task NextStage()
+    {
+        if (_canvas is null || EditorModel is null)
+        {
+            return;
+        }
+
+        await SetIsBusy.InvokeAsync(true);
+
+        EditorModel.CanvasData = await _canvas.GetCanvasData();
+
+        await OnNextStageClicked.InvokeAsync();
     }
 }

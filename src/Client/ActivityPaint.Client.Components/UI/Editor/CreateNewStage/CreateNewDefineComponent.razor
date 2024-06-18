@@ -4,14 +4,15 @@
 @implements IDisposable
 
 <h3>Define new</h3>
-<MudForm Class="gap-2 my-4">
+<MudForm @ref="_form" Class="gap-2 my-4">
     <MudTextField @bind-Value="EditorModel!.Name" Label="Name" Required="true" RequiredError="Preset name is required!" />
     <EditorYearPickComponent @bind-PickedDate="EditorModel!.StartDate" />
     <MudSwitch @bind-Value:get="IsDarkMode" @bind-Value:set="DarkModeChanged" Label="@(IsDarkMode ? "Dark mode is default" : "Light mode is default")" />
 </MudForm>
-<MudButton Size="@Size.Medium" Variant="@Variant.Filled">Next stage</MudButton>
+<MudButton Size="@Size.Medium" Variant="@Variant.Filled" @onclick="NextStage">Next stage</MudButton>
 
 @code {
+    private MudForm? _form;
     private bool IsDarkMode => EditorModel?.IsDarkModeDefault ?? Theme?.IsDarkMode ?? false;
 
     [CascadingParameter(Name = "Theme")]
@@ -19,6 +20,9 @@
 
     [CascadingParameter(Name = "EditorModel")]
     protected EditorModel? EditorModel { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback OnNextStageClicked { get; set; }
 
     public void Dispose()
     {
@@ -50,6 +54,18 @@
             EditorModel.IsDarkModeDefault = newValue;
             StateHasChanged();
         }
+    }
 
+    private async Task NextStage()
+    {
+        if (_form is not null)
+        {
+            await _form.Validate();
+
+            if (!_form.IsValid)
+                return;
+        }
+
+        await OnNextStageClicked.InvokeAsync();
     }
 }

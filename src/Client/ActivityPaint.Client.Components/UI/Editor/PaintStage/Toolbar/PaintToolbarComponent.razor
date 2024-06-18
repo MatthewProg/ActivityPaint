@@ -5,7 +5,7 @@
 @using ActivityPaint.Core.Enums
 
 <MudPaper Elevation="25">
-    <MudToolBar Class="gap-2">
+    <MudToolBar WrapContent="true" Class="gap-2">
         <PaintToolbarToolSelectComponent @bind-CurrentTool="Settings.SelectedTool" />
         <PaintToolbarToolBrushSizeComponent @bind-BrushSize="Settings.BrushSize" SizeSelectEnabled="EnableBrushSize" />
         <PaintToolbarToolIntensitySelectComponent @bind-SelectedIntensity="Settings.SelectedIntensity" IsDarkMode="Settings.IsDarkMode" IntensitySelectEnabled="EnableIntensitySelector" />
