@@ -1,10 +1,8 @@
 ﻿<StagesProgressBarComponent Stages="_stages" CurrentStage="CurrentStage" />
 <div class="stages-container">
     <CascadingValue Name="RegisterStage" Value="RegisterStage">
-        <CascadingValue Name="NotifyStageReady" Value="NotifyStageReady">
-            <CascadingValue Name="CurrentStage" Value="CurrentStage">
-                @ChildContent
-            </CascadingValue>
+        <CascadingValue Name="CurrentStage" Value="CurrentStage">
+            @ChildContent
         </CascadingValue>
     </CascadingValue>
     <div class="stages-container__overlay @(_isBusy ? "" : "d-none")">
@@ -45,6 +43,7 @@
             await SetIsBusy(true);
             CurrentStage--;
             await CurrentStageChanged.InvokeAsync(CurrentStage);
+            await SetIsBusy(false);
         }
     }
 
@@ -68,11 +67,5 @@
     {
         _stages.Add(stage);
         return _stages.Count - 1;
-    }
-
-    private async Task NotifyStageReady(StageComponent stage)
-    {
-        await SetIsBusy(false);
-        await StageReadyCallback.InvokeAsync(stage.StageId);
     }
 }

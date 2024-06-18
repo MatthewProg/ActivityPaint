@@ -53,12 +53,12 @@
         StateHasChanged();
     }
 
-    private void Reset()
+    private async Task Reset()
     {
-        if (EditorModel is null) return;
+        if (_canvas is null || EditorModel is null) return;
 
         EditorModel.CanvasData = null;
-        StateHasChanged();
+        await _canvas.ResetCanvas();
     }
 
     private async Task PreviousStage()
@@ -69,8 +69,6 @@
         }
 
         await SetIsBusy.InvokeAsync(true);
-
-        await Task.Delay(2000);
 
         EditorModel.CanvasData = await _canvas.GetCanvasData();
 

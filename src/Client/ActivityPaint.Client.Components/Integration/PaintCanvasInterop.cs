@@ -32,6 +32,12 @@ public class PaintCanvasInterop : IAsyncDisposable
         return await module.InvokeAsync<List<IntensityEnum>>("serializeCanvas");
     }
 
+    public async ValueTask ResetCanvas()
+    {
+        var module = await _moduleTask.Value;
+        await module.InvokeVoidAsync("resetCanvas");
+    }
+
     public async ValueTask Destroy()
     {
         var module = await _moduleTask.Value;

@@ -14,7 +14,7 @@
                 var doy = GetDayOfYear(r, c, StartDate, EndDate);
                 if (doy.HasValue)
                 {
-                    var lvl = (int?)EditorModel?.CanvasData?.ElementAtOrDefault(doy.Value) ?? 0;
+                    var lvl = (int?)EditorModel?.CanvasData?.ElementAtOrDefault(doy.Value - 1) ?? 0;
                     <td id="@($"cell-{c}-{r}")" data-level="@lvl" data-doy="@doy">
                         <div></div>
                     </td>
@@ -41,6 +41,11 @@
     public async ValueTask<List<IntensityEnum>> GetCanvasData()
     {
         return await CanvasInterop.SerializeCanvas();
+    }
+
+    public async ValueTask ResetCanvas()
+    {
+        await CanvasInterop.ResetCanvas();
     }
 
     public async ValueTask DisposeAsync()

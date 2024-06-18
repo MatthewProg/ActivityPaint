@@ -19,9 +19,6 @@
     [CascadingParameter(Name = "RegisterStage")]
     protected Func<StageComponent, int>? RegisterStage { get; set; }
 
-    [CascadingParameter(Name = "NotifyStageReady")]
-    protected Func<StageComponent, Task>? NotifyStageReady { get; set; }
-
     [CascadingParameter(Name = "CurrentStage")]
     protected int? CurrentStage { get; set; }
 
@@ -30,15 +27,5 @@
         StageId = RegisterStage?.Invoke(this);
 
         base.OnInitialized();
-    }
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (StageId == CurrentStage && NotifyStageReady is not null)
-        {
-            await NotifyStageReady.Invoke(this);
-        }
-
-        await base.OnAfterRenderAsync(firstRender);
     }
 }

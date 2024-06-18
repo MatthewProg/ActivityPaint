@@ -42,7 +42,7 @@
         base.OnInitialized();
     }
 
-    private void ThemeUpdated(object? _, ThemeEnum theme)
+    private void ThemeUpdated(object? sender, ThemeEnum theme)
     {
         DarkModeChanged(theme == ThemeEnum.Dark);
     }
