@@ -1,0 +1,14 @@
+﻿<MudStack>
+    <input type="radio" name="@_groupName" value="0" />
+    <input type="radio" name="@_groupName" value="1" />
+    <input type="radio" name="@_groupName" value="2" />
+    <input type="radio" name="@_groupName" value="3" />
+</MudStack>
+<MudButton Variant="@Variant.Text" OnClick="OnPreviousStageClicked">Previous stage</MudButton>
+
+@code {
+    private const string _groupName = "gen-method";
+
+    [Parameter, EditorRequired]
+    public EventCallback OnPreviousStageClicked { get; set; }
+}

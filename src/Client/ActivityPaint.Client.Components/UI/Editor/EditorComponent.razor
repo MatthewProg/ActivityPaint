@@ -1,7 +1,8 @@
 ﻿@using ActivityPaint.Client.Components.Enums
 @using ActivityPaint.Client.Components.Models
-@using ActivityPaint.Client.Components.UI.Editor.CreateNewStage
-@using ActivityPaint.Client.Components.UI.Editor.PaintStage
+@using ActivityPaint.Client.Components.UI.Editor.CreateNew
+@using ActivityPaint.Client.Components.UI.Editor.Generate
+@using ActivityPaint.Client.Components.UI.Editor.Paint
 @using ActivityPaint.Client.Components.UI.Shared.Components.Stage
 
 <div class="d-flex flex-column" style="width: 100%;">
@@ -14,7 +15,7 @@
                 <PaintComponent OnPreviousStageClicked="PreviousStage" OnNextStageClicked="NextStage" SetIsBusy="SetIsBusy" />
             </StageComponent>
             <StageComponent Caption="Generate" Icon="@CustomIcons.Gears">
-                <h1>Generate stage</h1>
+                <GenerateComponent OnPreviousStageClicked="PreviousStage" />
             </StageComponent>
         </StagesContainerComponent>
     </CascadingValue>
