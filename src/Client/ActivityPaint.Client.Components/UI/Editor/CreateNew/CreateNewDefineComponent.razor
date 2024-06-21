@@ -1,0 +1,71 @@
+﻿@using ActivityPaint.Client.Components.Enums
+@using ActivityPaint.Client.Components.Models
+@using ActivityPaint.Client.Components.UI.Editor.Shared
+@implements IDisposable
+
+<h3>Define new</h3>
+<MudForm @ref="_form" Class="gap-2 my-4">
+    <MudTextField @bind-Value="EditorModel!.Name" Label="Name" Required="true" RequiredError="Preset name is required!" />
+    <EditorYearPickComponent @bind-PickedDate="EditorModel!.StartDate" />
+    <MudSwitch @bind-Value:get="IsDarkMode" @bind-Value:set="DarkModeChanged" Label="@(IsDarkMode ? "Dark mode is default" : "Light mode is default")" />
+</MudForm>
+<MudButton Size="@Size.Medium" Variant="@Variant.Filled" @onclick="NextStage">Next stage</MudButton>
+
+@code {
+    private MudForm? _form;
+    private bool IsDarkMode => EditorModel?.IsDarkModeDefault ?? Theme?.IsDarkMode ?? false;
+
+    [CascadingParameter(Name = "Theme")]
+    protected ThemeModel? Theme { get; set; }
+
+    [CascadingParameter(Name = "EditorModel")]
+    protected EditorModel? EditorModel { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback OnNextStageClicked { get; set; }
+
+    public void Dispose()
+    {
+        if (Theme is not null)
+        {
+            Theme.OnThemeResolved -= ThemeUpdated;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        if (Theme is not null)
+        {
+            Theme.OnThemeResolved += ThemeUpdated;
+        }
+
+        base.OnInitialized();
+    }
+
+    private void ThemeUpdated(object? sender, ThemeEnum theme)
+    {
+        DarkModeChanged(theme == ThemeEnum.Dark);
+    }
+
+    private void DarkModeChanged(bool newValue)
+    {
+        if (EditorModel is not null)
+        {
+            EditorModel.IsDarkModeDefault = newValue;
+            StateHasChanged();
+        }
+    }
+
+    private async Task NextStage()
+    {
+        if (_form is not null)
+        {
+            await _form.Validate();
+
+            if (!_form.IsValid)
+                return;
+        }
+
+        await OnNextStageClicked.InvokeAsync();
+    }
+}

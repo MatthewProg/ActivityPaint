@@ -1,0 +1,11 @@
+﻿@using ActivityPaint.Client.Components.Models
+<MudToggleIconButton @bind-Toggled:get="IsDarkMode" @bind-Toggled:set="IsDarkModeChanged"
+                     Icon="@Icons.Material.Filled.WbSunny" ToggledIcon="@Icons.Material.Filled.NightsStay" />
+
+@code {
+    [Parameter, EditorRequired]
+    public required bool IsDarkMode { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsDarkModeChanged { get; set; }
+}

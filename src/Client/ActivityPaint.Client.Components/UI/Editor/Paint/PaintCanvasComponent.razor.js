@@ -65,6 +65,12 @@ export function serializeCanvas() {
     return serialized;
 }
 
+export function resetCanvas() {
+    const cells = canvas.querySelectorAll('td[data-level]').values();
+
+    cells.forEach(c => c.dataset['level'] = '0');
+}
+
 export function destroy() {
     canvas.removeEventListener('mousemove', handleMouseMove);
     canvas.removeEventListener('mousedown', handleMouseDown);

@@ -28,7 +28,7 @@
     {
         if (firstRender && _defaultTheme.Theme == ThemeEnum.System && _mudThemeProvider is not null)
         {
-            _defaultTheme.ResolvedTheme = (await _mudThemeProvider.GetSystemPreference()) ? ThemeEnum.Dark : ThemeEnum.Light;
+            _defaultTheme.ResolveTheme(await _mudThemeProvider.GetSystemPreference() ? ThemeEnum.Dark : ThemeEnum.Light);
             await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
             StateHasChanged();
         }
@@ -38,7 +38,7 @@
 
     private Task OnSystemPreferenceChanged(bool newValue)
     {
-        _defaultTheme.ResolvedTheme = newValue ? ThemeEnum.Dark : ThemeEnum.Light;
+        _defaultTheme.ResolveTheme(newValue ? ThemeEnum.Dark : ThemeEnum.Light);
         StateHasChanged();
         return Task.CompletedTask;
     }

@@ -4,13 +4,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace ActivityPaint.Client.Components.Models;
 
-public partial class EditorSettingsModel : ObservableObject
+public partial class PaintCanvasModel : ObservableObject
 {
     [ObservableProperty]
     private bool _isDarkMode;
-
-    [ObservableProperty]
-    private DateTime? _startDate;
 
     [ObservableProperty]
     private int _brushSize;

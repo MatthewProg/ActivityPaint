@@ -1,22 +1,18 @@
 ﻿<StagesProgressBarComponent Stages="_stages" CurrentStage="CurrentStage" />
-<div>
-    <div class="stages-container">
-        <CascadingValue Name="RegisterStage" Value="RegisterStage">
-            <CascadingValue Name="NotifyStageReady" Value="NotifyStageReady">
-                <CascadingValue Name="CurrentStage" Value="CurrentStage">
-                    @ChildContent
-                </CascadingValue>
-            </CascadingValue>
+<div class="stages-container">
+    <CascadingValue Name="RegisterStage" Value="RegisterStage" IsFixed="true">
+        <CascadingValue Name="CurrentStage" Value="CurrentStage">
+            @ChildContent
         </CascadingValue>
-        <div class="stages-container__overlay @(_isLoading ? "" : "d-none")">
-            <MudProgressCircular Indeterminate="true" Color="@Color.Primary" Size="@Size.Medium" />
-        </div>
+    </CascadingValue>
+    <div class="stages-container__overlay @(_isBusy ? "" : "d-none")">
+        <MudProgressCircular Indeterminate="true" Color="@Color.Primary" Size="@Size.Medium" />
     </div>
 </div>
 
 @code {
     private List<StageComponent> _stages = new();
-    private bool _isLoading;
+    private bool _isBusy;
 
     [Parameter]
     public RenderFragment? ChildContent{ get; set; }
@@ -33,10 +29,10 @@
     {
         if (CurrentStage < _stages.Count - 1)
         {
-            _isLoading = true;
-            await Task.Delay(1);
+            await SetIsBusy(true);
             CurrentStage++;
             await CurrentStageChanged.InvokeAsync(CurrentStage);
+            await SetIsBusy(false);
         }
     }
 
@@ -44,11 +40,17 @@
     {
         if (CurrentStage > 0)
         {
-            _isLoading = true;
-            await Task.Delay(1);
+            await SetIsBusy(true);
             CurrentStage--;
             await CurrentStageChanged.InvokeAsync(CurrentStage);
+            await SetIsBusy(false);
         }
+    }
+
+    public async Task SetIsBusy(bool isBusy)
+    {
+        _isBusy = isBusy;
+        await Task.Delay(1);
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -65,15 +67,5 @@
     {
         _stages.Add(stage);
         return _stages.Count - 1;
-    }
-
-    private async Task NotifyStageReady(StageComponent stage)
-    {
-        if (_isLoading)
-        {
-            _isLoading = false;
-            await Task.Delay(1);
-            await StageReadyCallback.InvokeAsync(stage.StageId);
-        }
     }
 }

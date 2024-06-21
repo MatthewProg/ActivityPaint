@@ -1,23 +1,48 @@
 ﻿@using ActivityPaint.Client.Components.Enums
-@using ActivityPaint.Client.Components.UI.Editor.PaintStage
+@using ActivityPaint.Client.Components.Models
+@using ActivityPaint.Client.Components.UI.Editor.CreateNew
+@using ActivityPaint.Client.Components.UI.Editor.Generate
+@using ActivityPaint.Client.Components.UI.Editor.Paint
 @using ActivityPaint.Client.Components.UI.Shared.Components.Stage
 
 <div class="d-flex flex-column" style="width: 100%;">
-    <StagesContainerComponent @ref="_stagesContainer">
-        <StageComponent Caption="Create new" Icon="@Icons.Material.Filled.OpenInNew">
-            <h1>Create new stage</h1>
-        </StageComponent>
-        <StageComponent Caption="Edit" Icon="@Icons.Material.Filled.Brush">
-            <PaintComponent />
-        </StageComponent>
-        <StageComponent Caption="Generate" Icon="@CustomIcons.Gears">
-            <h1>Generate stage</h1>
-        </StageComponent>
-    </StagesContainerComponent>
-    <button @onclick="async () => await _stagesContainer.NextStage()">Next</button>
-    <button @onclick="async () => await _stagesContainer.PreviousStage()">Previous</button>
+    <CascadingValue Value="_editorModel" Name="EditorModel">
+        <StagesContainerComponent @ref="_stagesContainer">
+            <StageComponent Caption="Create new" Icon="@Icons.Material.Filled.OpenInNew">
+                <CreateNewComponent OnNextStageClicked="NextStage" />
+            </StageComponent>
+            <StageComponent Caption="Edit" Icon="@Icons.Material.Filled.Brush">
+                <PaintComponent OnPreviousStageClicked="PreviousStage" OnNextStageClicked="NextStage" SetIsBusy="SetIsBusy" />
+            </StageComponent>
+            <StageComponent Caption="Generate" Icon="@CustomIcons.Gears">
+                <GenerateComponent OnPreviousStageClicked="PreviousStage" />
+            </StageComponent>
+        </StagesContainerComponent>
+    </CascadingValue>
 </div>
 
 @code {
     private StagesContainerComponent? _stagesContainer;
+    private EditorModel _editorModel = new();
+
+    private async Task NextStage()
+    {
+        if (_stagesContainer is null) return;
+
+        await _stagesContainer.NextStage();
+    }
+
+    private async Task PreviousStage()
+    {
+        if (_stagesContainer is null) return;
+
+        await _stagesContainer.PreviousStage();
+    }
+
+    private async Task SetIsBusy(bool isBusy)
+    {
+        if (_stagesContainer is null) return;
+
+        await _stagesContainer.SetIsBusy(isBusy);
+    }
 }
