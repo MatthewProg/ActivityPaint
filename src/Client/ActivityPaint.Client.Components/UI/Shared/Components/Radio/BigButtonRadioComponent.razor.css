@@ -1,0 +1,30 @@
+﻿::deep .templated-radio__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .5rem;
+}
+
+::deep .templated-radio__item {
+    width: 100%;
+    margin: 1px;
+    border: 1px solid var(--mud-palette-dark);
+    border-radius: .25rem;
+    padding: .5rem 1rem;
+    text-align: center;
+}
+
+::deep .templated-radio__item > span {
+    text-align: center;
+}
+
+    ::deep .templated-radio__item:hover {
+        margin: 0;
+        border: 2px solid var(--mud-palette-primary-darken);
+    }
+
+    ::deep .templated-radio__item.active {
+        margin: 0;
+        border: 2px solid var(--mud-palette-primary);
+        background-color: #0002;
+    }

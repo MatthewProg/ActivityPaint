@@ -1,0 +1,30 @@
+﻿@typeparam T
+
+<div>
+    <TemplatedRadioComponent T="KeyValuePair<T, string>" Items="@Items" SelectedItem="@SelectedItem" SelectedItemChanged="@SelectedItemChanged"
+                             ItemClass="@ItemClass" ItemStyle="@ItemStyle" @attributes="UserAttributes">
+        <ItemTemplate>
+            <span>@context.Value</span>
+        </ItemTemplate>
+    </TemplatedRadioComponent>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public IEnumerable<KeyValuePair<T, string>>? Items { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    [Parameter]
+    public string? ItemClass { get; set; }
+
+    [Parameter]
+    public string? ItemStyle { get; set; }
+
+    [Parameter]
+    public KeyValuePair<T, string> SelectedItem { get; set; }
+
+    [Parameter]
+    public EventCallback<KeyValuePair<T, string>> SelectedItemChanged { get; set; }
+}
