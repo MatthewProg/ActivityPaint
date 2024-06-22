@@ -1,0 +1,27 @@
+﻿@using ActivityPaint.Client.Components.Enums
+
+@if (SelectedMethod is null)
+{
+    <MudText Typo="@Typo.h6" Align="@Align.Center" Style="opacity:0.5;user-select:none">Please select the method first</MudText>
+}
+else if (SelectedMethod == GenMethodEnum.SaveToFile)
+{
+    <MudButton Variant="@Variant.Filled">Save preset</MudButton>
+}
+else if (SelectedMethod == GenMethodEnum.GenerateRepo)
+{
+    <MudButton Variant="@Variant.Filled">Save repository</MudButton>
+}
+else if (SelectedMethod == GenMethodEnum.GenerateGitCommands)
+{
+    <MudText Typo="@Typo.h6" Align="@Align.Center" Style="user-select:none">See the CLI tab</MudText>
+}
+else
+{
+    <MudText Typo="@Typo.h6" Align="@Align.Center" Color="@Color.Error" Style="user-select:none">The method has not been implemented yet</MudText>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public GenMethodEnum? SelectedMethod { get; set; }
+}

@@ -1,4 +1,5 @@
-﻿@using ActivityPaint.Client.Components.UI.Shared.Components.Radio
+﻿@using ActivityPaint.Client.Components.Enums
+@using ActivityPaint.Client.Components.UI.Shared.Components.Radio
 
 <MudGrid Spacing="2" Justify="Justify.Center" Class="align-stretch align-self-center" style="height: 250px;">
     <MudItem xs="12" sm="5" lg="4">
@@ -11,29 +12,12 @@
             <MudTabs ActivePanelIndex="0" Centered="true" Class="mud-height-full" PanelClass="mud-height-full">
                 <MudTabPanel Icon="@Icons.Material.Filled.WebAsset" Text="App">
                     <div class="d-flex justify-center align-center mud-height-full">
-                        @if (_selectedMethod is null)
-                        {
-                            <MudText Typo="@Typo.h6" Align="@Align.Center" Style="opacity:0.5;user-select:none">Please select the method first</MudText>
-                        }
-                        else if(_selectedMethod == GenMethodEnum.SaveToFile)
-                        {
-                            <MudButton Variant="@Variant.Filled">Save preset</MudButton>
-                        }
-                        else if (_selectedMethod == GenMethodEnum.GenerateRepo)
-                        {
-                            <MudButton Variant="@Variant.Filled">Save repository</MudButton>
-                        }
-                        else if (_selectedMethod == GenMethodEnum.GenerateGitCommands)
-                        {
-                            <MudText Typo="@Typo.h6" Align="@Align.Center" Style="user-select:none">See the CLI tab</MudText>
-                        }
-                        else
-                        {
-                            <MudText Typo="@Typo.h6" Align="@Align.Center" Color="@Color.Error" Style="user-select:none">The method has not been implemented yet</MudText>
-                        }
+                        <GenerateAppMethodsComponent SelectedMethod="_selectedMethod" />
                     </div>
                 </MudTabPanel>
-                <MudTabPanel Icon="@Icons.Material.Filled.Terminal" Text="CLI" />
+                <MudTabPanel Icon="@Icons.Material.Filled.Terminal" Text="CLI">
+                    <GenerateCliMethodsComponent SelectedMethod="_selectedMethod" />
+                </MudTabPanel>
             </MudTabs>
         </MudPaper>
     </MudItem>
@@ -43,11 +27,6 @@
 @code {
     [Parameter, EditorRequired]
     public EventCallback OnPreviousStageClicked { get; set; }
-
-    private enum GenMethodEnum
-    {
-        SaveToFile, GenerateRepo, GenerateGitCommands
-    }
 
     private static Dictionary<GenMethodEnum, string> _items = new()
     {

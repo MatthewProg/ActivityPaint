@@ -1,0 +1,10 @@
+﻿@using ActivityPaint.Client.Components.Enums
+
+<MudStack Justify="@Justify.Center" AlignItems="@AlignItems.Center" Class="mud-height-full">
+    <h3>GenerateCliMethodsComponent</h3>
+</MudStack>
+
+@code {
+    [Parameter, EditorRequired]
+    public GenMethodEnum? SelectedMethod { get; set; }
+}
