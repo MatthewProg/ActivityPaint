@@ -1,4 +1,4 @@
-﻿@typeparam T
+﻿@typeparam T where T : struct
 
 <div style="width: inherit">
     <TemplatedRadioComponent T="KeyValuePair<T, string>" Items="@Items" SelectedItem="@SelectedItem" SelectedItemChanged="@SelectedItemChanged"
@@ -23,8 +23,8 @@
     public string? ItemStyle { get; set; }
 
     [Parameter]
-    public KeyValuePair<T, string> SelectedItem { get; set; }
+    public KeyValuePair<T, string>? SelectedItem { get; set; }
 
     [Parameter]
-    public EventCallback<KeyValuePair<T, string>> SelectedItemChanged { get; set; }
+    public EventCallback<KeyValuePair<T, string>?> SelectedItemChanged { get; set; }
 }

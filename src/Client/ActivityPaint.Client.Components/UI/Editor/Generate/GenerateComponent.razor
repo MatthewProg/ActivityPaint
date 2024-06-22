@@ -3,13 +3,36 @@
 <MudGrid Spacing="2" Justify="Justify.Center" Class="align-stretch align-self-center" style="height: 250px;">
     <MudItem xs="12" sm="5" lg="4">
         <MudPaper Elevation="3" Class="d-flex align-center mud-width-full mud-height-full pa-4">
-            <BigButtonRadioComponent Items="_items" ItemClass="py-3" class="gap-4" />
+            <BigButtonRadioComponent Items="_items" @bind-SelectedItem="_selectedItem" ItemClass="py-3" class="gap-4" />
         </MudPaper>
     </MudItem>
     <MudItem xs="12" sm="7" lg="6">
         <MudPaper Elevation="3" Class="mud-height-full">
-            <MudTabs Centered="true">
-                <MudTabPanel Icon="@Icons.Material.Filled.WebAsset" Text="App" />
+            <MudTabs ActivePanelIndex="0" Centered="true" Class="mud-height-full" PanelClass="mud-height-full">
+                <MudTabPanel Icon="@Icons.Material.Filled.WebAsset" Text="App">
+                    <div class="d-flex justify-center align-center mud-height-full">
+                        @if (_selectedMethod is null)
+                        {
+                            <MudText Typo="@Typo.h6" Align="@Align.Center" Style="opacity:0.5;user-select:none">Please select the method first</MudText>
+                        }
+                        else if(_selectedMethod == GenMethodEnum.SaveToFile)
+                        {
+                            <MudButton Variant="@Variant.Filled">Save preset</MudButton>
+                        }
+                        else if (_selectedMethod == GenMethodEnum.GenerateRepo)
+                        {
+                            <MudButton Variant="@Variant.Filled">Save repository</MudButton>
+                        }
+                        else if (_selectedMethod == GenMethodEnum.GenerateGitCommands)
+                        {
+                            <MudText Typo="@Typo.h6" Align="@Align.Center" Style="user-select:none">See the CLI tab</MudText>
+                        }
+                        else
+                        {
+                            <MudText Typo="@Typo.h6" Align="@Align.Center" Color="@Color.Error" Style="user-select:none">The method has not been implemented yet</MudText>
+                        }
+                    </div>
+                </MudTabPanel>
                 <MudTabPanel Icon="@Icons.Material.Filled.Terminal" Text="CLI" />
             </MudTabs>
         </MudPaper>
@@ -32,4 +55,7 @@
         { GenMethodEnum.GenerateRepo, "Generate and download repository" },
         { GenMethodEnum.GenerateGitCommands, "Generate git commands" }
     };
+
+    private KeyValuePair<GenMethodEnum, string>? _selectedItem;
+    private GenMethodEnum? _selectedMethod => _selectedItem?.Key;
 }
