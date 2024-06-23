@@ -6,11 +6,11 @@
 }
 else if (SelectedMethod == GenMethodEnum.SaveToFile)
 {
-    <MudButton Variant="@Variant.Filled">Save preset</MudButton>
+    <MudButton Variant="@Variant.Filled" OnClick="SavePreset">Save preset</MudButton>
 }
 else if (SelectedMethod == GenMethodEnum.GenerateRepo)
 {
-    <MudButton Variant="@Variant.Filled">Save repository</MudButton>
+    <MudButton Variant="@Variant.Filled" OnClick="GenerateRepo">Save repository</MudButton>
 }
 else if (SelectedMethod == GenMethodEnum.GenerateGitCommands)
 {
@@ -24,4 +24,16 @@ else
 @code {
     [Parameter, EditorRequired]
     public GenMethodEnum? SelectedMethod { get; set; }
+
+    private async Task SavePreset()
+    {
+        // TODO: Implement
+        throw new NotImplementedException();
+    }
+
+    private async Task GenerateRepo()
+    {
+        // TODO: Implement
+        throw new NotImplementedException();
+    }
 }

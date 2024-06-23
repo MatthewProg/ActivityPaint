@@ -1,7 +1,7 @@
 ﻿@using ActivityPaint.Client.Components.Enums
 @using ActivityPaint.Client.Components.UI.Shared.Components.Radio
 
-<MudGrid Spacing="2" Justify="Justify.Center" Class="align-stretch align-self-center" style="height: 250px;">
+<MudGrid Spacing="2" Justify="Justify.Center" Class="align-stretch align-self-center" style="min-height: 250px;">
     <MudItem xs="12" sm="5" lg="4">
         <MudPaper Elevation="3" Class="d-flex align-center mud-width-full mud-height-full pa-4">
             <BigButtonRadioComponent Items="_items" @bind-SelectedItem="_selectedItem" ItemClass="py-3" class="gap-4" />
@@ -9,9 +9,9 @@
     </MudItem>
     <MudItem xs="12" sm="7" lg="6">
         <MudPaper Elevation="3" Class="mud-height-full">
-            <MudTabs ActivePanelIndex="0" Centered="true" Class="mud-height-full" PanelClass="mud-height-full">
+            <MudTabs @bind-ActivePanelIndex="_activePanelIndex" Centered="true" Class="mud-height-full" PanelClass="mud-height-full px-4 pt-1 pb-2">
                 <MudTabPanel Icon="@Icons.Material.Filled.WebAsset" Text="App">
-                    <div class="d-flex justify-center align-center mud-height-full">
+                    <div class="d-flex justify-center align-center mud-height-full py-4">
                         <GenerateAppMethodsComponent SelectedMethod="_selectedMethod" />
                     </div>
                 </MudTabPanel>
@@ -37,4 +37,5 @@
 
     private KeyValuePair<GenMethodEnum, string>? _selectedItem;
     private GenMethodEnum? _selectedMethod => _selectedItem?.Key;
+    private int _activePanelIndex = 0;
 }
