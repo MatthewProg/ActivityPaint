@@ -1,0 +1,45 @@
+﻿@using ActivityPaint.Client.Components.Enums
+
+<div class="generate-cli__container">
+    @if (SelectedMethod is null)
+    {
+        <MudText Typo="@Typo.h6" Align="@Align.Center" Class="my-4" Style="opacity:0.5;user-select:none">Please select the method first</MudText>
+    }
+    else
+    {
+        <div class="generate-cli__text-container">
+            <MudTextField @ref="_commandsField" T="string" ReadOnly="true" Lines="6" Text="@_commands" Class="@_textFieldClass" />
+            <MudButton Variant="@Variant.Filled" Class="generate-cli__gen-button" OnClick="GenerateCommands">Generate commands</MudButton>
+        </div>
+        <MudStack Row="true" Justify="@Justify.SpaceBetween">
+            <MudButton Variant="@Variant.Filled" OnClick="SelectAll">Select all</MudButton>
+            <MudCheckBox @bind-Value="_wrapText">Wrap</MudCheckBox>
+            <MudButton Variant="@Variant.Filled" Disabled="@string.IsNullOrEmpty(_commands)">Save as file</MudButton>
+        </MudStack>
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public GenMethodEnum? SelectedMethod { get; set; }
+
+    private MudTextField<string>? _commandsField;
+    private string _commands = string.Empty;
+    private bool _wrapText = true;
+
+    private string _textFieldClass => _wrapText ? "generate-cli__textarea" : "generate-cli__textarea nowrap";
+
+    private async Task SelectAll()
+    {
+        if (_commandsField is null) return;
+
+        await _commandsField.SelectAsync();
+    }
+
+    private async Task GenerateCommands()
+    {
+        // TODO: Implement
+        _commands = string.Empty;
+        throw new NotImplementedException();
+    }
+}

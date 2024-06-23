@@ -1,11 +1,11 @@
-﻿@typeparam T
+﻿@typeparam T where T : struct
 <div @attributes="UserAttributes" class="@_classes" role="radiogroup">
     @if(ItemTemplate is not null)
     {
         foreach(var item in Items ?? Enumerable.Empty<T>())
         {
             <div @key="item"
-                 class="@("templated-radio__item") @(item?.Equals(SelectedItem) == true ? "active" : "") @ItemClass"
+                 class="@("templated-radio__item") @(item.Equals(SelectedItem) == true ? "active" : "") @ItemClass"
                  style="@ItemStyle"
                  role="radio"
                  @onclick="async () => await ChangeActiveItem(item)">
@@ -32,7 +32,7 @@
     public string? ItemStyle { get; set; }
 
     [Parameter]
-    public T? SelectedItem { get; set; }
+    public T? SelectedItem { get; set; } = null;
 
     [Parameter]
     public EventCallback<T?> SelectedItemChanged { get; set; }

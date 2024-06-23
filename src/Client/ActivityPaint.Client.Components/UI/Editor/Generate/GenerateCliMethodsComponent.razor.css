@@ -1,0 +1,26 @@
+﻿.generate-cli__container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+    .generate-cli__container ::deep .generate-cli__text-container {
+        position: relative;
+    }
+
+        .generate-cli__container ::deep .generate-cli__text-container .generate-cli__gen-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    .generate-cli__container ::deep .generate-cli__textarea > div {
+        background-color: rgba(0, 0, 0, .09);
+        padding: .125rem .5rem;
+    }
+
+    .generate-cli__container ::deep .generate-cli__textarea.nowrap > div textarea {
+        white-space: pre;
+    }
