@@ -73,13 +73,13 @@
 
     private static int? GetDayOfYear(int dayOfWeek, int week, DateTime startDate, DateTime endDate)
     {
-        var dayOfWeekNormalized = ((int)startDate.DayOfWeek + 6) % 7;
-        if (week == 0 && dayOfWeek < dayOfWeekNormalized)
+        var startDayOfWeek = (int)startDate.DayOfWeek;
+        if (week == 0 && dayOfWeek < startDayOfWeek)
         {
             return null;
         }
 
-        var doy = (week * 7) + dayOfWeek + 1 - dayOfWeekNormalized;
+        var doy = (week * 7) + dayOfWeek - startDayOfWeek + 1;
 
         return doy > endDate.DayOfYear ? null : doy;
     }
