@@ -1,0 +1,49 @@
+﻿@using ActivityPaint.Client.Components.Shared.Components
+@using ActivityPaint.Client.Components.Shared.Theming
+@inherits LayoutComponentBase
+
+<MudThemeProvider @ref="@_mudThemeProvider" IsDarkMode="_defaultTheme.IsDarkMode" Theme="_defaultTheme.MudTheme" />
+<MudPopoverProvider />
+<CascadingValue Value="@_defaultTheme" Name="Theme">
+    <MudLayout>
+        <MudAppBar Elevation="1">
+            <MudText Typo="Typo.h5" Class="ml-3">Activity Paint</MudText>
+        </MudAppBar>
+        <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+            <NavMenu />
+        </MudDrawer>
+        <MudMainContent Class="mt-16 pa-4">
+            @Body
+        </MudMainContent>
+    </MudLayout>
+</CascadingValue>
+
+@code {
+    private ThemeModel _defaultTheme = new ThemeModel();
+    private MudThemeProvider? _mudThemeProvider;
+    private bool _drawerOpen = true;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && _defaultTheme.Theme == ThemeEnum.System && _mudThemeProvider is not null)
+        {
+            _defaultTheme.ResolveTheme(await _mudThemeProvider.GetSystemPreference() ? ThemeEnum.Dark : ThemeEnum.Light);
+            await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
+            StateHasChanged();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private Task OnSystemPreferenceChanged(bool newValue)
+    {
+        _defaultTheme.ResolveTheme(newValue ? ThemeEnum.Dark : ThemeEnum.Light);
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}

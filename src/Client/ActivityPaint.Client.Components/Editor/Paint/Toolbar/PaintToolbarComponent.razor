@@ -1,0 +1,21 @@
+﻿@using ActivityPaint.Client.Components.Editor.Paint.Canvas
+@using ActivityPaint.Client.Components.Editor.Paint.Toolbar.Tools
+
+<MudPaper Elevation="25">
+    <MudToolBar WrapContent="true" Class="gap-2">
+        <PaintToolbarToolSelectComponent @bind-CurrentTool="Settings.SelectedTool" />
+        <PaintToolbarToolBrushSizeComponent @bind-BrushSize="Settings.BrushSize" SizeSelectEnabled="EnableBrushSize" />
+        <PaintToolbarToolIntensitySelectComponent @bind-SelectedIntensity="Settings.SelectedIntensity" IsDarkMode="Settings.IsDarkMode" IntensitySelectEnabled="EnableIntensitySelector" />
+        <MudSpacer />
+        <PaintToolbarToolThemeComponent @bind-IsDarkMode="Settings.IsDarkMode" />
+    </MudToolBar>
+</MudPaper>
+
+@code {
+    [Parameter, EditorRequired]
+    public required PaintCanvasModel Settings { get; set; }
+
+    private bool EnableBrushSize => Settings.SelectedTool is PaintToolEnum.Brush or PaintToolEnum.Eraser;
+
+    private bool EnableIntensitySelector => Settings.SelectedTool is PaintToolEnum.Brush or PaintToolEnum.Fill;
+}

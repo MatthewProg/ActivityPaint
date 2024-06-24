@@ -1,0 +1,52 @@
+﻿@typeparam T where T : struct
+
+<div @attributes="UserAttributes" class="@_classes" role="radiogroup">
+    @if(ItemTemplate is not null)
+    {
+        foreach(var item in Items ?? Enumerable.Empty<T>())
+        {
+            <div @key="item"
+                 class="@("templated-radio__item") @(item.Equals(SelectedItem) == true ? "active" : "") @ItemClass"
+                 style="@ItemStyle"
+                 role="radio"
+                 @onclick="async () => await ChangeActiveItem(item)">
+                @ItemTemplate(item)
+            </div>
+        }        
+    }
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public RenderFragment<T>? ItemTemplate { get; set; }
+
+    [Parameter, EditorRequired]
+    public IEnumerable<T>? Items { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object?> UserAttributes { get; set; } = new();
+
+    [Parameter]
+    public string? ItemClass { get; set; }
+
+    [Parameter]
+    public string? ItemStyle { get; set; }
+
+    [Parameter]
+    public T? SelectedItem { get; set; } = null;
+
+    [Parameter]
+    public EventCallback<T?> SelectedItemChanged { get; set; }
+
+    private async Task ChangeActiveItem(T? item)
+    {
+        SelectedItem = item;
+        await SelectedItemChanged.InvokeAsync(item);
+    }
+
+    private const string _containerClass = "templated-radio__container";
+
+    private string? _classes => (UserAttributes.TryGetValue("class", out var classes) && classes is string)
+                                ? $"{_containerClass} {(string?)classes}"
+                                : _containerClass;
+}

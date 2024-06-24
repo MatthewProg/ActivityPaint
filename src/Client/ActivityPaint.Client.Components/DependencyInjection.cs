@@ -1,5 +1,5 @@
 ﻿using ActivityPaint.Application;
-using ActivityPaint.Client.Components.Integration;
+using ActivityPaint.Client.Components.Editor.Paint.Canvas;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 
