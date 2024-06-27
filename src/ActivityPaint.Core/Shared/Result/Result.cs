@@ -1,6 +1,4 @@
-﻿using ActivityPaint.Core.Shared.Errors;
-
-namespace ActivityPaint.Core.Shared.Result;
+﻿namespace ActivityPaint.Core.Shared.Result;
 
 public class Result
 {

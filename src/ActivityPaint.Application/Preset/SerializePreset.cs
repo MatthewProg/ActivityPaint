@@ -1,14 +1,13 @@
-﻿using ActivityPaint.Application.Shared;
+﻿using ActivityPaint.Application.Shared.Mediator;
 using ActivityPaint.Core.Models;
 using ActivityPaint.Core.Shared.Result;
-using System.Text;
 
 namespace ActivityPaint.Application.Preset;
 
 public record SerializePresetCommand(PresetModel Preset)
-    : IResultCommand<string>;
+    : IResultRequest<string>;
 
-internal class SerializePresetCommandHandler : IResultCommandHandler<SerializePresetCommand, string>
+internal class SerializePresetCommandHandler : IResultRequestHandler<SerializePresetCommand, string>
 {
     public ValueTask<Result<string>> Handle(SerializePresetCommand command, CancellationToken cancellationToken)
     {

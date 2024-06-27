@@ -1,4 +1,4 @@
-﻿namespace ActivityPaint.Core.Shared.Errors;
+﻿namespace ActivityPaint.Core.Shared.Result;
 
 public record Error(string Code, string Message)
 {
