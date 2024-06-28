@@ -1,6 +1,6 @@
 ﻿namespace ActivityPaint.Core.Shared.Result;
 
-public class Result<T> : Result
+public sealed class Result<T> : Result
 {
     private readonly T? _value;
 
