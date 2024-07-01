@@ -4,7 +4,7 @@ using ActivityPaint.Core.Shared.Result.Errors;
 using Mediator;
 using Microsoft.Extensions.Logging;
 
-namespace ActivityPaint.Application.Shared.Mediator.Pipelines;
+namespace ActivityPaint.Application.BusinessLogic.Shared.Mediator.Pipelines;
 
 internal sealed class ExceptionHandlingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

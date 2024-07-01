@@ -1,7 +1,7 @@
 ﻿using ActivityPaint.Core.Shared.Result;
 using Mediator;
 
-namespace ActivityPaint.Application.Shared.Mediator;
+namespace ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 
 internal interface IResultRequestHandler<in TRequest> : IRequestHandler<TRequest, Result>
      where TRequest : IResultRequest;

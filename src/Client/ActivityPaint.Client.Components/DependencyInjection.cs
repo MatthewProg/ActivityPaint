@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application;
+﻿using ActivityPaint.Application.BusinessLogic;
 using ActivityPaint.Client.Components.Editor.Paint.Canvas;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;

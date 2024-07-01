@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ActivityPaint.Application\ActivityPaint.Application.csproj" />
+    <ProjectReference Include="..\..\src\ActivityPaint.Application\ActivityPaint.Application.BusinessLogic.csproj" />
   </ItemGroup>
 
   <ItemGroup>

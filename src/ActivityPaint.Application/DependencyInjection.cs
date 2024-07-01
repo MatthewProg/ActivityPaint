@@ -1,10 +1,10 @@
-﻿using ActivityPaint.Application.Shared.Mediator.Pipelines;
+﻿using ActivityPaint.Application.BusinessLogic.Shared.Mediator.Pipelines;
 using ActivityPaint.Core;
 using FluentValidation;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ActivityPaint.Application;
+namespace ActivityPaint.Application.BusinessLogic;
 
 public static class DependencyInjection
 {

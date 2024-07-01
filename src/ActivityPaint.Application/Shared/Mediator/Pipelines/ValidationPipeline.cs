@@ -4,7 +4,7 @@ using ActivityPaint.Core.Shared.Result.Errors;
 using FluentValidation;
 using Mediator;
 
-namespace ActivityPaint.Application.Shared.Mediator.Pipelines;
+namespace ActivityPaint.Application.BusinessLogic.Shared.Mediator.Pipelines;
 
 internal sealed class ValidationPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>

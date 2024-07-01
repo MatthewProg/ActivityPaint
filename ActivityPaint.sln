@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Client.Consol
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Client.Web", "src\Client\ActivityPaint.Client.Web\ActivityPaint.Client.Web.csproj", "{A3317F37-304A-4541-A0F5-110D3CB09E7E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Application", "src\ActivityPaint.Application\ActivityPaint.Application.csproj", "{B2C0848A-8F09-4E49-8581-5539256C05AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Application.BusinessLogic", "src\ActivityPaint.Application\ActivityPaint.Application.BusinessLogic.csproj", "{B2C0848A-8F09-4E49-8581-5539256C05AF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{214AE5B5-B9A7-43C0-8220-AD0B315FF744} = {214AE5B5-B9A7-43C0-8220-AD0B315FF744}
 	EndProjectSection
