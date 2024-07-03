@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
+using ActivityPaint.Core.Extensions;
 using ActivityPaint.Core.Shared.Result;
 using FluentValidation;
 
@@ -9,10 +10,11 @@ public record SerializePresetCommand(Core.Entities.Preset Preset)
 
 internal class SerializePresetCommandValidator : AbstractValidator<SerializePresetCommand>
 {
-    public SerializePresetCommandValidator()
+    public SerializePresetCommandValidator(IEnumerable<IValidator<Core.Entities.Preset>> presetValidators)
     {
         RuleFor(x => x.Preset)
-            .NotNull();
+            .NotNull()
+            .SetDefaultValidator(presetValidators);
     }
 }
 

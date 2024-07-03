@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using FluentValidation;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ActivityPaint.Core;
 
@@ -6,6 +7,11 @@ public static class DependencyInjection
 {
     public static void AddCore(this IServiceCollection services)
     {
-        // Core DI
+        services.AddValidation();
+    }
+
+    private static void AddValidation(this IServiceCollection services)
+    {
+        services.AddValidatorsFromAssemblyContaining(typeof(DependencyInjection), ServiceLifetime.Transient);
     }
 }
