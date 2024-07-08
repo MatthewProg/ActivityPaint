@@ -12,5 +12,8 @@ public class PresetValidator : AbstractValidator<Preset>
 
         RuleFor(x => x.CanvasData)
             .NotNull();
+
+        RuleForEach(x => x.CanvasData)
+            .IsInEnum();
     }
 }
