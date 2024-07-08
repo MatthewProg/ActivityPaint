@@ -26,7 +26,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Client.Mobile
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Core", "src\ActivityPaint.Core\ActivityPaint.Core.csproj", "{214AE5B5-B9A7-43C0-8220-AD0B315FF744}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Application.Abstractions", "ActivityPaint.Application.Abstractions\ActivityPaint.Application.Abstractions.csproj", "{5C376387-D605-4808-B38F-CEBD7AAABC91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Application.Abstractions", "ActivityPaint.Application.Abstractions\ActivityPaint.Application.Abstractions.csproj", "{5C376387-D605-4808-B38F-CEBD7AAABC91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Core.Tests", "test\ActivityPaint.Core.Tests\ActivityPaint.Core.Tests.csproj", "{DEF2E31D-C431-4B16-BE24-F282252EA629}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -68,6 +70,10 @@ Global
 		{5C376387-D605-4808-B38F-CEBD7AAABC91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C376387-D605-4808-B38F-CEBD7AAABC91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C376387-D605-4808-B38F-CEBD7AAABC91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEF2E31D-C431-4B16-BE24-F282252EA629}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEF2E31D-C431-4B16-BE24-F282252EA629}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEF2E31D-C431-4B16-BE24-F282252EA629}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEF2E31D-C431-4B16-BE24-F282252EA629}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{8D325D40-7EA1-4D17-B7D1-C452CA568F2C} = {6CDF2D14-F72D-4B0D-B455-08D6F9D59A9A}
 		{214AE5B5-B9A7-43C0-8220-AD0B315FF744} = {B9BFFF39-6691-485E-931A-BEF62798008D}
 		{5C376387-D605-4808-B38F-CEBD7AAABC91} = {B9BFFF39-6691-485E-931A-BEF62798008D}
+		{DEF2E31D-C431-4B16-BE24-F282252EA629} = {3E294701-D540-45AC-A29C-1196D2147354}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3B32956-CAC1-413D-8790-4543CA380697}

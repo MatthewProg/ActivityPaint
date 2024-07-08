@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ActivityPaint.Application.Abstractions\ActivityPaint.Application.Abstractions.csproj" />
     <ProjectReference Include="..\ActivityPaint.Core\ActivityPaint.Core.csproj" />
   </ItemGroup>
 
