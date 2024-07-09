@@ -15,6 +15,11 @@ public static class DependencyInjection
         services.AddIntegration();
     }
 
+    public static void ValidateComponentsDI(this IServiceCollection services)
+    {
+        services.ValidateApplicationDI();
+    }
+
     private static void AddIntegration(this IServiceCollection services)
     {
         services.AddScoped<PaintCanvasInterop>();

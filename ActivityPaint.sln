@@ -26,9 +26,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Client.Mobile
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Core", "src\ActivityPaint.Core\ActivityPaint.Core.csproj", "{214AE5B5-B9A7-43C0-8220-AD0B315FF744}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Application.Abstractions", "ActivityPaint.Application.Abstractions\ActivityPaint.Application.Abstractions.csproj", "{5C376387-D605-4808-B38F-CEBD7AAABC91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Application.Abstractions", "src\ActivityPaint.Application.Abstractions\ActivityPaint.Application.Abstractions.csproj", "{5C376387-D605-4808-B38F-CEBD7AAABC91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Core.Tests", "test\ActivityPaint.Core.Tests\ActivityPaint.Core.Tests.csproj", "{DEF2E31D-C431-4B16-BE24-F282252EA629}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Core.Tests", "test\ActivityPaint.Core.Tests\ActivityPaint.Core.Tests.csproj", "{DEF2E31D-C431-4B16-BE24-F282252EA629}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Integration.FileSystem", "src\Integration\ActivityPaint.Integration.FileSystem\ActivityPaint.Integration.FileSystem.csproj", "{C86FFBCB-705E-4348-8A78-EBEA54A4538B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{2008054A-F010-4CFD-BC6F-043B684C90E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,6 +78,10 @@ Global
 		{DEF2E31D-C431-4B16-BE24-F282252EA629}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEF2E31D-C431-4B16-BE24-F282252EA629}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEF2E31D-C431-4B16-BE24-F282252EA629}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C86FFBCB-705E-4348-8A78-EBEA54A4538B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C86FFBCB-705E-4348-8A78-EBEA54A4538B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C86FFBCB-705E-4348-8A78-EBEA54A4538B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C86FFBCB-705E-4348-8A78-EBEA54A4538B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -89,6 +97,8 @@ Global
 		{214AE5B5-B9A7-43C0-8220-AD0B315FF744} = {B9BFFF39-6691-485E-931A-BEF62798008D}
 		{5C376387-D605-4808-B38F-CEBD7AAABC91} = {B9BFFF39-6691-485E-931A-BEF62798008D}
 		{DEF2E31D-C431-4B16-BE24-F282252EA629} = {3E294701-D540-45AC-A29C-1196D2147354}
+		{C86FFBCB-705E-4348-8A78-EBEA54A4538B} = {2008054A-F010-4CFD-BC6F-043B684C90E7}
+		{2008054A-F010-4CFD-BC6F-043B684C90E7} = {B9BFFF39-6691-485E-931A-BEF62798008D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3B32956-CAC1-413D-8790-4543CA380697}

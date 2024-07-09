@@ -23,6 +23,8 @@ namespace ActivityPaint.Client.Mobile
     		builder.Logging.AddDebug();
 #endif
 
+            builder.Services.ValidateComponentsDI();
+
             return builder.Build();
         }
     }

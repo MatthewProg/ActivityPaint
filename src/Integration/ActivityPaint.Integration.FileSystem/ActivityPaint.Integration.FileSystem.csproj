@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\ActivityPaint.Application.Abstractions\ActivityPaint.Application.Abstractions.csproj" />
+  </ItemGroup>
+
 </Project>

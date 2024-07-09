@@ -1,5 +1,7 @@
-﻿using ActivityPaint.Application.BusinessLogic.Shared.Mediator.Pipelines;
+﻿using ActivityPaint.Application.Abstractions.Services;
+using ActivityPaint.Application.BusinessLogic.Shared.Mediator.Pipelines;
 using ActivityPaint.Core;
+using ActivityPaint.Core.Extensions;
 using FluentValidation;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,11 @@ public static class DependencyInjection
 
         services.AddValidation();
         services.AddCQRS();
+    }
+
+    public static void ValidateApplicationDI(this IServiceCollection services)
+    {
+        services.ThrowIfNotRegistered<IFileSystemInteraction>();
     }
 
     private static void AddCQRS(this IServiceCollection services)
