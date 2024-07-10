@@ -1,5 +1,6 @@
 ﻿using ActivityPaint.Application.BusinessLogic;
 using ActivityPaint.Client.Components.Editor.Paint.Canvas;
+using ActivityPaint.Client.Components.Shared.Interops;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 
@@ -12,7 +13,7 @@ public static class DependencyInjection
         services.AddApplication();
 
         services.AddMudServices();
-        services.AddIntegration();
+        services.AddComponents();
     }
 
     public static void ValidateComponentsDI(this IServiceCollection services)
@@ -20,8 +21,9 @@ public static class DependencyInjection
         services.ValidateApplicationDI();
     }
 
-    private static void AddIntegration(this IServiceCollection services)
+    private static void AddComponents(this IServiceCollection services)
     {
-        services.AddScoped<PaintCanvasInterop>();
+        services.AddScoped<IPaintCanvasInterop, PaintCanvasInterop>();
+        services.AddScoped<IFileSystemInterop, FileSystemInterop>();
     }
 }

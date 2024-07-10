@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Client.Components;
+using ActivityPaint.Integration.FileSystem;
 using Microsoft.Extensions.Logging;
 
 namespace ActivityPaint.Client.Mobile
@@ -17,10 +18,11 @@ namespace ActivityPaint.Client.Mobile
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddClientComponents();
+            builder.Services.AddFileSystemIntegration();
 
 #if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
-    		builder.Logging.AddDebug();
+            builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Logging.AddDebug();
 #endif
 
             builder.Services.ValidateComponentsDI();

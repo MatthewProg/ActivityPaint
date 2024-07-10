@@ -39,6 +39,7 @@ internal class SavePresetCommandHandler : IResultRequestHandler<SavePresetComman
         using var data = new MemoryStream();
 
         await JsonSerializer.SerializeAsync(data, command.Preset, cancellationToken: cancellationToken);
+        data.Seek(0, SeekOrigin.Begin);
 
         if (string.IsNullOrWhiteSpace(command.Path))
         {

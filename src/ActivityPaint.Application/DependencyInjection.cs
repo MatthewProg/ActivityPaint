@@ -25,7 +25,10 @@ public static class DependencyInjection
 
     private static void AddCQRS(this IServiceCollection services)
     {
-        services.AddMediator();
+        services.AddMediator(x =>
+        {
+            x.ServiceLifetime = ServiceLifetime.Scoped;
+        });
 
         services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(ExceptionHandlingPipeline<,>));
         services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(ValidationPipeline<,>));
