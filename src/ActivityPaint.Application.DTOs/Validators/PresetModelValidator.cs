@@ -1,11 +1,11 @@
-﻿using ActivityPaint.Core.Entities;
+﻿using ActivityPaint.Application.DTOs.Models;
 using FluentValidation;
 
-namespace ActivityPaint.Core.Validators;
+namespace ActivityPaint.Application.DTOs.Validators;
 
-public class PresetValidator : AbstractValidator<Preset>
+public class PresetModelValidator : AbstractValidator<PresetModel>
 {
-    public PresetValidator()
+    public PresetModelValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty();

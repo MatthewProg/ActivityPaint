@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace ActivityPaint.Core.Extensions;
+namespace ActivityPaint.Application.DTOs.Extensions;
 
 public static class ValidatorExtensions
 {

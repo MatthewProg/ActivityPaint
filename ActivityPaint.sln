@@ -18,7 +18,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B9BFFF39-669
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3E294701-D540-45AC-A29C-1196D2147354}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Application.Tests", "test\ActivityPaint.Application.Tests\ActivityPaint.Application.Tests.csproj", "{1A7711B9-EC8C-4B97-AB64-7263B8F95D33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Application.DTOs.Tests", "test\ActivityPaint.Application.DTOs.Tests\ActivityPaint.Application.DTOs.Tests.csproj", "{1A7711B9-EC8C-4B97-AB64-7263B8F95D33}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Client.Components", "src\Client\ActivityPaint.Client.Components\ActivityPaint.Client.Components.csproj", "{863CF7E7-3843-4BB5-96C2-760EE8EC8634}"
 EndProject
@@ -30,9 +30,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Application.A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Core.Tests", "test\ActivityPaint.Core.Tests\ActivityPaint.Core.Tests.csproj", "{DEF2E31D-C431-4B16-BE24-F282252EA629}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Integration.FileSystem", "src\Integration\ActivityPaint.Integration.FileSystem\ActivityPaint.Integration.FileSystem.csproj", "{C86FFBCB-705E-4348-8A78-EBEA54A4538B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Integration.FileSystem", "src\Integration\ActivityPaint.Integration.FileSystem\ActivityPaint.Integration.FileSystem.csproj", "{C86FFBCB-705E-4348-8A78-EBEA54A4538B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{2008054A-F010-4CFD-BC6F-043B684C90E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Application.DTOs", "src\ActivityPaint.Application.DTOs\ActivityPaint.Application.DTOs.csproj", "{C0EFF727-894C-4053-9131-EBC54EF85F77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +84,10 @@ Global
 		{C86FFBCB-705E-4348-8A78-EBEA54A4538B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C86FFBCB-705E-4348-8A78-EBEA54A4538B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C86FFBCB-705E-4348-8A78-EBEA54A4538B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0EFF727-894C-4053-9131-EBC54EF85F77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0EFF727-894C-4053-9131-EBC54EF85F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0EFF727-894C-4053-9131-EBC54EF85F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0EFF727-894C-4053-9131-EBC54EF85F77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -99,6 +105,7 @@ Global
 		{DEF2E31D-C431-4B16-BE24-F282252EA629} = {3E294701-D540-45AC-A29C-1196D2147354}
 		{C86FFBCB-705E-4348-8A78-EBEA54A4538B} = {2008054A-F010-4CFD-BC6F-043B684C90E7}
 		{2008054A-F010-4CFD-BC6F-043B684C90E7} = {B9BFFF39-6691-485E-931A-BEF62798008D}
+		{C0EFF727-894C-4053-9131-EBC54EF85F77} = {B9BFFF39-6691-485E-931A-BEF62798008D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3B32956-CAC1-413D-8790-4543CA380697}

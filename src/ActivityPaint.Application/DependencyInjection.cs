@@ -1,5 +1,6 @@
 ﻿using ActivityPaint.Application.Abstractions.Services;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator.Pipelines;
+using ActivityPaint.Application.DTOs;
 using ActivityPaint.Core;
 using ActivityPaint.Core.Extensions;
 using FluentValidation;
@@ -13,6 +14,7 @@ public static class DependencyInjection
     public static void AddApplication(this IServiceCollection services)
     {
         services.AddCore();
+        services.AddDTOs();
 
         services.AddValidation();
         services.AddCQRS();

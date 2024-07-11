@@ -1,7 +1,8 @@
 ﻿using ActivityPaint.Application.Abstractions.FileSystem;
 using ActivityPaint.Application.Abstractions.Services;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
-using ActivityPaint.Core.Extensions;
+using ActivityPaint.Application.DTOs.Extensions;
+using ActivityPaint.Application.DTOs.Models;
 using ActivityPaint.Core.Shared.Result;
 using FluentValidation;
 using System.Text.Json;
@@ -9,13 +10,13 @@ using System.Text.Json;
 namespace ActivityPaint.Application.BusinessLogic.Preset;
 
 public record SavePresetCommand(
-    Core.Entities.Preset Preset,
+    PresetModel Preset,
     string? Path = null
 ) : IResultRequest;
 
 internal class SavePresetCommandValidator : AbstractValidator<SavePresetCommand>
 {
-    public SavePresetCommandValidator(IEnumerable<IValidator<Core.Entities.Preset>> presetValidators)
+    public SavePresetCommandValidator(IEnumerable<IValidator<PresetModel>> presetValidators)
     {
         RuleFor(x => x.Preset)
             .NotNull()

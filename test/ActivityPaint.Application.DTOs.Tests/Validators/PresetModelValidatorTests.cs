@@ -1,10 +1,8 @@
-﻿using ActivityPaint.Core.Entities;
-using ActivityPaint.Core.Enums;
-using ActivityPaint.Core.Validators;
+﻿using ActivityPaint.Core.Enums;
 
-namespace ActivityPaint.Core.Tests.Validators;
+namespace ActivityPaint.Application.DTOs.Tests.Validators;
 
-public class PresetValidatorTests
+public class PresetModelValidatorTests
 {
     [Theory]
     [InlineData(null)]
@@ -12,8 +10,8 @@ public class PresetValidatorTests
     public void Name_WhenNullOrEmpty_ShouldBeInvalid(string name)
     {
         // Arrange
-        var validator = new PresetValidator();
-        var model = new Preset()
+        var validator = new PresetModelValidator();
+        var model = new PresetModel()
         {
             Name = name,
         };
@@ -29,8 +27,8 @@ public class PresetValidatorTests
     public void CanvasData_WhenNull_ShouldBeInvalid()
     {
         // Arrange
-        var validator = new PresetValidator();
-        var model = new Preset()
+        var validator = new PresetModelValidator();
+        var model = new PresetModel()
         {
             Name = "abc",
             CanvasData = null!,
@@ -47,11 +45,11 @@ public class PresetValidatorTests
     public void CanvasData_WhenInvalidEnumValues_ShouldBeInvalid()
     {
         // Arrange
-        var validator = new PresetValidator();
-        var model = new Preset()
+        var validator = new PresetModelValidator();
+        var model = new PresetModel()
         {
             Name = "abc",
-            CanvasData = [ (IntensityEnum)9 ],
+            CanvasData = [(IntensityEnum)9],
         };
 
         // Act
@@ -65,15 +63,13 @@ public class PresetValidatorTests
     public void WhenAllCorrect_ShouldBeValid()
     {
         // Arrange
-        var validator = new PresetValidator();
-        var model = new Preset()
+        var validator = new PresetModelValidator();
+        var model = new PresetModel()
         {
             Name = "abc",
-            Id = new Guid(),
             StartDate = DateTime.Today,
             IsDarkModeDefault = true,
-            IsDeleted = false,
-            CanvasData = [ IntensityEnum.Level4 ],
+            CanvasData = [IntensityEnum.Level4],
         };
 
         // Act
