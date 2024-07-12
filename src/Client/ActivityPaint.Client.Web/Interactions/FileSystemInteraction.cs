@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.Abstractions.Services;
+﻿using ActivityPaint.Application.Abstractions.Interactions;
 using ActivityPaint.Client.Components.Shared.Interops;
 using ActivityPaint.Core.Shared.Result;
 

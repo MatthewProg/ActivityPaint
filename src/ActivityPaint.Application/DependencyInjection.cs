@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.Abstractions.Services;
+﻿using ActivityPaint.Application.Abstractions.Interactions;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator.Pipelines;
 using ActivityPaint.Application.DTOs;
 using ActivityPaint.Core;

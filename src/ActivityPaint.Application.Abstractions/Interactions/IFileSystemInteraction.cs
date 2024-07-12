@@ -1,6 +1,6 @@
 ﻿using ActivityPaint.Core.Shared.Result;
 
-namespace ActivityPaint.Application.Abstractions.Services;
+namespace ActivityPaint.Application.Abstractions.Interactions;
 
 public interface IFileSystemInteraction
 {

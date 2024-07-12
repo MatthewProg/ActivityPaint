@@ -1,4 +1,9 @@
-﻿@if (SelectedMethod is null)
+﻿@using ActivityPaint.Application.BusinessLogic.Preset
+@using ActivityPaint.Core.Entities
+@using Mediator
+@inject IMediator Mediator
+
+@if (SelectedMethod is null)
 {
     <MudText Typo="@Typo.h6" Align="@Align.Center" Style="opacity:0.5;user-select:none">Please select the method first</MudText>
 }
@@ -20,13 +25,21 @@ else
 }
 
 @code {
+    [CascadingParameter(Name = "EditorModel")]
+    protected EditorModel? EditorModel { get; set; }
+
     [Parameter, EditorRequired]
     public GenerationMethodEnum? SelectedMethod { get; set; }
 
     private async Task SavePreset()
     {
-        // TODO: Implement
-        throw new NotImplementedException();
+        if (EditorModel is null) return;
+
+        var preset = EditorModel.ToPresetModel();
+        var command = new SavePresetCommand(preset);
+
+        // TODO: Implement error handling
+        var result = await Mediator.Send(command);
     }
 
     private async Task GenerateRepo()

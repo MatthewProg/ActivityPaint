@@ -7,13 +7,13 @@ public class PresetModelValidatorTests
     [Theory]
     [InlineData(null)]
     [InlineData("")]
-    public void Name_WhenNullOrEmpty_ShouldBeInvalid(string name)
+    public void Name_WhenNullOrEmpty_ShouldBeInvalid(string? name)
     {
         // Arrange
         var validator = new PresetModelValidator();
         var model = new PresetModel()
         {
-            Name = name,
+            Name = name!,
         };
 
         // Act

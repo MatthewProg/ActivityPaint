@@ -1,5 +1,5 @@
 ﻿using ActivityPaint.Application.Abstractions.FileSystem;
-using ActivityPaint.Application.Abstractions.Services;
+using ActivityPaint.Application.Abstractions.Interactions;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Extensions;
 using ActivityPaint.Application.DTOs.Models;

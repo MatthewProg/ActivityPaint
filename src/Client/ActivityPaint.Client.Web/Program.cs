@@ -1,4 +1,4 @@
-using ActivityPaint.Application.Abstractions.Services;
+using ActivityPaint.Application.Abstractions.Interactions;
 using ActivityPaint.Client.Components;
 using ActivityPaint.Client.Web;
 using ActivityPaint.Client.Web.Interactions;

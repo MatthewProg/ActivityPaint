@@ -1,7 +1,7 @@
 using ActivityPaint.Core.Enums;
 using ActivityPaint.Core.Helpers;
 
-namespace ActivityPaint.Core.Tests.Entities;
+namespace ActivityPaint.Core.Tests.Helpers;
 
 public class CanvasDataHelperTests
 {
