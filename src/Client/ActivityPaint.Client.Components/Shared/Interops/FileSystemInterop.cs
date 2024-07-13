@@ -4,7 +4,7 @@ namespace ActivityPaint.Client.Components.Shared.Interops;
 
 public interface IFileSystemInterop : IAsyncDisposable
 {
-    ValueTask DownloadFile(string fileName, Stream data);
+    ValueTask DownloadFile(string fileName, Stream data, CancellationToken cancellationToken = default);
 }
 
 public sealed class FileSystemInterop : IFileSystemInterop
@@ -17,13 +17,13 @@ public sealed class FileSystemInterop : IFileSystemInterop
             "import", "./_content/ActivityPaint.Client.Components/js/file-system.js").AsTask());
     }
 
-    public async ValueTask DownloadFile(string fileName, Stream data)
+    public async ValueTask DownloadFile(string fileName, Stream data, CancellationToken cancellationToken)
     {
         var module = await _moduleTask.Value;
 
         using var streamRef = new DotNetStreamReference(data);
 
-        await module.InvokeVoidAsync("downloadFile", fileName, streamRef);
+        await module.InvokeVoidAsync("downloadFile", cancellationToken, fileName, streamRef);
     }
 
     public async ValueTask DisposeAsync()

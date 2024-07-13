@@ -13,9 +13,9 @@ public class FileSystemInteraction : IFileSystemInteraction
         _fileSystemInterop = fileSystemInterop;
     }
 
-    public async Task<Result> PromptFileSaveAsync(string fileName, Stream data)
+    public async Task<Result> PromptFileSaveAsync(string fileName, Stream data, CancellationToken cancellationToken)
     {
-        await _fileSystemInterop.DownloadFile(fileName, data);
+        await _fileSystemInterop.DownloadFile(fileName, data, cancellationToken);
 
         return Result.Success();
     }

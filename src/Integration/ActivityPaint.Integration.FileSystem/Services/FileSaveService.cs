@@ -5,7 +5,7 @@ namespace ActivityPaint.Integration.FileSystem.Services;
 
 internal class FileSaveService : IFileSaveService
 {
-    public Task<Result> SaveFileAsync(string filePath, Stream data)
+    public Task<Result> SaveFileAsync(string filePath, Stream data, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

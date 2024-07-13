@@ -45,7 +45,7 @@ internal class SavePresetCommandHandler : IResultRequestHandler<SavePresetComman
         if (string.IsNullOrWhiteSpace(command.Path))
         {
             var fileName = GetFileName(command.Preset.Name);
-            return await _fileSystemInteraction.PromptFileSaveAsync(fileName, data);
+            return await _fileSystemInteraction.PromptFileSaveAsync(fileName, data, cancellationToken);
         }
 
         return await _fileSaveService.SaveFileAsync(command.Path, data);

@@ -11,7 +11,7 @@ namespace ActivityPaint.Application.BusinessLogic;
 
 public static class DependencyInjection
 {
-    public static void AddApplication(this IServiceCollection services)
+    public static void AddBusinessLogic(this IServiceCollection services)
     {
         services.AddCore();
         services.AddDTOs();
@@ -20,7 +20,7 @@ public static class DependencyInjection
         services.AddCQRS();
     }
 
-    public static void ValidateApplicationDI(this IServiceCollection services)
+    public static void ValidateBusinessLogicDI(this IServiceCollection services)
     {
         services.ThrowIfNotRegistered<IFileSystemInteraction>();
     }

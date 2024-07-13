@@ -1,5 +1,6 @@
 ﻿using ActivityPaint.Client.Components;
-using ActivityPaint.Integration.FileSystem;
+using ActivityPaint.Client.Mobile.Shared;
+using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 
 namespace ActivityPaint.Client.Mobile
@@ -11,14 +12,14 @@ namespace ActivityPaint.Client.Mobile
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
 
             builder.Services.AddMauiBlazorWebView();
-            builder.Services.AddClientComponents();
-            builder.Services.AddFileSystemIntegration();
+            builder.Services.AddApplication();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

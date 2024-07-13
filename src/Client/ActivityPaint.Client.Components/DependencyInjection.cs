@@ -10,7 +10,7 @@ public static class DependencyInjection
 {
     public static void AddClientComponents(this IServiceCollection services)
     {
-        services.AddApplication();
+        services.AddBusinessLogic();
 
         services.AddMudServices();
         services.AddComponents();
@@ -18,7 +18,7 @@ public static class DependencyInjection
 
     public static void ValidateComponentsDI(this IServiceCollection services)
     {
-        services.ValidateApplicationDI();
+        services.ValidateBusinessLogicDI();
     }
 
     private static void AddComponents(this IServiceCollection services)
