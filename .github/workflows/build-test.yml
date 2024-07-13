@@ -1,0 +1,16 @@
+name: Build and Test
+
+on:
+  push:
+    branches:
+      - master
+      - feature/**
+      - fix/**
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-mobile:
+    name: Build Mobile
+    uses: ./.github/workflows/build-mobile.yml

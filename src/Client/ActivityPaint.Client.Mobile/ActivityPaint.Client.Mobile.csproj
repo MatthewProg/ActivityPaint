@@ -20,6 +20,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
         <Nullable>enable</Nullable>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
 
         <!-- Display name -->
         <ApplicationTitle>ActivityPaint.Client.Mobile</ApplicationTitle>
@@ -55,6 +57,14 @@
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="packages.lock.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="packages.lock.json" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,0 +1,37 @@
+name: Build Mobile
+
+on:
+  workflow_call:
+
+jobs:
+  build-mobile:
+    runs-on: windows-latest
+
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+      DOTNET_VERSION: '8.0.303'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: './src/Client/ActivityPaint.Client.Mobile/packages.lock.json'
+
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v2
+        with:
+          nuget-version: latest
+
+      - name: Install MAUI workload
+        run: dotnet workload install maui
+
+      - name: Restore NuGets
+        run: nuget restore ./src/Client/ActivityPaint.Client.Mobile/ActivityPaint.Client.Mobile.csproj -LockedMode -Property Configuration='Release'
+
+      - name: Build
+        run: dotnet build ./src/Client/ActivityPaint.Client.Mobile/ActivityPaint.Client.Mobile.csproj --no-restore -c Release
