@@ -3,7 +3,16 @@ using Microsoft.JSInterop;
 
 namespace ActivityPaint.Client.Components.Editor.Paint.Canvas;
 
-public class PaintCanvasInterop : IAsyncDisposable
+public interface IPaintCanvasInterop : IAsyncDisposable
+{
+    ValueTask Init();
+    ValueTask UpdateSettings(PaintCanvasModel settings);
+    ValueTask<List<IntensityEnum>> SerializeCanvas();
+    ValueTask ResetCanvas();
+    ValueTask Destroy();
+}
+
+public sealed class PaintCanvasInterop : IPaintCanvasInterop
 {
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
 

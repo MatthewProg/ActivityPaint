@@ -6,6 +6,6 @@ public static class DependencyInjection
 {
     public static void AddCore(this IServiceCollection services)
     {
-        // Core DI
+        // TODO
     }
 }

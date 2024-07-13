@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\ActivityPaint.Application\ActivityPaint.Application.csproj" />
+    <ProjectReference Include="..\..\ActivityPaint.Application\ActivityPaint.Application.BusinessLogic.csproj" />
   </ItemGroup>
 
 </Project>
