@@ -29,5 +29,5 @@ jobs:
     name: Console
     uses: ./.github/workflows/console.yml
     with:
-      run-build: true
+      run-build: ${{ github.ref == 'refs/head/master' }}
       run-test: true

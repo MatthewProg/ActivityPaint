@@ -12,7 +12,6 @@ on:
 
 env:
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
-  DOTNET_VERSION: '8.0.303'
 
 jobs:
   build:
@@ -25,7 +24,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          global-json-file: './global.json'
           cache: true
           cache-dependency-path: './src/Client/ActivityPaint.Client.Mobile/packages.lock.json'
 
@@ -49,7 +48,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+          global-json-file: './global.json'
           cache: true
           cache-dependency-path: '**/packages.lock.json'
 
