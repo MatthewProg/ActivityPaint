@@ -11,6 +11,23 @@ on:
       - master
 
 jobs:
-  build-mobile:
-    name: Build Mobile
-    uses: ./.github/workflows/build-mobile.yml
+  mobile:
+    name: Mobile
+    uses: ./.github/workflows/mobile.yml
+    with:
+      run-build: ${{ github.ref == 'refs/head/master' }}
+      run-test: true
+
+  web:
+    name: Web
+    uses: ./.github/workflows/web.yml
+    with:
+      run-build: true
+      run-test: true
+
+  console:
+    name: Console
+    uses: ./.github/workflows/console.yml
+    with:
+      run-build: true
+      run-test: true

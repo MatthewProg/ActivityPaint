@@ -1,0 +1,57 @@
+name: Mobile
+
+on:
+  workflow_call:
+    inputs:
+      run-build:
+        type: boolean
+        default: true
+      run-test:
+        type: boolean
+        default: true
+
+env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+  DOTNET_VERSION: '8.0.303'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    if: ${{ inputs.run-build }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: './src/Client/ActivityPaint.Client.Mobile/packages.lock.json'
+
+      - name: Install MAUI workload
+        run: dotnet workload install maui
+
+      - name: Build
+        run: dotnet build ./src/Client/ActivityPaint.Client.Mobile/ActivityPaint.Client.Mobile.csproj -c Release
+
+  test:
+    needs: [build]
+    runs-on: ubuntu-latest
+    if: |
+      always()
+      && inputs.run-test
+      && !contains(needs.build.result, 'failure')
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+
+      - name: Run Unit Tests
+        uses: './.github/actions/run-unit-tests'
