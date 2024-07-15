@@ -1,0 +1,17 @@
+name: Build
+
+on:
+  workflow_call:
+
+jobs:
+  build-mobile:
+    name: Build Mobile
+    uses: ./.github/workflows/build-mobile.yml
+
+  build-web:
+    name: Build Web
+    uses: ./.github/workflows/build-web.yml
+
+  build-console:
+    name: Build Console
+    uses: ./.github/workflows/build-console.yml

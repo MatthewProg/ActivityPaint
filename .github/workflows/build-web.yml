@@ -1,0 +1,27 @@
+name: Build Web
+
+on:
+  workflow_call:
+
+env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
+jobs:
+  build-web:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: './global.json'
+          cache: true
+          cache-dependency-path: './src/Client/ActivityPaint.Client.Web/packages.lock.json'
+
+      - name: Restore NuGets
+        run: dotnet restore ./src/Client/ActivityPaint.Client.Web/ActivityPaint.Client.Web.csproj --locked-mode
+
+      - name: Build
+        run: dotnet build ./src/Client/ActivityPaint.Client.Web/ActivityPaint.Client.Web.csproj --no-restore -c Release

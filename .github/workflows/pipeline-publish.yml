@@ -1,0 +1,16 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - master
+      - release/**
+  workflow_dispatch:
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-all.yml
+
+  test-unit:
+    needs: [build]
+    uses: ./.github/workflows/test-unit.yml
