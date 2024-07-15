@@ -15,9 +15,7 @@ jobs:
         with:
           global-json-file: './global.json'
           cache: true
-          cache-dependency-path: |
-            './test/ActivityPaint.Core.Tests/packages.lock.json'
-            './test/ActivityPaint.Application.DTOs.Tests/packages.lock.json'
+          cache-dependency-path: './test/*.Tests/packages.lock.json'
 
       - name: Restore Test NuGets
         run: |

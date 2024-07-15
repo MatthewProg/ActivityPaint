@@ -8,9 +8,9 @@ on:
       - feature/**
 
 jobs:
-  build:
-    uses: ./.github/workflows/build-all.yml
+  # build:
+  #   uses: ./.github/workflows/build-all.yml
 
   test-unit:
-    needs: [build]
+    # needs: [build]
     uses: ./.github/workflows/test-unit.yml

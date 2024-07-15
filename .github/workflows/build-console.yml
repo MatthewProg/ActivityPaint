@@ -7,7 +7,7 @@ env:
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
 
 jobs:
-  build:
+  build-console:
     runs-on: windows-latest
     steps:
       - name: Checkout repository
