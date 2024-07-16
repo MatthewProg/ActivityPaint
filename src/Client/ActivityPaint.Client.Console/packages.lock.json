@@ -78,6 +78,14 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[8.0.1, )"
         }
       }
-    }
+    },
+    "net8.0/linux-arm": {},
+    "net8.0/linux-arm64": {},
+    "net8.0/linux-x64": {},
+    "net8.0/osx-arm64": {},
+    "net8.0/osx-x64": {},
+    "net8.0/win-arm64": {},
+    "net8.0/win-x64": {},
+    "net8.0/win-x86": {}
   }
 }

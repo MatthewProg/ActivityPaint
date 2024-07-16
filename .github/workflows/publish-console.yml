@@ -7,7 +7,7 @@ env:
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
 
 jobs:
-  build-console:
+  publish-console:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -39,4 +39,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: activity-paint-cli_${{ matrix.os }}-${{ matrix.arch}}
-          path: ./publish/console/${{ matrix.os }}-${{ matrix.arch}}/
+          path: |
+            ./publish/console/${{ matrix.os }}-${{ matrix.arch}}/
+            !./publish/console/${{ matrix.os }}-${{ matrix.arch}}/*.pdb
