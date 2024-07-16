@@ -24,10 +24,17 @@ jobs:
 
   test-unit:
     needs: [build]
-    if: ${{ !contains(needs.build.result, 'failure') && inputs.run-test != false }}
+    if: |
+      always()
+      && !contains(needs.build.result, 'failure')
+      && inputs.run-test != false
     uses: ./.github/workflows/test-unit.yml
 
   publish:
     needs: [build, test-unit]
-    if: ${{ !contains(needs.build.result, 'failure') && !contains(needs.test-unit.result, 'failure') && (startsWith(github.ref, 'refs/heads/release/') || inputs.run-publish != false) }}
+    if: |
+      always()
+      && !contains(needs.build.result, 'failure')
+      && !contains(needs.test-unit.result, 'failure')
+      && (startsWith(github.ref, 'refs/heads/release/') || inputs.run-publish != false)
     uses: ./.github/workflows/publish-all.yml
