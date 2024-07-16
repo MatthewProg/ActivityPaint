@@ -1,0 +1,18 @@
+name: Publish
+
+on:
+  workflow_call:
+
+jobs:
+  publish-console:
+    name: Publish Console
+    uses: ./.github/workflows/publish-console.yml
+
+#   publish-web:
+#     name: Publish Web
+#     uses: ./.github/workflows/publish-web.yml
+
+#   publish-mobile:
+#     name: Publish Mobile
+#     uses: ./.github/workflows/publish-mobile.yml
+

@@ -5,12 +5,29 @@ on:
     branches:
       - master
       - release/**
-      - feature/**
+  workflow_dispatch:
+    inputs:
+      run-build:
+        type: boolean
+        default: true
+      run-test:
+        type: boolean
+        default: true
+      run-publish:
+        type: boolean
+        default: false
 
 jobs:
-  # build:
-  #   uses: ./.github/workflows/build-all.yml
+  build:
+    if: ${{ inputs.run-build }}
+    uses: ./.github/workflows/build-all.yml
 
   test-unit:
-    # needs: [build]
+    needs: [build]
+    if: ${{ !contains(needs.build.result, 'failure') && inputs.run-test != false }}
     uses: ./.github/workflows/test-unit.yml
+
+  publish:
+    needs: [build, test-unit]
+    if: ${{ !contains(needs.build.result, 'failure') && !contains(needs.test-unit.result, 'failure') && (startsWith(github.ref, 'refs/heads/release/') || inputs.run-publish != false) }}
+    uses: ./.github/workflows/publish-all.yml
