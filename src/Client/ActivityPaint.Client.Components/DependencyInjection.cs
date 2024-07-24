@@ -1,6 +1,7 @@
 ﻿using ActivityPaint.Application.BusinessLogic;
 using ActivityPaint.Client.Components.Editor.Paint.Canvas;
 using ActivityPaint.Client.Components.Shared.Interops;
+using ActivityPaint.Client.Components.Shared.Services;
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 
@@ -12,7 +13,7 @@ public static class DependencyInjection
     {
         services.AddBusinessLogic();
 
-        services.AddMudServices();
+        services.AddMudBlazor();
         services.AddComponents();
     }
 
@@ -25,5 +26,16 @@ public static class DependencyInjection
     {
         services.AddScoped<IPaintCanvasInterop, PaintCanvasInterop>();
         services.AddScoped<IFileSystemInterop, FileSystemInterop>();
+
+        services.AddScoped<IFeedbackService, FeedbackService>();
+    }
+
+    private static void AddMudBlazor(this IServiceCollection services)
+    {
+        services.AddMudServices(x =>
+        {
+            x.SnackbarConfiguration.ShowTransitionDuration = 150;
+            x.SnackbarConfiguration.HideTransitionDuration = 250;
+        });
     }
 }
