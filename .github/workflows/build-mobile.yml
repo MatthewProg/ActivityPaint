@@ -20,10 +20,6 @@ jobs:
           cache: true
           cache-dependency-path: './src/Client/ActivityPaint.Client.Mobile/packages.lock.json'
 
-      - name: Install MAUI workload
-        run: |
-          dotnet workload install maccatalyst
-
       - name: Build
         run: dotnet build ./src/Client/ActivityPaint.Client.Mobile/ActivityPaint.Client.Mobile.csproj -c Release
 
