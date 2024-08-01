@@ -8,18 +8,27 @@ on:
   workflow_dispatch:
     inputs:
       run-build:
-        type: boolean
-        default: true
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+        default: 'true'
       run-test:
-        type: boolean
-        default: true
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+        default: 'true'
       run-publish:
-        type: boolean
-        default: false
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+        default: 'false'
 
 jobs:
   build:
-    if: ${{ inputs.run-build == '' || inputs.run-build == true }}
+    if: ${{ inputs.run-build != 'false' }}
     uses: ./.github/workflows/build-all.yml
 
   test-unit:
@@ -27,7 +36,7 @@ jobs:
     if: |
       always()
       && !contains(needs.build.result, 'failure')
-      && (inputs.run-test == '' || inputs.run-test == true)
+      && inputs.run-test != 'false'
     uses: ./.github/workflows/test-unit.yml
 
   publish:
@@ -36,5 +45,5 @@ jobs:
       always()
       && !contains(needs.build.result, 'failure')
       && !contains(needs.test-unit.result, 'failure')
-      && ((startsWith(github.ref, 'refs/heads/release/') && inputs.run-publish == '') || inputs.run-publish == true)
+      && ((startsWith(github.ref, 'refs/heads/release/') && inputs.run-publish != 'false') || inputs.run-publish == 'true')
     uses: ./.github/workflows/publish-all.yml
