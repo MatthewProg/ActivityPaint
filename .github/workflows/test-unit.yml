@@ -1,0 +1,29 @@
+name: Run Unit Tests
+
+on:
+  workflow_call:
+
+jobs:
+  run-unit-tests:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: './global.json'
+          cache: true
+          cache-dependency-path: './test/*.Tests/packages.lock.json'
+
+      - name: Restore Test NuGets
+        run: |
+          dotnet restore ./test/ActivityPaint.Core.Tests/ActivityPaint.Core.Tests.csproj --locked-mode
+          dotnet restore ./test/ActivityPaint.Application.DTOs.Tests/ActivityPaint.Application.DTOs.Tests.csproj --locked-mode
+
+      - name: Run Core Tests
+        run: dotnet test ./test/ActivityPaint.Core.Tests/ActivityPaint.Core.Tests.csproj --no-restore
+
+      - name: Run DTO Tests
+        run: dotnet test ./test/ActivityPaint.Application.DTOs.Tests/ActivityPaint.Application.DTOs.Tests.csproj --no-restore

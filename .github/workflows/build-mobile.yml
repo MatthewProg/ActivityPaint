@@ -1,0 +1,28 @@
+name: Build Mobile
+
+on:
+  workflow_call:
+
+env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
+jobs:
+  build-mobile:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: './global.json'
+          cache: true
+          cache-dependency-path: './src/Client/ActivityPaint.Client.Mobile/packages.lock.json'
+
+      - name: Install MAUI workload
+        run: dotnet workload install maui
+
+      - name: Build
+        run: dotnet build ./src/Client/ActivityPaint.Client.Mobile/ActivityPaint.Client.Mobile.csproj -c Release
+

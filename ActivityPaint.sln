@@ -34,7 +34,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Integration.F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{2008054A-F010-4CFD-BC6F-043B684C90E7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Application.DTOs", "src\ActivityPaint.Application.DTOs\ActivityPaint.Application.DTOs.csproj", "{C0EFF727-894C-4053-9131-EBC54EF85F77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Application.DTOs", "src\ActivityPaint.Application.DTOs\ActivityPaint.Application.DTOs.csproj", "{C0EFF727-894C-4053-9131-EBC54EF85F77}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{75F0C0F2-6EF6-4671-BC87-0E647120E844}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

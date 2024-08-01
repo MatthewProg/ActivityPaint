@@ -1,0 +1,44 @@
+name: Publish Console
+
+on:
+  workflow_call:
+
+env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
+jobs:
+  publish-console:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [win, linux, osx]
+        arch: [x64, arm64]
+        include:
+          - os: win
+            arch: x86
+          - os: linux
+            arch: arm
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: './global.json'
+          cache: true
+          cache-dependency-path: './src/Client/ActivityPaint.Client.Console/packages.lock.json'
+
+      - name: Restore NuGets
+        run: dotnet restore ./src/Client/ActivityPaint.Client.Console/ActivityPaint.Client.Console.csproj --locked-mode
+
+      - name: Publish
+        run: dotnet publish ./src/Client/ActivityPaint.Client.Console/ActivityPaint.Client.Console.csproj --no-restore -c Release --os ${{ matrix.os }} --arch ${{ matrix.arch }} -o ./publish/console/${{ matrix.os }}-${{ matrix.arch}}/
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: activity-paint-cli_${{ matrix.os }}-${{ matrix.arch}}
+          path: |
+            ./publish/console/${{ matrix.os }}-${{ matrix.arch}}/
+            !./publish/console/${{ matrix.os }}-${{ matrix.arch}}/*.pdb
