@@ -1,4 +1,4 @@
-name: Build Console
+name: '[Build] Console'
 
 on:
   workflow_call:

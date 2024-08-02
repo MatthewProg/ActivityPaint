@@ -1,4 +1,4 @@
-name: Build Mobile
+name: '[Build] Mobile'
 
 on:
   workflow_call:
@@ -20,9 +20,9 @@ jobs:
           cache: true
           cache-dependency-path: './src/Client/ActivityPaint.Client.Mobile/packages.lock.json'
 
-      - name: Install MAUI workload
-        run: dotnet workload install maui
+      - name: Restore NuGets
+        run: dotnet restore ./src/Client/ActivityPaint.Client.Mobile/ActivityPaint.Client.Mobile.csproj --locked-mode
 
       - name: Build
-        run: dotnet build ./src/Client/ActivityPaint.Client.Mobile/ActivityPaint.Client.Mobile.csproj -c Release
+        run: dotnet build ./src/Client/ActivityPaint.Client.Mobile/ActivityPaint.Client.Mobile.csproj --no-restore -c Release
 
