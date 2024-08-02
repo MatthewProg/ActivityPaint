@@ -1,4 +1,4 @@
-name: Build Mobile
+name: '[Build] Mobile'
 
 on:
   workflow_call:

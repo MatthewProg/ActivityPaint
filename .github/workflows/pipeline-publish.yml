@@ -1,4 +1,4 @@
-name: Publish
+name: '[CI/CD] Release pipeline'
 
 on:
   push:

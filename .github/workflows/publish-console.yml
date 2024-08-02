@@ -1,4 +1,4 @@
-name: Publish Console
+name: '[Publish] Console'
 
 on:
   workflow_call:
