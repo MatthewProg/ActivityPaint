@@ -41,6 +41,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Client.Console.Tests", "test\ActivityPaint.Client.Console.Tests\ActivityPaint.Client.Console.Tests.csproj", "{E9AF1817-F505-4686-A918-B070FBF45ADB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +95,10 @@ Global
 		{C0EFF727-894C-4053-9131-EBC54EF85F77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0EFF727-894C-4053-9131-EBC54EF85F77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0EFF727-894C-4053-9131-EBC54EF85F77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9AF1817-F505-4686-A918-B070FBF45ADB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9AF1817-F505-4686-A918-B070FBF45ADB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9AF1817-F505-4686-A918-B070FBF45ADB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9AF1817-F505-4686-A918-B070FBF45ADB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +117,7 @@ Global
 		{C86FFBCB-705E-4348-8A78-EBEA54A4538B} = {2008054A-F010-4CFD-BC6F-043B684C90E7}
 		{2008054A-F010-4CFD-BC6F-043B684C90E7} = {B9BFFF39-6691-485E-931A-BEF62798008D}
 		{C0EFF727-894C-4053-9131-EBC54EF85F77} = {B9BFFF39-6691-485E-931A-BEF62798008D}
+		{E9AF1817-F505-4686-A918-B070FBF45ADB} = {3E294701-D540-45AC-A29C-1196D2147354}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3B32956-CAC1-413D-8790-4543CA380697}

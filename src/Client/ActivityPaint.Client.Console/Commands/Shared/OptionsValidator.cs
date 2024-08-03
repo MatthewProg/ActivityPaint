@@ -5,6 +5,9 @@ namespace ActivityPaint.Client.Console.Commands.Shared;
 
 public static class OptionsValidator
 {
+    private static readonly char[] InvalidPathChars = Path.GetInvalidFileNameChars()
+                                                          .Where(x => x is not '\\' and not '/' and not ':')
+                                                          .ToArray();
     public static bool ValidateRequired(string? value, string optionName, out ValidationResult result)
     {
         if (string.IsNullOrWhiteSpace(value))
@@ -17,7 +20,7 @@ public static class OptionsValidator
         return true;
     }
 
-    public static bool ValidateRequired<T>(T value, string optionName, out ValidationResult result) where T : class
+    public static bool ValidateRequired<T>(T? value, string optionName, out ValidationResult result) where T : class
     {
         if (value is null)
         {
@@ -43,13 +46,22 @@ public static class OptionsValidator
 
     public static bool ValidatePath(string? value, string optionName, out ValidationResult result)
     {
-        if (!Uri.IsWellFormedUriString(value, UriKind.RelativeOrAbsolute))
+        if (!ValidateRequired(value, optionName, out result))
+        {
+            return false;
+        }
+
+        if (value!.IndexOfAny(InvalidPathChars) != -1)
+        {
+            result = ValidationResult.Error($"'{optionName}' value contains invalid characters.");
+            return false;
+        }
+
+        if (!Uri.TryCreate(value, UriKind.RelativeOrAbsolute, out var parsedUri))
         {
             result = ValidationResult.Error($"'{optionName}' value is not a valid path.");
             return false;
         }
-
-        var parsedUri = new Uri(value);
 
         if (parsedUri.IsAbsoluteUri && !parsedUri.IsFile)
         {
