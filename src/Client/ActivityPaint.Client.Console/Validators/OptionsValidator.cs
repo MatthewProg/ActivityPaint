@@ -1,28 +1,18 @@
 ﻿using Spectre.Console;
 using System.Globalization;
 
-namespace ActivityPaint.Client.Console.Commands.Shared;
+namespace ActivityPaint.Client.Console.Validators;
 
 public static class OptionsValidator
 {
     private static readonly char[] InvalidPathChars = Path.GetInvalidFileNameChars()
                                                           .Where(x => x is not '\\' and not '/' and not ':')
                                                           .ToArray();
-    public static bool ValidateRequired(string? value, string optionName, out ValidationResult result)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            result = ValidationResult.Error($"'{optionName}' option is required.");
-            return false;
-        }
 
-        result = ValidationResult.Success();
-        return true;
-    }
-
-    public static bool ValidateRequired<T>(T? value, string optionName, out ValidationResult result) where T : class
+    public static bool ValidateRequired<T>(T? value, string optionName, out ValidationResult result)
     {
-        if (value is null)
+        if (value is null
+            || value is string valueStr && string.IsNullOrWhiteSpace(valueStr))
         {
             result = ValidationResult.Error($"'{optionName}' option is required.");
             return false;

@@ -1,6 +1,6 @@
-﻿using ActivityPaint.Client.Console.Commands.Shared;
+﻿using ActivityPaint.Client.Console.Validators;
 
-namespace ActivityPaint.Client.Console.Tests.Commands;
+namespace ActivityPaint.Client.Console.Tests.Validators;
 
 public class OptionsValidatorTests
 {

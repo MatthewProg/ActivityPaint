@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using ActivityPaint.Client.Console.Validators;
+using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
 using System.Globalization;
@@ -26,13 +27,9 @@ public abstract class ManualDataSettings : CommandSettings
 
     public override ValidationResult Validate()
     {
-        if (!OptionsValidator.ValidateRequired(CanvasData, "--data", out var result)
-            || !OptionsValidator.ValidateRequired(StartDateString, "--start-date", out result)
-            || !OptionsValidator.ValidateDateString(StartDateString, "yyyy-MM-dd", "--start-date", out result))
-        {
-            return result;
-        }
-
-        return base.Validate();
+        return base.Validate()
+                   .ValidateRequired(this, x => x.CanvasData)
+                   .ValidateRequired(this, x => x.StartDateString)
+                   .ValidateDateString(this, "yyyy-MM-dd", x => x.StartDateString);
     }
 }

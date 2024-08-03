@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Client.Console.Commands.Shared;
+using ActivityPaint.Client.Console.Validators;
 using Mediator;
 using Spectre.Console;
 using Spectre.Console.Cli;
@@ -23,14 +24,10 @@ public class SaveCommandSettings : ManualDataSettings
 
     public override ValidationResult Validate()
     {
-        if (!OptionsValidator.ValidateRequired(Name, "--name", out var result)
-            || !OptionsValidator.ValidateRequired(Path, "--output", out result)
-            || !OptionsValidator.ValidatePath(Path, "--output", out result))
-        {
-            return result;
-        }
-
-        return base.Validate();
+        return base.Validate()
+                   .ValidateRequired(this, x => x.Name)
+                   .ValidateRequired(this, x => x.Path)
+                   .ValidatePath(this, x => x.Path);
     }
 }
 
