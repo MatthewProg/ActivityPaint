@@ -4,6 +4,20 @@ namespace ActivityPaint.Application.DTOs.Tests.Validators;
 
 public class PresetModelValidatorTests
 {
+    [Fact]
+    public void WhenAllCorrect_ShouldBeValid()
+    {
+        // Arrange
+        var validator = new PresetModelValidator();
+        var model = GetValidModel();
+
+        // Act
+        var result = validator.TestValidate(model);
+
+        // Assert
+        result.ShouldNotHaveAnyValidationErrors();
+    }
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]
@@ -11,7 +25,7 @@ public class PresetModelValidatorTests
     {
         // Arrange
         var validator = new PresetModelValidator();
-        var model = new PresetModel()
+        var model = GetValidModel() with
         {
             Name = name!,
         };
@@ -28,9 +42,8 @@ public class PresetModelValidatorTests
     {
         // Arrange
         var validator = new PresetModelValidator();
-        var model = new PresetModel()
+        var model = GetValidModel() with
         {
-            Name = "abc",
             CanvasData = null!,
         };
 
@@ -46,9 +59,8 @@ public class PresetModelValidatorTests
     {
         // Arrange
         var validator = new PresetModelValidator();
-        var model = new PresetModel()
+        var model = GetValidModel() with
         {
-            Name = "abc",
             CanvasData = [(IntensityEnum)9],
         };
 
@@ -59,23 +71,10 @@ public class PresetModelValidatorTests
         result.ShouldHaveValidationErrorFor(x => x.CanvasData);
     }
 
-    [Fact]
-    public void WhenAllCorrect_ShouldBeValid()
-    {
-        // Arrange
-        var validator = new PresetModelValidator();
-        var model = new PresetModel()
-        {
-            Name = "abc",
-            StartDate = DateTime.Today,
-            IsDarkModeDefault = true,
-            CanvasData = [IntensityEnum.Level4],
-        };
-
-        // Act
-        var result = validator.TestValidate(model);
-
-        // Assert
-        result.ShouldNotHaveAnyValidationErrors();
-    }
+    private static PresetModel GetValidModel() => new(
+        Name: "abc",
+        StartDate: DateTime.Today,
+        IsDarkModeDefault: true,
+        CanvasData: [IntensityEnum.Level4]
+    );
 }
