@@ -1,6 +1,7 @@
 ﻿using ActivityPaint.Application.Abstractions.FileSystem;
 using ActivityPaint.Application.Abstractions.Interactions;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
+using ActivityPaint.Application.BusinessLogic.Shared.Preset;
 using ActivityPaint.Application.DTOs.Extensions;
 using ActivityPaint.Application.DTOs.Models;
 using ActivityPaint.Core.Shared.Result;
@@ -39,12 +40,13 @@ internal class SavePresetCommandHandler : IResultRequestHandler<SavePresetComman
     {
         using var data = new MemoryStream();
 
-        await JsonSerializer.SerializeAsync(data, command.Preset, cancellationToken: cancellationToken);
+        var model = command.Preset.ToPresetFileModel();
+        await JsonSerializer.SerializeAsync(data, model, cancellationToken: cancellationToken);
         data.Seek(0, SeekOrigin.Begin);
 
         if (string.IsNullOrWhiteSpace(command.Path))
         {
-            var fileName = GetFileName(command.Preset.Name);
+            var fileName = GetFileName(model.Name);
             return await _fileSystemInteraction.PromptFileSaveAsync(fileName, data, cancellationToken);
         }
 
@@ -54,8 +56,8 @@ internal class SavePresetCommandHandler : IResultRequestHandler<SavePresetComman
     private static string GetFileName(string name)
     {
         var invalidChars = Path.GetInvalidFileNameChars();
-        var sanetizedName = string.Join('_', name.Split(invalidChars));
+        var sanitizedName = string.Join('_', name.Split(invalidChars));
 
-        return $"{sanetizedName}.json";
+        return $"{sanitizedName}.json";
     }
 }

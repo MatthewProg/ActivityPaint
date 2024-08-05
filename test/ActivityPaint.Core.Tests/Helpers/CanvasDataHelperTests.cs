@@ -35,9 +35,9 @@ public class CanvasDataHelperTests
         var input = new IntensityEnum[]
         {
             IntensityEnum.Level0,
-            IntensityEnum.Level1,
             IntensityEnum.Level2,
             IntensityEnum.Level3,
+            IntensityEnum.Level1,
             IntensityEnum.Level4,
             IntensityEnum.Level0,
             IntensityEnum.Level0
@@ -47,7 +47,7 @@ public class CanvasDataHelperTests
         var result = CanvasDataHelper.ConvertToString(input);
 
         // Assert
-        result.Should().Be("0123400");
+        result.Should().Be("eAFiYGJmZGFgAAAAAP//");
     }
 
     [Fact]
@@ -77,7 +77,7 @@ public class CanvasDataHelperTests
     public void ConvertToList_WhenValidString_ShouldBeValidArray()
     {
         // Arrange
-        var input = "01234";
+        var input = "eAFiYGRiZgEAAAD//w==";
         var expected = new IntensityEnum[]
         {
             IntensityEnum.Level0,
