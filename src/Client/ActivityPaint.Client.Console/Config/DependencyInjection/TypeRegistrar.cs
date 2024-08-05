@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console.Cli;
 
-namespace ActivityPaint.Client.Console.Config;
+namespace ActivityPaint.Client.Console.Config.DependencyInjection;
 
 internal sealed class TypeRegistrar : ITypeRegistrar
 {
