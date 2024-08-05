@@ -31,7 +31,7 @@ public class SaveCommandSettings : ManualDataSettings
     }
 }
 
-public class SaveCommand : Command<SaveCommandSettings>
+public class SaveCommand : AsyncCommand<SaveCommandSettings>
 {
     private readonly IMediator _mediator;
 
@@ -40,8 +40,17 @@ public class SaveCommand : Command<SaveCommandSettings>
         _mediator = mediator;
     }
 
-    public override int Execute(CommandContext context, SaveCommandSettings settings)
+    public override async Task<int> ExecuteAsync(CommandContext context, SaveCommandSettings settings)
     {
+        var command = settings.ToSavePresetCommand();
+
+        var result = await _mediator.Send(command);
+
+        if (result.IsSuccess)
+        {
+            return 0;
+        }
+
         throw new NotImplementedException();
     }
 }
