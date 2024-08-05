@@ -1,14 +1,13 @@
 ﻿using ActivityPaint.Core.Enums;
+using ActivityPaint.Core.Helpers;
 
 namespace ActivityPaint.Application.DTOs.Models;
 
-public class PresetModel
+public sealed record PresetModel(
+    string Name,
+    DateTime StartDate,
+    bool IsDarkModeDefault,
+    IEnumerable<IntensityEnum> CanvasData)
 {
-    public string Name { get; set; } = string.Empty;
-
-    public DateTime StartDate { get; set; }
-
-    public bool IsDarkModeDefault { get; set; }
-
-    public IEnumerable<IntensityEnum> CanvasData { get; set; } = [];
+    public string CanvasDataString => CanvasDataHelper.ConvertToString(CanvasData);
 }
