@@ -27,6 +27,16 @@ internal class FileSystemInteraction : IFileSystemInteraction
 
         var filePath = AnsiConsole.Prompt(savePrompt);
 
-        return await _fileSaveService.SaveFileAsync(filePath, data, cancellationToken);
+        var overwrite = false;
+        if (File.Exists(filePath))
+        {
+            overwrite = AnsiConsole.Confirm("The file already exists. Do you want to overwrite it?", false);
+            if (!overwrite)
+            {
+                return Result.Success();
+            }
+        }
+
+        return await _fileSaveService.SaveFileAsync(filePath, data, overwrite, cancellationToken);
     }
 }

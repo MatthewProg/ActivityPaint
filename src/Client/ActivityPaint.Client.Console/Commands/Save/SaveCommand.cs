@@ -23,6 +23,10 @@ public class SaveCommandSettings : ManualDataSettings
     [Description("Path to the output JSON preset file.")]
     public string? Path { get; set; }
 
+    [CommandOption("--force")]
+    [Description("Overwrite the existing file.")]
+    public bool Overwrite { get; set; }
+
     public override ValidationResult Validate()
     {
         return base.Validate()

@@ -16,7 +16,8 @@ public static partial class SaveCommandSettingsMap
 
     public static SavePresetCommand ToSavePresetCommand(this SaveCommandSettings model) => new(
         Preset: model.ToPresetModel(),
-        Path: model.Path
+        Path: model.Path,
+        Overwrite: model.Overwrite
     );
 
     [UserMapping]

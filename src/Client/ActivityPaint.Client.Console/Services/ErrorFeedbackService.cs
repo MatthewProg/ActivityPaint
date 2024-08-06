@@ -20,14 +20,13 @@ internal sealed class ErrorFeedbackService : IErrorFeedbackService
 
     public void WriteError(Error error)
     {
-        var exception = error is ExceptionError exceptionError ? exceptionError.Exception : null;
         var message = error switch
         {
             AggregateError aggregateError => GetErrorMessage(aggregateError),
             _ => error.Message
         };
 
-        _logger.LogError(exception, message);
+        _logger.LogError(message);
     }
 
     private static string GetErrorMessage(AggregateError error)

@@ -12,7 +12,8 @@ namespace ActivityPaint.Application.BusinessLogic.Preset;
 
 public record SavePresetCommand(
     PresetModel Preset,
-    string? Path = null
+    string? Path = null,
+    bool Overwrite = false
 ) : IResultRequest;
 
 internal class SavePresetCommandValidator : AbstractValidator<SavePresetCommand>
@@ -50,7 +51,7 @@ internal class SavePresetCommandHandler : IResultRequestHandler<SavePresetComman
             return await _fileSystemInteraction.PromptFileSaveAsync(fileName, data, cancellationToken);
         }
 
-        return await _fileSaveService.SaveFileAsync(command.Path, data, cancellationToken);
+        return await _fileSaveService.SaveFileAsync(command.Path, data, command.Overwrite, cancellationToken);
     }
 
     private static string GetFileName(string name)
