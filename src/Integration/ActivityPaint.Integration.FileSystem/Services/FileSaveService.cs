@@ -5,8 +5,15 @@ namespace ActivityPaint.Integration.FileSystem.Services;
 
 internal class FileSaveService : IFileSaveService
 {
-    public Task<Result> SaveFileAsync(string filePath, Stream data, CancellationToken cancellationToken)
+    public async Task<Result> SaveFileAsync(string filePath, Stream data, bool overwrite, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var mode = overwrite ? FileMode.Create : FileMode.CreateNew;
+        using var fileStream = new FileStream(filePath, mode, FileAccess.Write);
+
+        await data.CopyToAsync(fileStream, cancellationToken);
+        await data.FlushAsync(cancellationToken);
+        await fileStream.FlushAsync(cancellationToken);
+
+        return Result.Success();
     }
 }

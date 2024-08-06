@@ -20,6 +20,7 @@ jobs:
       - name: Restore Test NuGets
         run: |
           dotnet restore ./test/ActivityPaint.Core.Tests/ActivityPaint.Core.Tests.csproj --locked-mode
+          dotnet restore ./test/ActivityPaint.Client.Console.Tests/ActivityPaint.Client.Console.Tests.csproj --locked-mode
           dotnet restore ./test/ActivityPaint.Application.DTOs.Tests/ActivityPaint.Application.DTOs.Tests.csproj --locked-mode
 
       - name: Run Core Tests
@@ -27,3 +28,6 @@ jobs:
 
       - name: Run DTO Tests
         run: dotnet test ./test/ActivityPaint.Application.DTOs.Tests/ActivityPaint.Application.DTOs.Tests.csproj --no-restore
+
+      - name: Run Console Tests
+        run: dotnet test ./test/ActivityPaint.Client.Console.Tests/ActivityPaint.Client.Console.Tests.csproj --no-restore
