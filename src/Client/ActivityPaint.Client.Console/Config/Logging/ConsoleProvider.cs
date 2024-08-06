@@ -7,9 +7,9 @@ namespace ActivityPaint.Client.Console.Config.Logging;
 internal sealed class ConsoleProvider : ILoggerProvider
 {
     private readonly ConcurrentDictionary<string, ConsoleLogger> _loggers = new(StringComparer.OrdinalIgnoreCase);
-    private readonly LoggerConfigModel _loggerConfig;
+    private readonly LoggerConsoleConfigModel _loggerConfig;
 
-    public ConsoleProvider(LoggerConfigModel loggerConfig)
+    public ConsoleProvider(LoggerConsoleConfigModel loggerConfig)
     {
         _loggerConfig = loggerConfig;
     }

@@ -2,7 +2,8 @@
 
 namespace ActivityPaint.Client.Console.Config.Logging;
 
-internal class LoggerConfigModel
+internal class LoggerConsoleConfigModel
 {
+    public bool Enabled { get; init; } = true;
     public LogLevel MinimumLogLevel { get; init; } = LogLevel.Warning;
 }

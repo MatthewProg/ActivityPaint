@@ -1,5 +1,6 @@
 ﻿using ActivityPaint.Application.Abstractions.FileSystem;
 using ActivityPaint.Application.Abstractions.Interactions;
+using ActivityPaint.Client.Console.Validators;
 using ActivityPaint.Core.Shared.Result;
 using Spectre.Console;
 
@@ -17,7 +18,12 @@ internal class FileSystemInteraction : IFileSystemInteraction
     public async Task<Result> PromptFileSaveAsync(string fileName, Stream data, CancellationToken cancellationToken = default)
     {
         var savePrompt = new TextPrompt<string>("Please enter file save path")
-            .DefaultValue(fileName);
+            .DefaultValue(fileName)
+            .Validate(value =>
+            {
+                _ = OptionsValidator.ValidatePath(value, "Save Path", out var result);
+                return result;
+            });
 
         var filePath = AnsiConsole.Prompt(savePrompt);
 
