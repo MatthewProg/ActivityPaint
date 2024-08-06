@@ -1,5 +1,4 @@
 ﻿using ActivityPaint.Client.Console.Commands.Save;
-using System.Xml.Linq;
 
 namespace ActivityPaint.Client.Console.Tests.Commands;
 

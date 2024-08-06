@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Client.Console.Commands.Shared;
+using ActivityPaint.Client.Console.Services;
 using ActivityPaint.Client.Console.Validators;
 using Mediator;
 using Spectre.Console;
@@ -33,10 +34,12 @@ public class SaveCommandSettings : ManualDataSettings
 
 public class SaveCommand : AsyncCommand<SaveCommandSettings>
 {
+    private readonly IErrorFeedbackService _errorFeedback;
     private readonly IMediator _mediator;
 
-    public SaveCommand(IMediator mediator)
+    public SaveCommand(IErrorFeedbackService errorFeedback, IMediator mediator)
     {
+        _errorFeedback = errorFeedback;
         _mediator = mediator;
     }
 
@@ -51,6 +54,8 @@ public class SaveCommand : AsyncCommand<SaveCommandSettings>
             return 0;
         }
 
-        throw new NotImplementedException();
+        _errorFeedback.WriteError(result.Error);
+
+        return -1;
     }
 }

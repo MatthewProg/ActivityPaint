@@ -50,7 +50,7 @@ internal class SavePresetCommandHandler : IResultRequestHandler<SavePresetComman
             return await _fileSystemInteraction.PromptFileSaveAsync(fileName, data, cancellationToken);
         }
 
-        return await _fileSaveService.SaveFileAsync(command.Path, data);
+        return await _fileSaveService.SaveFileAsync(command.Path, data, cancellationToken);
     }
 
     private static string GetFileName(string name)

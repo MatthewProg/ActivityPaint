@@ -25,7 +25,7 @@ internal sealed class ExceptionHandlingPipeline<TRequest, TResponse> : IPipeline
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Unhandled exception has occured");
+            _logger.LogError(ex, "Unhandled exception has occurred");
 
             var error = new ExceptionError(ex);
 

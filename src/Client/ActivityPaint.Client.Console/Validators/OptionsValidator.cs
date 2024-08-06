@@ -12,7 +12,7 @@ public static class OptionsValidator
     public static bool ValidateRequired<T>(T? value, string optionName, out ValidationResult result)
     {
         if (value is null
-            || value is string valueStr && string.IsNullOrWhiteSpace(valueStr))
+            || (value is string valueStr && string.IsNullOrWhiteSpace(valueStr)))
         {
             result = ValidationResult.Error($"'{optionName}' option is required.");
             return false;

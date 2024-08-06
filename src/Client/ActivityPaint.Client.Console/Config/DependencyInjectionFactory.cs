@@ -3,6 +3,7 @@ using ActivityPaint.Application.BusinessLogic;
 using ActivityPaint.Client.Console.Config.DependencyInjection;
 using ActivityPaint.Client.Console.Config.Logging;
 using ActivityPaint.Client.Console.Interactions;
+using ActivityPaint.Client.Console.Services;
 using ActivityPaint.Integration.FileSystem;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,5 +48,6 @@ internal static class DependencyInjectionFactory
         services.AddFileSystemIntegration();
 
         services.AddScoped<IFileSystemInteraction, FileSystemInteraction>();
+        services.AddScoped<IErrorFeedbackService, ErrorFeedbackService>();
     }
 }
