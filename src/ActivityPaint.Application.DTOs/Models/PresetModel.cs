@@ -7,7 +7,7 @@ public sealed record PresetModel(
     string Name,
     DateTime StartDate,
     bool IsDarkModeDefault,
-    IEnumerable<IntensityEnum> CanvasData)
+    List<IntensityEnum> CanvasData)
 {
     public string CanvasDataString => CanvasDataHelper.ConvertToString(CanvasData);
 }

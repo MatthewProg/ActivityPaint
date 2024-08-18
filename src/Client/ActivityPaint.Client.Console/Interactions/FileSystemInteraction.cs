@@ -9,10 +9,12 @@ namespace ActivityPaint.Client.Console.Interactions;
 internal class FileSystemInteraction : IFileSystemInteraction
 {
     private readonly IFileSaveService _fileSaveService;
+    private readonly IFileLoadService _fileLoadService;
 
-    public FileSystemInteraction(IFileSaveService fileSaveService)
+    public FileSystemInteraction(IFileSaveService fileSaveService, IFileLoadService fileLoadService)
     {
         _fileSaveService = fileSaveService;
+        _fileLoadService = fileLoadService;
     }
 
     public async Task<Result> PromptFileSaveAsync(string fileName, Stream data, CancellationToken cancellationToken = default)
@@ -38,5 +40,29 @@ internal class FileSystemInteraction : IFileSystemInteraction
         }
 
         return await _fileSaveService.SaveFileAsync(filePath, data, overwrite, cancellationToken);
+    }
+
+    public Task<Result<Stream>> PromptFileLoadAsync(CancellationToken cancellationToken = default)
+    {
+        var loadPrompt = new TextPrompt<string>("Please enter input file path:")
+            .Validate(value =>
+            {
+                if (!OptionsValidator.ValidatePath(value, "Input Path", out var result))
+                {
+                    return result;
+                }
+
+                if (!File.Exists(value))
+                {
+                    return ValidationResult.Error("File does not exist!");
+                }
+
+                return result;
+            });
+
+        var filePath = AnsiConsole.Prompt(loadPrompt);
+        var streamResult = _fileLoadService.GetFileStream(filePath);
+
+        return Task.FromResult(streamResult);
     }
 }

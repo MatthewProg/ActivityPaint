@@ -18,6 +18,7 @@ public static class DependencyInjection
     private static void AddMobile(this IServiceCollection services)
     {
         services.AddSingleton<IFileSaver>(FileSaver.Default);
+        services.AddSingleton<IFilePicker>(FilePicker.Default);
 
         services.AddScoped<IFileSystemInteraction, FileSystemInteraction>();
     }

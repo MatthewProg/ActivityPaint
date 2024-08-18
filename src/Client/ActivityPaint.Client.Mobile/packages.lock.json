@@ -1,7 +1,7 @@
 {
   "version": 1,
   "dependencies": {
-    "net8.0-maccatalyst17.2": {
+    "net8.0-maccatalyst17.5": {
       "CommunityToolkit.Maui": {
         "type": "Direct",
         "requested": "[9.0.2, )",
@@ -61,9 +61,9 @@
       },
       "Microsoft.NET.ILLink.Tasks": {
         "type": "Direct",
-        "requested": "[8.0.7, )",
-        "resolved": "8.0.7",
-        "contentHash": "iI52ptEKby2ymQ6B7h4TWbFmm85T4VvLgc/HvS45Yr3lgi4IIFbQtjON3bQbX/Vc94jXNSLvrDOp5Kh7SJyFYQ=="
+        "requested": "[8.0.8, )",
+        "resolved": "8.0.8",
+        "contentHash": "P8wR6MUWwYXIjPJuBaZgo5zlI/GWI6QEAo6NyVIbPefa9CCkohYu7dP2rD/mrqnjEqfRHyl+h9VZrDoGpELqYg=="
       },
       "CommunityToolkit.Maui.Core": {
         "type": "Transitive",
@@ -466,21 +466,21 @@
         }
       }
     },
-    "net8.0-maccatalyst17.2/maccatalyst-arm64": {
+    "net8.0-maccatalyst17.5/maccatalyst-arm64": {
       "System.Text.Encodings.Web": {
         "type": "Transitive",
         "resolved": "8.0.0",
         "contentHash": "yev/k9GHAEGx2Rg3/tU6MQh4HGBXJs70y7j1LaM1i/ER9po+6nnQ6RRqTJn1E7Xu0fbIFK80Nh5EoODxrbxwBQ=="
       }
     },
-    "net8.0-maccatalyst17.2/maccatalyst-x64": {
+    "net8.0-maccatalyst17.5/maccatalyst-x64": {
       "System.Text.Encodings.Web": {
         "type": "Transitive",
         "resolved": "8.0.0",
         "contentHash": "yev/k9GHAEGx2Rg3/tU6MQh4HGBXJs70y7j1LaM1i/ER9po+6nnQ6RRqTJn1E7Xu0fbIFK80Nh5EoODxrbxwBQ=="
       }
     },
-    "net8.0-maccatalyst17.2/win10-x64": {
+    "net8.0-maccatalyst17.5/win10-x64": {
       "System.Text.Encodings.Web": {
         "type": "Transitive",
         "resolved": "8.0.0",

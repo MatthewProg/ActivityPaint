@@ -10,4 +10,12 @@ public static class EditorModelMap
         StartDate: model.StartDate ?? DateTime.MinValue,
         CanvasData: model.CanvasData ?? []
     );
+
+    public static void MapFromPresetModel(PresetModel presetModel, EditorModel editorModel)
+    {
+        editorModel.IsDarkModeDefault = presetModel.IsDarkModeDefault;
+        editorModel.CanvasData = presetModel.CanvasData;
+        editorModel.StartDate = presetModel.StartDate;
+        editorModel.Name = presetModel.Name;
+    }
 }

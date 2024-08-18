@@ -19,4 +19,9 @@ public class FileSystemInteraction : IFileSystemInteraction
 
         return Result.Success();
     }
+
+    public Task<Result<Stream>> PromptFileLoadAsync(CancellationToken cancellationToken = default)
+    {
+        throw new NotSupportedException("Prompting for upload file is not supported on this platform.");
+    }
 }

@@ -10,6 +10,7 @@ namespace ActivityPaint.Client.Console.Commands.Save;
 public static partial class SaveCommandSettingsMap
 {
     [MapperIgnoreSource(nameof(SaveCommandSettings.Path))]
+    [MapperIgnoreSource(nameof(SaveCommandSettings.Overwrite))]
     [MapperIgnoreSource(nameof(SaveCommandSettings.StartDateString))]
     [MapProperty(nameof(SaveCommandSettings.CanvasData), nameof(PresetModel.CanvasData), Use = nameof(CanvasDataStringToList))]
     public static partial PresetModel ToPresetModel(this SaveCommandSettings model);
@@ -21,6 +22,6 @@ public static partial class SaveCommandSettingsMap
     );
 
     [UserMapping]
-    private static IEnumerable<IntensityEnum> CanvasDataStringToList(string canvasData)
+    private static List<IntensityEnum> CanvasDataStringToList(string canvasData)
         => CanvasDataHelper.ConvertToList(canvasData);
 }

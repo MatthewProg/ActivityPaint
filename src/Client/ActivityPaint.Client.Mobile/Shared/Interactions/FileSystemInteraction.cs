@@ -8,10 +8,12 @@ namespace ActivityPaint.Client.Mobile.Shared.Interactions
     public class FileSystemInteraction : IFileSystemInteraction
     {
         private readonly IFileSaver _fileSaver;
+        private readonly IFilePicker _filePicker;
 
-        public FileSystemInteraction(IFileSaver fileSaver)
+        public FileSystemInteraction(IFileSaver fileSaver, IFilePicker filePicker)
         {
             _fileSaver = fileSaver;
+            _filePicker = filePicker;
         }
 
         public async Task<Result> PromptFileSaveAsync(string fileName, Stream data, CancellationToken cancellationToken = default)
@@ -24,6 +26,18 @@ namespace ActivityPaint.Client.Mobile.Shared.Interactions
             }
 
             return new ExceptionError(saveResult.Exception);
+        }
+
+        public async Task<Result<Stream>> PromptFileLoadAsync(CancellationToken cancellationToken = default)
+        {
+            var fileResult = await _filePicker.PickAsync();
+
+            if (fileResult is null)
+            {
+                return new Error("Error.OperationCancelled", "Operation has been cancelled by user.");
+            }
+
+            return await fileResult.OpenReadAsync();
         }
     }
 }

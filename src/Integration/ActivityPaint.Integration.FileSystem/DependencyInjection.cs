@@ -9,5 +9,6 @@ public static class DependencyInjection
     public static void AddFileSystemIntegration(this IServiceCollection services)
     {
         services.AddScoped<IFileSaveService, FileSaveService>();
+        services.AddScoped<IFileLoadService, FileLoadService>();
     }
 }
