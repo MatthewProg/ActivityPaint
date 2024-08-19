@@ -58,6 +58,19 @@
           "Microsoft.Extensions.Dependencyinjection.Abstractions": "2.1.0"
         }
       },
+      "LibGit2Sharp": {
+        "type": "Transitive",
+        "resolved": "0.30.0",
+        "contentHash": "1cBg/7nz6q+yzvComhqQaTS4nbXloLp/x29ZgY/Rr82ohpkuaWT8ZYzsPLFvs1zmCh/4xQbVt5sQxazGblgRig==",
+        "dependencies": {
+          "LibGit2Sharp.NativeBinaries": "[2.0.322]"
+        }
+      },
+      "LibGit2Sharp.NativeBinaries": {
+        "type": "Transitive",
+        "resolved": "2.0.322",
+        "contentHash": "EWQaEevzc8uS1ZGS6T83jqUPBY//2WUSCHwbZHBoHOjlfSehqr30nm/VAhJPzjam/69sv7nlLKVcho9t2XuR/Q=="
+      },
       "Mediator.Abstractions": {
         "type": "Transitive",
         "resolved": "2.1.7",
@@ -356,6 +369,7 @@
         "dependencies": {
           "ActivityPaint.Application.BusinessLogic": "[1.0.0, )",
           "ActivityPaint.Integration.FileSystem": "[1.0.0, )",
+          "ActivityPaint.Integration.Repository": "[1.0.0, )",
           "Microsoft.Extensions.Configuration.Binder": "[8.0.2, )",
           "Microsoft.Extensions.Configuration.Json": "[8.0.0, )",
           "Microsoft.Extensions.DependencyInjection": "[8.0.0, )",
@@ -375,6 +389,13 @@
         "type": "Project",
         "dependencies": {
           "ActivityPaint.Application.Abstractions": "[1.0.0, )"
+        }
+      },
+      "activitypaint.integration.repository": {
+        "type": "Project",
+        "dependencies": {
+          "ActivityPaint.Application.Abstractions": "[1.0.0, )",
+          "LibGit2Sharp": "[0.30.0, )"
         }
       }
     }

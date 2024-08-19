@@ -3,6 +3,7 @@ using ActivityPaint.Client.Components;
 using ActivityPaint.Client.Web;
 using ActivityPaint.Client.Web.Interactions;
 using ActivityPaint.Integration.FileSystem;
+using ActivityPaint.Integration.Repository;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -14,6 +15,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 builder.Services.AddClientComponents();
 builder.Services.AddFileSystemIntegration();
+builder.Services.AddRepositoryIntegration();
 
 builder.Services.AddScoped<IFileSystemInteraction, FileSystemInteraction>();
 

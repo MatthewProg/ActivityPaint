@@ -93,6 +93,19 @@
           "Microsoft.Extensions.Dependencyinjection.Abstractions": "2.1.0"
         }
       },
+      "LibGit2Sharp": {
+        "type": "Transitive",
+        "resolved": "0.30.0",
+        "contentHash": "1cBg/7nz6q+yzvComhqQaTS4nbXloLp/x29ZgY/Rr82ohpkuaWT8ZYzsPLFvs1zmCh/4xQbVt5sQxazGblgRig==",
+        "dependencies": {
+          "LibGit2Sharp.NativeBinaries": "[2.0.322]"
+        }
+      },
+      "LibGit2Sharp.NativeBinaries": {
+        "type": "Transitive",
+        "resolved": "2.0.322",
+        "contentHash": "EWQaEevzc8uS1ZGS6T83jqUPBY//2WUSCHwbZHBoHOjlfSehqr30nm/VAhJPzjam/69sv7nlLKVcho9t2XuR/Q=="
+      },
       "Mediator.Abstractions": {
         "type": "Transitive",
         "resolved": "2.1.7",
@@ -464,9 +477,21 @@
         "dependencies": {
           "ActivityPaint.Application.Abstractions": "[1.0.0, )"
         }
+      },
+      "activitypaint.integration.repository": {
+        "type": "Project",
+        "dependencies": {
+          "ActivityPaint.Application.Abstractions": "[1.0.0, )",
+          "LibGit2Sharp": "[0.30.0, )"
+        }
       }
     },
     "net8.0-maccatalyst17.5/maccatalyst-arm64": {
+      "LibGit2Sharp.NativeBinaries": {
+        "type": "Transitive",
+        "resolved": "2.0.322",
+        "contentHash": "EWQaEevzc8uS1ZGS6T83jqUPBY//2WUSCHwbZHBoHOjlfSehqr30nm/VAhJPzjam/69sv7nlLKVcho9t2XuR/Q=="
+      },
       "System.Text.Encodings.Web": {
         "type": "Transitive",
         "resolved": "8.0.0",
@@ -474,6 +499,11 @@
       }
     },
     "net8.0-maccatalyst17.5/maccatalyst-x64": {
+      "LibGit2Sharp.NativeBinaries": {
+        "type": "Transitive",
+        "resolved": "2.0.322",
+        "contentHash": "EWQaEevzc8uS1ZGS6T83jqUPBY//2WUSCHwbZHBoHOjlfSehqr30nm/VAhJPzjam/69sv7nlLKVcho9t2XuR/Q=="
+      },
       "System.Text.Encodings.Web": {
         "type": "Transitive",
         "resolved": "8.0.0",
@@ -481,6 +511,11 @@
       }
     },
     "net8.0-maccatalyst17.5/win10-x64": {
+      "LibGit2Sharp.NativeBinaries": {
+        "type": "Transitive",
+        "resolved": "2.0.322",
+        "contentHash": "EWQaEevzc8uS1ZGS6T83jqUPBY//2WUSCHwbZHBoHOjlfSehqr30nm/VAhJPzjam/69sv7nlLKVcho9t2XuR/Q=="
+      },
       "System.Text.Encodings.Web": {
         "type": "Transitive",
         "resolved": "8.0.0",
@@ -545,6 +580,12 @@
           "Microsoft.Maui.Controls.Xaml": "8.0.80"
         }
       },
+      "Microsoft.NET.ILLink.Tasks": {
+        "type": "Direct",
+        "requested": "[8.0.8, )",
+        "resolved": "8.0.8",
+        "contentHash": "P8wR6MUWwYXIjPJuBaZgo5zlI/GWI6QEAo6NyVIbPefa9CCkohYu7dP2rD/mrqnjEqfRHyl+h9VZrDoGpELqYg=="
+      },
       "CommunityToolkit.Maui.Core": {
         "type": "Transitive",
         "resolved": "9.0.2",
@@ -573,6 +614,19 @@
           "FluentValidation": "11.9.2",
           "Microsoft.Extensions.Dependencyinjection.Abstractions": "2.1.0"
         }
+      },
+      "LibGit2Sharp": {
+        "type": "Transitive",
+        "resolved": "0.30.0",
+        "contentHash": "1cBg/7nz6q+yzvComhqQaTS4nbXloLp/x29ZgY/Rr82ohpkuaWT8ZYzsPLFvs1zmCh/4xQbVt5sQxazGblgRig==",
+        "dependencies": {
+          "LibGit2Sharp.NativeBinaries": "[2.0.322]"
+        }
+      },
+      "LibGit2Sharp.NativeBinaries": {
+        "type": "Transitive",
+        "resolved": "2.0.322",
+        "contentHash": "EWQaEevzc8uS1ZGS6T83jqUPBY//2WUSCHwbZHBoHOjlfSehqr30nm/VAhJPzjam/69sv7nlLKVcho9t2XuR/Q=="
       },
       "Mediator.Abstractions": {
         "type": "Transitive",
@@ -996,9 +1050,21 @@
         "dependencies": {
           "ActivityPaint.Application.Abstractions": "[1.0.0, )"
         }
+      },
+      "activitypaint.integration.repository": {
+        "type": "Project",
+        "dependencies": {
+          "ActivityPaint.Application.Abstractions": "[1.0.0, )",
+          "LibGit2Sharp": "[0.30.0, )"
+        }
       }
     },
     "net8.0-windows10.0.19041/maccatalyst-arm64": {
+      "LibGit2Sharp.NativeBinaries": {
+        "type": "Transitive",
+        "resolved": "2.0.322",
+        "contentHash": "EWQaEevzc8uS1ZGS6T83jqUPBY//2WUSCHwbZHBoHOjlfSehqr30nm/VAhJPzjam/69sv7nlLKVcho9t2XuR/Q=="
+      },
       "Microsoft.Graphics.Win2D": {
         "type": "Transitive",
         "resolved": "1.2.0",
@@ -1027,6 +1093,11 @@
       }
     },
     "net8.0-windows10.0.19041/maccatalyst-x64": {
+      "LibGit2Sharp.NativeBinaries": {
+        "type": "Transitive",
+        "resolved": "2.0.322",
+        "contentHash": "EWQaEevzc8uS1ZGS6T83jqUPBY//2WUSCHwbZHBoHOjlfSehqr30nm/VAhJPzjam/69sv7nlLKVcho9t2XuR/Q=="
+      },
       "Microsoft.Graphics.Win2D": {
         "type": "Transitive",
         "resolved": "1.2.0",
@@ -1055,6 +1126,11 @@
       }
     },
     "net8.0-windows10.0.19041/win10-x64": {
+      "LibGit2Sharp.NativeBinaries": {
+        "type": "Transitive",
+        "resolved": "2.0.322",
+        "contentHash": "EWQaEevzc8uS1ZGS6T83jqUPBY//2WUSCHwbZHBoHOjlfSehqr30nm/VAhJPzjam/69sv7nlLKVcho9t2XuR/Q=="
+      },
       "Microsoft.Graphics.Win2D": {
         "type": "Transitive",
         "resolved": "1.2.0",
