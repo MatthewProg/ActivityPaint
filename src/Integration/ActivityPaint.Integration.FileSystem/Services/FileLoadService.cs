@@ -7,7 +7,7 @@ internal class FileLoadService : IFileLoadService
 {
     public Result<Stream> GetFileStream(string filePath)
     {
-        using var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+        var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
         return fileStream;
     }

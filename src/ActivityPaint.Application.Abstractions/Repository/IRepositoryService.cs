@@ -6,7 +6,6 @@ namespace ActivityPaint.Application.Abstractions.Repository;
 
 public interface IRepositoryService
 {
-    public Result CreateRepository(string path, AuthorModel author, ICollection<CommitModel> commits, Progress? progressCallback = null);
-    public Task<Result<Stream>> CreateRepositoryZipAsync(string path, AuthorModel author, ICollection<CommitModel> commits,
-        Progress? progressCallback = null, CancellationToken cancellationToken = default);
+    public Result InitOrPopulateRepository(string path, AuthorModel author, IList<CommitModel> commits, Progress? progressCallback = null);
+    public Result<Stream> CreateRepositoryZip(AuthorModel author, IList<CommitModel> commits, Progress? progressCallback = null);
 }
