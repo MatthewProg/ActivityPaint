@@ -19,13 +19,15 @@ internal partial class CommitsService : ICommitsService
         foreach (var commitsCount in model.CanvasData.Select(x => (int)x))
         {
             metadata.CurrentDay++;
+            metadata.CurrentDayCommit = 0;
 
-            if (commitsCount == 0) continue;
-
-            for (metadata.CurrentDayCommit = 1; metadata.CurrentDayCommit <= commitsCount; metadata.CurrentDayCommit++, metadata.CurrentTotalCommit++)
+            while (metadata.CurrentDayCommit < commitsCount)
             {
+                metadata.CurrentTotalCommit++;
+                metadata.CurrentDayCommit++;
+
                 var message = TokenRegex().Replace(messageFormat, (match) => GetTokenValue(metadata, match.Value));
-                var date = metadata.StartDay.AddDays(metadata.CurrentDay);
+                var date = metadata.StartDay.AddDays(metadata.CurrentDay - 1);
 
                 output.Add(new(message, date));
             }
@@ -43,7 +45,7 @@ internal partial class CommitsService : ICommitsService
         TotalCommits: model.CanvasData.Aggregate(0, (total, current) => total + (int)current)
     );
 
-    private static string GetTokenValue(Metadata metadata, string token) => token switch
+    private static string GetTokenValue(Metadata metadata, string token) => token[1..^1] switch
     {
         "name" => metadata.Name,
         "start_date" => metadata.StartDay.ToString("yyyy-MM-dd"),
@@ -55,7 +57,7 @@ internal partial class CommitsService : ICommitsService
         _ => token
     };
 
-    [GeneratedRegex(@"((?<={)\w*(?=}))*")]
+    [GeneratedRegex(@"({\w+})+")]
     private static partial Regex TokenRegex();
 
     private record struct Metadata(

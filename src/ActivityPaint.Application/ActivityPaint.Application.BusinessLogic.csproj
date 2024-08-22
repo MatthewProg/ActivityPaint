@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildProjectName).Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Mediator.Abstractions" Version="2.1.7" />
     <PackageReference Include="Mediator.SourceGenerator" Version="2.1.7">
       <PrivateAssets>all</PrivateAssets>
