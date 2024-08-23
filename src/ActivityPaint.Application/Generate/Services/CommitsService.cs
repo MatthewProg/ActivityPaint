@@ -6,13 +6,17 @@ namespace ActivityPaint.Application.BusinessLogic.Generate.Services;
 
 internal interface ICommitsService
 {
-    List<CommitModel> GenerateCommits(PresetModel model, string messageFormat);
+    List<CommitModel> GenerateCommits(PresetModel model, string? messageFormat = null);
 }
 
 internal partial class CommitsService : ICommitsService
 {
-    public List<CommitModel> GenerateCommits(PresetModel model, string messageFormat)
+    private const string DEFAULT_MESSAGE_FORMAT = "ActivityPaint - '{name}' - (Commit {current_total}/{total_count})";
+
+    public List<CommitModel> GenerateCommits(PresetModel model, string? messageFormat)
     {
+        messageFormat ??= DEFAULT_MESSAGE_FORMAT;
+
         var metadata = GetMetadata(model);
         var output = new List<CommitModel>(metadata.TotalCommits);
 
@@ -49,7 +53,7 @@ internal partial class CommitsService : ICommitsService
     {
         "name" => metadata.Name,
         "start_date" => metadata.StartDay.ToString("yyyy-MM-dd"),
-        "current_date" => metadata.StartDay.AddDays(metadata.CurrentDay).ToString("yyyy-MM-dd"),
+        "current_date" => metadata.StartDay.AddDays(metadata.CurrentDay - 1).ToString("yyyy-MM-dd"),
         "current_day" => metadata.CurrentDay.ToString(),
         "current_day_commit" => metadata.CurrentDayCommit.ToString(),
         "current_total" => metadata.CurrentTotalCommit.ToString(),

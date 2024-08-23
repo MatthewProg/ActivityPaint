@@ -10,16 +10,15 @@ using FluentValidation;
 
 namespace ActivityPaint.Application.BusinessLogic.Generate;
 
-public record GenerateRepoCommand(
+public record DownloadRepoCommand(
     PresetModel Preset,
     AuthorModel Author,
-    string Path,
     Progress? ProgressCallback = null
-) : IResultRequest;
+) : IResultRequest<Stream>;
 
-internal class GenerateRepoCommandValidator : AbstractValidator<GenerateRepoCommand>
+internal class DownloadRepoCommandValidator : AbstractValidator<DownloadRepoCommand>
 {
-    public GenerateRepoCommandValidator(IEnumerable<IValidator<PresetModel>> presetValidators)
+    public DownloadRepoCommandValidator(IEnumerable<IValidator<PresetModel>> presetValidators)
     {
         RuleFor(x => x.Preset)
             .NotNull()
@@ -27,23 +26,23 @@ internal class GenerateRepoCommandValidator : AbstractValidator<GenerateRepoComm
     }
 }
 
-internal class GenerateRepoCommandHandler : IResultRequestHandler<GenerateRepoCommand>
+internal class DownloadRepoCommandHandler : IResultRequestHandler<DownloadRepoCommand, Stream>
 {
     private readonly IRepositoryService _repositoryService;
     private readonly ICommitsService _commitsService;
 
-    public GenerateRepoCommandHandler(IRepositoryService repositoryService, ICommitsService commitsService)
+    public DownloadRepoCommandHandler(IRepositoryService repositoryService, ICommitsService commitsService)
     {
         _repositoryService = repositoryService;
         _commitsService = commitsService;
     }
 
-    public ValueTask<Result> Handle(GenerateRepoCommand request, CancellationToken cancellationToken)
+    public ValueTask<Result<Stream>> Handle(DownloadRepoCommand request, CancellationToken cancellationToken)
     {
         var commits = _commitsService.GenerateCommits(request.Preset);
 
-        var creationResult = _repositoryService.InitOrPopulateRepository(request.Path, request.Author, commits, request.ProgressCallback);
+        var streamResult = _repositoryService.CreateRepositoryZip(request.Author, commits, request.ProgressCallback);
 
-        return ValueTask.FromResult(creationResult);
+        return ValueTask.FromResult(streamResult);
     }
 }
