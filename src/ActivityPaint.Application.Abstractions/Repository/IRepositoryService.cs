@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.Abstractions.Repository.Models;
+﻿using ActivityPaint.Application.DTOs.Repository;
 using ActivityPaint.Core.Shared.Progress;
 using ActivityPaint.Core.Shared.Result;
 

@@ -1,6 +1,6 @@
-﻿using ActivityPaint.Application.Abstractions.Repository.Models;
-using ActivityPaint.Application.BusinessLogic.Generate.Services;
-using ActivityPaint.Application.DTOs.Models;
+﻿using ActivityPaint.Application.BusinessLogic.Generate.Services;
+using ActivityPaint.Application.DTOs.Preset;
+using ActivityPaint.Application.DTOs.Repository;
 using ActivityPaint.Core.Enums;
 
 namespace ActivityPaint.Application.BusinessLogic.Tests.Generate.Services;

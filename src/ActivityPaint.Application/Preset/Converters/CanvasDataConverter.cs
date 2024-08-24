@@ -3,7 +3,7 @@ using ActivityPaint.Core.Helpers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace ActivityPaint.Application.BusinessLogic.Shared.Preset;
+namespace ActivityPaint.Application.BusinessLogic.Preset.Converters;
 
 internal class CanvasDataConverter : JsonConverter<IEnumerable<IntensityEnum>>
 {

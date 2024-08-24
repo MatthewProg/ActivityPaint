@@ -1,7 +1,8 @@
-﻿using ActivityPaint.Application.DTOs.Models;
+﻿using ActivityPaint.Application.BusinessLogic.Preset.Models;
+using ActivityPaint.Application.DTOs.Preset;
 using Riok.Mapperly.Abstractions;
 
-namespace ActivityPaint.Application.BusinessLogic.Shared.Preset;
+namespace ActivityPaint.Application.BusinessLogic.Preset.Mappers;
 
 [Mapper]
 internal static partial class PresetFileModelMap

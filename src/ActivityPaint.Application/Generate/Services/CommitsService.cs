@@ -1,5 +1,5 @@
-﻿using ActivityPaint.Application.Abstractions.Repository.Models;
-using ActivityPaint.Application.DTOs.Models;
+﻿using ActivityPaint.Application.DTOs.Preset;
+using ActivityPaint.Application.DTOs.Repository;
 using System.Text.RegularExpressions;
 
 namespace ActivityPaint.Application.BusinessLogic.Generate.Services;

@@ -1,7 +1,7 @@
 ﻿using ActivityPaint.Core.Enums;
 using ActivityPaint.Core.Helpers;
 
-namespace ActivityPaint.Application.DTOs.Models;
+namespace ActivityPaint.Application.DTOs.Preset;
 
 public sealed record PresetModel(
     string Name,

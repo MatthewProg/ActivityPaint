@@ -1,9 +1,9 @@
 ﻿using ActivityPaint.Application.Abstractions.Repository;
-using ActivityPaint.Application.Abstractions.Repository.Models;
 using ActivityPaint.Application.BusinessLogic.Generate.Services;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
-using ActivityPaint.Application.DTOs.Extensions;
-using ActivityPaint.Application.DTOs.Models;
+using ActivityPaint.Application.DTOs.Preset;
+using ActivityPaint.Application.DTOs.Repository;
+using ActivityPaint.Application.DTOs.Shared.Extensions;
 using ActivityPaint.Core.Shared.Progress;
 using ActivityPaint.Core.Shared.Result;
 using FluentValidation;

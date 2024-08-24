@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ActivityPaint.Application.Abstractions\ActivityPaint.Application.Abstractions.csproj" />
-    <ProjectReference Include="..\ActivityPaint.Application.DTOs\ActivityPaint.Application.DTOs.csproj" />
   </ItemGroup>
 
 </Project>

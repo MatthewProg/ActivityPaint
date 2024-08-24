@@ -1,4 +1,5 @@
-﻿using ActivityPaint.Core.Enums;
+﻿using ActivityPaint.Application.DTOs.Preset;
+using ActivityPaint.Core.Enums;
 
 namespace ActivityPaint.Application.DTOs.Tests.Validators;
 

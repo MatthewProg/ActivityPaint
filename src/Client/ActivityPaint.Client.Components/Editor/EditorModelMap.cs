@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.DTOs.Models;
+﻿using ActivityPaint.Application.DTOs.Preset;
 
 namespace ActivityPaint.Client.Components.Editor;
 

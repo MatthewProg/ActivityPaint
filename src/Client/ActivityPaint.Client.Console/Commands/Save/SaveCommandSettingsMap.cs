@@ -1,5 +1,5 @@
 ﻿using ActivityPaint.Application.BusinessLogic.Preset;
-using ActivityPaint.Application.DTOs.Models;
+using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Core.Enums;
 using ActivityPaint.Core.Helpers;
 using Riok.Mapperly.Abstractions;

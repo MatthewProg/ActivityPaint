@@ -343,14 +343,13 @@
       "activitypaint.application.abstractions": {
         "type": "Project",
         "dependencies": {
-          "ActivityPaint.Core": "[1.0.0, )"
+          "ActivityPaint.Application.DTOs": "[1.0.0, )"
         }
       },
       "activitypaint.application.businesslogic": {
         "type": "Project",
         "dependencies": {
           "ActivityPaint.Application.Abstractions": "[1.0.0, )",
-          "ActivityPaint.Application.DTOs": "[1.0.0, )",
           "Mediator.Abstractions": "[2.1.7, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[8.0.1, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )"

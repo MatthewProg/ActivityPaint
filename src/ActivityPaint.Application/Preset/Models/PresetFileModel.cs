@@ -1,7 +1,8 @@
-﻿using ActivityPaint.Core.Enums;
+﻿using ActivityPaint.Application.BusinessLogic.Preset.Converters;
+using ActivityPaint.Core.Enums;
 using System.Text.Json.Serialization;
 
-namespace ActivityPaint.Application.BusinessLogic.Shared.Preset;
+namespace ActivityPaint.Application.BusinessLogic.Preset.Models;
 
 internal sealed record PresetFileModel
 {

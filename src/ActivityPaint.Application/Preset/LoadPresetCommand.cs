@@ -1,7 +1,7 @@
 ﻿using ActivityPaint.Application.Abstractions.FileSystem;
 using ActivityPaint.Application.Abstractions.Interactions;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
-using ActivityPaint.Application.DTOs.Models;
+using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Core.Shared.Result;
 using Mediator;
 

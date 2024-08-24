@@ -1,7 +1,6 @@
-﻿using ActivityPaint.Application.DTOs.Models;
-using FluentValidation;
+﻿using FluentValidation;
 
-namespace ActivityPaint.Application.DTOs.Validators;
+namespace ActivityPaint.Application.DTOs.Preset;
 
 public class PresetModelValidator : AbstractValidator<PresetModel>
 {
