@@ -1,7 +1,7 @@
 ﻿using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Core.Enums;
 
-namespace ActivityPaint.Application.DTOs.Tests.Validators;
+namespace ActivityPaint.Application.DTOs.Tests.Preset;
 
 public class PresetModelValidatorTests
 {

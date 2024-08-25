@@ -1,8 +1,8 @@
-﻿using ActivityPaint.Client.Console.Validators;
+﻿using ActivityPaint.Application.DTOs.Shared.Validators;
 
-namespace ActivityPaint.Client.Console.Tests.Validators;
+namespace ActivityPaint.Application.DTOs.Tests.Shared.Validators;
 
-public class OptionsValidatorTests
+public class CommonValidatorTests
 {
     [Theory]
     [InlineData("")]
@@ -11,11 +11,11 @@ public class OptionsValidatorTests
     public void ValidateRequired_WhenNullOrWhiteSpaceString_ShouldFail(string? value)
     {
         // Act
-        var isValid = OptionsValidator.ValidateRequired(value, string.Empty, out var result);
+        var isValid = CommonValidator.ValidateRequired(value, out var result);
 
         // Assert
         isValid.Should().BeFalse();
-        result.Successful.Should().BeFalse();
+        result.IsSuccess.Should().BeFalse();
     }
 
     [Fact]
@@ -25,11 +25,11 @@ public class OptionsValidatorTests
         var value = "abc";
 
         // Act
-        var isValid = OptionsValidator.ValidateRequired(value, string.Empty, out var result);
+        var isValid = CommonValidator.ValidateRequired(value, out var result);
 
         // Assert
         isValid.Should().BeTrue();
-        result.Successful.Should().BeTrue();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
@@ -39,11 +39,11 @@ public class OptionsValidatorTests
         List<string>? value = null;
 
         // Act
-        var isValid = OptionsValidator.ValidateRequired(value, string.Empty, out var result);
+        var isValid = CommonValidator.ValidateRequired(value, out var result);
 
         // Assert
         isValid.Should().BeFalse();
-        result.Successful.Should().BeFalse();
+        result.IsSuccess.Should().BeFalse();
     }
 
     [Fact]
@@ -53,11 +53,11 @@ public class OptionsValidatorTests
         List<string>? value = [];
 
         // Act
-        var isValid = OptionsValidator.ValidateRequired(value, string.Empty, out var result);
+        var isValid = CommonValidator.ValidateRequired(value, out var result);
 
         // Assert
         isValid.Should().BeTrue();
-        result.Successful.Should().BeTrue();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Theory]
@@ -73,11 +73,11 @@ public class OptionsValidatorTests
         var format = "yyyy-MM-dd";
 
         // Act
-        var isValid = OptionsValidator.ValidateDateString(value, format, string.Empty, out var result);
+        var isValid = CommonValidator.ValidateDateString(value, format, out var result);
 
         // Assert
         isValid.Should().BeFalse();
-        result.Successful.Should().BeFalse();
+        result.IsSuccess.Should().BeFalse();
     }
 
     [Fact]
@@ -88,11 +88,11 @@ public class OptionsValidatorTests
         var format = "yyyy-MM-dd";
 
         // Act
-        var isValid = OptionsValidator.ValidateDateString(value, format, string.Empty, out var result);
+        var isValid = CommonValidator.ValidateDateString(value, format, out var result);
 
         // Assert
         isValid.Should().BeTrue();
-        result.Successful.Should().BeTrue();
+        result.IsSuccess.Should().BeTrue();
     }
 
     [Theory]
@@ -104,11 +104,11 @@ public class OptionsValidatorTests
     public void ValidatePath_WhenIncorrectString_ShouldFail(string? value)
     {
         // Act
-        var isValid = OptionsValidator.ValidatePath(value, string.Empty, out var result);
+        var isValid = CommonValidator.ValidatePath(value, out var result);
 
         // Assert
         isValid.Should().BeFalse();
-        result.Successful.Should().BeFalse();
+        result.IsSuccess.Should().BeFalse();
     }
 
     [Theory]
@@ -122,10 +122,10 @@ public class OptionsValidatorTests
     public void ValidatePath_WhenCorrectString_ShouldSucceed(string? value)
     {
         // Act
-        var isValid = OptionsValidator.ValidatePath(value, string.Empty, out var result);
+        var isValid = CommonValidator.ValidatePath(value, out var result);
 
         // Assert
         isValid.Should().BeTrue();
-        result.Successful.Should().BeTrue();
+        result.IsSuccess.Should().BeTrue();
     }
 }
