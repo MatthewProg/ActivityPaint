@@ -10,7 +10,7 @@ using System.Text.Json;
 
 namespace ActivityPaint.Application.BusinessLogic.Preset;
 
-public record SavePresetCommand(
+public sealed record SavePresetCommand(
     PresetModel Preset,
     string? Path = null,
     bool Overwrite = false

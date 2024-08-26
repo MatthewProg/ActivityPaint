@@ -10,9 +10,10 @@ using FluentValidation;
 
 namespace ActivityPaint.Application.BusinessLogic.Generate;
 
-public record DownloadRepoCommand(
+public sealed record DownloadRepoCommand(
     PresetModel Preset,
     AuthorModel Author,
+    string? MessageFormat = null,
     Progress? ProgressCallback = null
 ) : IResultRequest<Stream>;
 
@@ -45,7 +46,7 @@ internal class DownloadRepoCommandHandler : IResultRequestHandler<DownloadRepoCo
 
     public ValueTask<Result<Stream>> Handle(DownloadRepoCommand request, CancellationToken cancellationToken)
     {
-        var commits = _commitsService.GenerateCommits(request.Preset);
+        var commits = _commitsService.GenerateCommits(request.Preset, request.MessageFormat);
 
         var streamResult = _repositoryService.CreateRepositoryZip(request.Author, commits, request.ProgressCallback);
 

@@ -12,7 +12,7 @@ public static class CommonValidators
     public static bool ValidateRequired<T>(T? value, out Result result)
     {
         if (value is null
-            || value is string valueStr && string.IsNullOrWhiteSpace(valueStr))
+            || (value is string valueStr && string.IsNullOrWhiteSpace(valueStr)))
         {
             result = ValidationError("Value is required.");
             return false;

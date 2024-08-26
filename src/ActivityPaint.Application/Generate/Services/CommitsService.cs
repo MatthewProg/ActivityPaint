@@ -42,7 +42,7 @@ internal partial class CommitsService : ICommitsService
 
     private static Metadata GetMetadata(PresetModel model) => new(
         Name: model.Name,
-        StartDay: new DateTimeOffset(model.StartDate.Date, TimeSpan.FromHours(12)),
+        StartDay: new DateTimeOffset(model.StartDate.Date.AddHours(12), TimeSpan.Zero),
         CurrentDay: 0,
         CurrentDayCommit: 0,
         CurrentTotalCommit: 0,

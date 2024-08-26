@@ -1,7 +1,6 @@
 ﻿using ActivityPaint.Application.DTOs.Shared.Validators;
 using ActivityPaint.Core.Extensions;
 using Spectre.Console;
-using System.Globalization;
 
 namespace ActivityPaint.Client.Console.Validators;
 
@@ -45,11 +44,11 @@ public static class OptionsValidator
         var normalized = innerErrorMessage switch
         {
             null or "" => "value is invalid",
-            { Length: 1} => innerErrorMessage[0].ToLower().ToString(),
-            { Length: > 1} => $"{innerErrorMessage[0].ToLower()}{innerErrorMessage[1..]}",
+            { Length: 1 } => innerErrorMessage[0].ToLower().ToString(),
+            { Length: > 1 } => $"{innerErrorMessage[0].ToLower()}{innerErrorMessage[1..]}",
             _ => "value is invalid"
         };
 
-         return $"'{optionName}' {normalized}";
+        return $"'{optionName}' {normalized}";
     }
 }

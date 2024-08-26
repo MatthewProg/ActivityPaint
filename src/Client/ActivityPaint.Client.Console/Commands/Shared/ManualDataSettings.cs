@@ -6,13 +6,13 @@ using System.Globalization;
 
 namespace ActivityPaint.Client.Console.Commands.Shared;
 
-public class CurrentYearDefaultValueAttribute : DefaultValueAttribute
-{
-    public CurrentYearDefaultValueAttribute() : base($"{DateTime.UtcNow.Year}-01-01") { }
-}
-
 public abstract class ManualDataSettings : CommandSettings
 {
+    [CommandOption("-n|--name")]
+    [Description("Set preset default name.")]
+    [CurrentYearDefaultValue()]
+    public string? Name { get; set; }
+
     [CommandOption("-d|--data")]
     [Description("Canvas data in an encoded string form.")]
     public string? CanvasData { get; set; }
@@ -28,6 +28,7 @@ public abstract class ManualDataSettings : CommandSettings
     public override ValidationResult Validate()
     {
         return base.Validate()
+                   .ValidateRequired(this, x => x.Name)
                    .ValidateRequired(this, x => x.CanvasData)
                    .ValidateRequired(this, x => x.StartDateString)
                    .ValidateDateString(this, "yyyy-MM-dd", x => x.StartDateString);

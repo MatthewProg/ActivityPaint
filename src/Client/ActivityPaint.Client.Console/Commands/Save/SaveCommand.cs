@@ -14,11 +14,6 @@ public class SaveCommandSettings : ManualDataSettings
     [Description("Use dark mode as a default preview theme.")]
     public bool IsDarkModeDefault { get; set; }
 
-    [CommandOption("-n|--name")]
-    [Description("Set preset default name.")]
-    [CurrentYearDefaultValue()]
-    public string? Name { get; set; }
-
     [CommandOption("-o|--output")]
     [Description("Path to the output JSON preset file.")]
     public string? Path { get; set; }
@@ -30,7 +25,6 @@ public class SaveCommandSettings : ManualDataSettings
     public override ValidationResult Validate()
     {
         return base.Validate()
-                   .ValidateRequired(this, x => x.Name)
                    .ValidateRequired(this, x => x.Path)
                    .ValidatePath(this, x => x.Path);
     }

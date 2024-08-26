@@ -8,7 +8,7 @@ using System.Text.Json;
 
 namespace ActivityPaint.Application.BusinessLogic.Preset;
 
-public record ParsePresetCommand(
+public sealed record ParsePresetCommand(
     Stream PresetStream
 ) : IResultRequest<PresetModel?>;
 

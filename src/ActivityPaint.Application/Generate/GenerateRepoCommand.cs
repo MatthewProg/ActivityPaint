@@ -10,10 +10,11 @@ using FluentValidation;
 
 namespace ActivityPaint.Application.BusinessLogic.Generate;
 
-public record GenerateRepoCommand(
+public sealed record GenerateRepoCommand(
     PresetModel Preset,
     AuthorModel Author,
     string Path,
+    string? MessageFormat = null,
     Progress? ProgressCallback = null
 ) : IResultRequest;
 
@@ -50,7 +51,7 @@ internal class GenerateRepoCommandHandler : IResultRequestHandler<GenerateRepoCo
 
     public ValueTask<Result> Handle(GenerateRepoCommand request, CancellationToken cancellationToken)
     {
-        var commits = _commitsService.GenerateCommits(request.Preset);
+        var commits = _commitsService.GenerateCommits(request.Preset, request.MessageFormat);
 
         var creationResult = _repositoryService.InitOrPopulateRepository(request.Path, request.Author, commits, request.ProgressCallback);
 

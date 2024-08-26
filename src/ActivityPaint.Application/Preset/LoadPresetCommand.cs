@@ -9,7 +9,7 @@ using Mediator;
 
 namespace ActivityPaint.Application.BusinessLogic.Preset;
 
-public record LoadPresetCommand(
+public sealed record LoadPresetCommand(
     string? Path = null
 ) : IResultRequest<PresetModel?>;
 
