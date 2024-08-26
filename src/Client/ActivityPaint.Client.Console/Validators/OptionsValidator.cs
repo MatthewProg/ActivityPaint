@@ -9,7 +9,7 @@ public static class OptionsValidator
 {
     public static bool ValidateRequired<T>(T? value, string optionName, out ValidationResult result)
     {
-        var output = CommonValidator.ValidateRequired<T>(value, out var innerResult);
+        var output = CommonValidators.ValidateRequired<T>(value, out var innerResult);
 
         result = innerResult.IsSuccess
             ? ValidationResult.Success()
@@ -20,7 +20,7 @@ public static class OptionsValidator
 
     public static bool ValidateDateString(string? value, string format, string optionName, out ValidationResult result)
     {
-        var output = CommonValidator.ValidateDateString(value, format, out var innerResult);
+        var output = CommonValidators.ValidateDateString(value, format, out var innerResult);
 
         result = innerResult.IsSuccess
             ? ValidationResult.Success()
@@ -31,7 +31,7 @@ public static class OptionsValidator
 
     public static bool ValidatePath(string? value, string optionName, out ValidationResult result)
     {
-        var output = CommonValidator.ValidatePath(value, out var innerResult);
+        var output = CommonValidators.ValidatePath(value, out var innerResult);
 
         result = innerResult.IsSuccess
             ? ValidationResult.Success()

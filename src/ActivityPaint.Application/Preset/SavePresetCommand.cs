@@ -23,6 +23,9 @@ internal class SavePresetCommandValidator : AbstractValidator<SavePresetCommand>
         RuleFor(x => x.Preset)
             .NotNull()
             .SetDefaultValidator(presetValidators);
+
+        RuleFor(x => x.Path)
+            .Path();
     }
 }
 

@@ -17,7 +17,8 @@ internal class ParsePresetCommandValidator : AbstractValidator<ParsePresetComman
     public ParsePresetCommandValidator()
     {
         RuleFor(x => x.PresetStream)
-            .NotNull();
+            .NotNull()
+            .Must(x => x.CanRead).WithMessage("Stream must support reading.");
     }
 }
 

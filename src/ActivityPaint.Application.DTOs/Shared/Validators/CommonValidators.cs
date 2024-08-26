@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace ActivityPaint.Application.DTOs.Shared.Validators;
 
-public static class CommonValidator
+public static class CommonValidators
 {
     private static readonly char[] InvalidPathChars = Path.GetInvalidFileNameChars()
                                                           .Where(x => x is not '\\' and not '/' and not ':')

@@ -19,11 +19,21 @@ public record GenerateRepoCommand(
 
 internal class GenerateRepoCommandValidator : AbstractValidator<GenerateRepoCommand>
 {
-    public GenerateRepoCommandValidator(IEnumerable<IValidator<PresetModel>> presetValidators)
+    public GenerateRepoCommandValidator(
+        IEnumerable<IValidator<PresetModel>> presetValidators,
+        IEnumerable<IValidator<AuthorModel>> authorValidators)
     {
         RuleFor(x => x.Preset)
             .NotNull()
             .SetDefaultValidator(presetValidators);
+
+        RuleFor(x => x.Author)
+            .NotNull()
+            .SetDefaultValidator(authorValidators);
+
+        RuleFor(x => x.Path)
+            .NotEmpty()
+            .Path();
     }
 }
 

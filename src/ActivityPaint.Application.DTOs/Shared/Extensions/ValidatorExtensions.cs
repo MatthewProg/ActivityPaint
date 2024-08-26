@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using ActivityPaint.Application.DTOs.Shared.Validators;
+using FluentValidation;
 
 namespace ActivityPaint.Application.DTOs.Shared.Extensions;
 
@@ -15,4 +16,7 @@ public static class ValidatorExtensions
 
         return builder;
     }
+
+    public static IRuleBuilderOptions<T, string?> Path<T>(this IRuleBuilder<T, string?> builder)
+        => builder.SetValidator(new PathPropertyValidator<T>());
 }

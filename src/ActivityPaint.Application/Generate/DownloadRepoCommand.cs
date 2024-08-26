@@ -18,11 +18,17 @@ public record DownloadRepoCommand(
 
 internal class DownloadRepoCommandValidator : AbstractValidator<DownloadRepoCommand>
 {
-    public DownloadRepoCommandValidator(IEnumerable<IValidator<PresetModel>> presetValidators)
+    public DownloadRepoCommandValidator(
+        IEnumerable<IValidator<PresetModel>> presetValidators,
+        IEnumerable<IValidator<AuthorModel>> authorValidators)
     {
         RuleFor(x => x.Preset)
             .NotNull()
             .SetDefaultValidator(presetValidators);
+
+        RuleFor(x => x.Author)
+            .NotNull()
+            .SetDefaultValidator(authorValidators);
     }
 }
 

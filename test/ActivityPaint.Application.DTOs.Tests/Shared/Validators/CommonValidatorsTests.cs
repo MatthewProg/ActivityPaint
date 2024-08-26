@@ -2,7 +2,7 @@
 
 namespace ActivityPaint.Application.DTOs.Tests.Shared.Validators;
 
-public class CommonValidatorTests
+public class CommonValidatorsTests
 {
     [Theory]
     [InlineData("")]
@@ -11,7 +11,7 @@ public class CommonValidatorTests
     public void ValidateRequired_WhenNullOrWhiteSpaceString_ShouldFail(string? value)
     {
         // Act
-        var isValid = CommonValidator.ValidateRequired(value, out var result);
+        var isValid = CommonValidators.ValidateRequired(value, out var result);
 
         // Assert
         isValid.Should().BeFalse();
@@ -25,7 +25,7 @@ public class CommonValidatorTests
         var value = "abc";
 
         // Act
-        var isValid = CommonValidator.ValidateRequired(value, out var result);
+        var isValid = CommonValidators.ValidateRequired(value, out var result);
 
         // Assert
         isValid.Should().BeTrue();
@@ -39,7 +39,7 @@ public class CommonValidatorTests
         List<string>? value = null;
 
         // Act
-        var isValid = CommonValidator.ValidateRequired(value, out var result);
+        var isValid = CommonValidators.ValidateRequired(value, out var result);
 
         // Assert
         isValid.Should().BeFalse();
@@ -53,7 +53,7 @@ public class CommonValidatorTests
         List<string>? value = [];
 
         // Act
-        var isValid = CommonValidator.ValidateRequired(value, out var result);
+        var isValid = CommonValidators.ValidateRequired(value, out var result);
 
         // Assert
         isValid.Should().BeTrue();
@@ -73,7 +73,7 @@ public class CommonValidatorTests
         var format = "yyyy-MM-dd";
 
         // Act
-        var isValid = CommonValidator.ValidateDateString(value, format, out var result);
+        var isValid = CommonValidators.ValidateDateString(value, format, out var result);
 
         // Assert
         isValid.Should().BeFalse();
@@ -88,7 +88,7 @@ public class CommonValidatorTests
         var format = "yyyy-MM-dd";
 
         // Act
-        var isValid = CommonValidator.ValidateDateString(value, format, out var result);
+        var isValid = CommonValidators.ValidateDateString(value, format, out var result);
 
         // Assert
         isValid.Should().BeTrue();
@@ -104,7 +104,7 @@ public class CommonValidatorTests
     public void ValidatePath_WhenIncorrectString_ShouldFail(string? value)
     {
         // Act
-        var isValid = CommonValidator.ValidatePath(value, out var result);
+        var isValid = CommonValidators.ValidatePath(value, out var result);
 
         // Assert
         isValid.Should().BeFalse();
@@ -122,7 +122,7 @@ public class CommonValidatorTests
     public void ValidatePath_WhenCorrectString_ShouldSucceed(string? value)
     {
         // Act
-        var isValid = CommonValidator.ValidatePath(value, out var result);
+        var isValid = CommonValidators.ValidatePath(value, out var result);
 
         // Assert
         isValid.Should().BeTrue();
