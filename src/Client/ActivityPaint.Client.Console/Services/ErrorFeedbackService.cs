@@ -6,6 +6,7 @@ namespace ActivityPaint.Client.Console.Services;
 
 public interface IErrorFeedbackService
 {
+    void WriteError(string message);
     void WriteError(Error error);
 }
 
@@ -26,6 +27,11 @@ internal sealed class ErrorFeedbackService : IErrorFeedbackService
             _ => error.Message
         };
 
+        WriteError(message);
+    }
+
+    public void WriteError(string message)
+    {
         _logger.LogError(message);
     }
 

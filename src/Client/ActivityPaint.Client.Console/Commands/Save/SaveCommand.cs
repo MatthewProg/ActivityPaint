@@ -16,7 +16,7 @@ public class SaveCommandSettings : ManualDataSettings
 
     [CommandOption("-o|--output")]
     [Description("Path to the output JSON preset file.")]
-    public string? Path { get; set; }
+    public required string Path { get; set; }
 
     [CommandOption("--force")]
     [Description("Overwrite the existing file.")]

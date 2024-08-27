@@ -16,8 +16,10 @@ app.Configure(config =>
           .WithAlias("s")
           .WithDescription("Saves canvas data as a preset file in the specified location.");
 
-    config.AddBranch("generate", generate =>
+    config.AddBranch<GenerateBranchSettings>("generate", generate =>
     {
+        generate.SetDescription("Generate repository based on a preset file or arguments provided.");
+
         generate.AddCommand<GenerateNewCommand>("new")
                 .WithAlias("n")
                 .WithDescription("Generate repository by providing all the details as arguments.");

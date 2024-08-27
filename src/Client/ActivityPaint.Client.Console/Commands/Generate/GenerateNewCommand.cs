@@ -2,47 +2,45 @@
 using ActivityPaint.Client.Console.Commands.Shared;
 using ActivityPaint.Client.Console.Services;
 using ActivityPaint.Client.Console.Validators;
+using ActivityPaint.Core.Enums;
+using ActivityPaint.Core.Helpers;
 using Mediator;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace ActivityPaint.Client.Console.Commands.Generate;
 
-public class GenerateNewCommandSettings : ManualDataSettings
+public class GenerateNewCommandSettings : GenerateBranchSettings
 {
-    [CommandOption("--zip")]
-    [Description("Save generated repository as a zip file instead of .git directory.")]
-    public bool ZipMode { get; set; }
+    [CommandOption("-n|--name")]
+    [Description("Set preset default name.")]
+    [CurrentYearDefaultValue()]
+    public required string Name { get; set; }
 
-    [CommandOption("--force")]
-    [Description("Overwrite the existing file (relevant only when --zip is used).")]
-    public bool Overwrite { get; set; }
+    [CommandOption("-d|--data")]
+    [Description("Canvas data in an encoded string form.")]
+    public required string CanvasDataString { get; set; }
 
-    [CommandOption("-o|--output")]
-    [Description("Path to the output zip file or .git directory.")]
-    public string? Path { get; set; }
+    public List<IntensityEnum> CanvasData
+        => CanvasDataHelper.ConvertToList(CanvasDataString);
 
-    [CommandOption("--author-name")]
-    [Description("Commits author name.")]
-    [ConfigurationDefaultValue<string>("Repo:AuthorFullName")]
-    public string? AuthorFullName { get; set; }
+    [CommandOption("-s|--start-date")]
+    [Description("Start date of the canvas data in yyyy-MM-dd format.")]
+    [CurrentYearDefaultValue()]
+    public required string StartDateString { get; set; }
 
-    [CommandOption("--author-email")]
-    [Description("Commits author email.")]
-    [ConfigurationDefaultValue<string>("Repo:AuthorEmail")]
-    public string? AuthorEmail { get; set; }
-
-    [CommandOption("-m|--message")]
-    [Description("Commit message format.")]
-    [ConfigurationDefaultValue<string>("Repo:MessageFormat")]
-    public string? MessageFormat { get; set; }
+    public DateTime StartDate
+        => DateTime.ParseExact(StartDateString, "yyyy-MM-dd", CultureInfo.InvariantCulture);
 
     public override ValidationResult Validate()
     {
         return base.Validate()
-                   .ValidateRequired(this, x => x.Path)
-                   .ValidatePath(this, x => x.Path);
+                   .ValidateRequired(this, x => x.Name)
+                   .ValidateRequired(this, x => x.CanvasDataString)
+                   .ValidateRequired(this, x => x.StartDateString)
+                   .ValidateDateString(this, "yyyy-MM-dd", x => x.StartDateString);
     }
 }
 
@@ -99,8 +97,7 @@ public class GenerateNewCommand : AsyncCommand<GenerateNewCommandSettings>
             return -1;
         }
 
-        var savePath = settings.Path ?? "repo.zip";
-        var saveResult = await _fileSaveService.SaveFileAsync(savePath, downloadResult.Value!, settings.Overwrite);
+        var saveResult = await _fileSaveService.SaveFileAsync(settings.OutputPath, downloadResult.Value!, settings.Overwrite);
 
         if (saveResult.IsFailure)
         {

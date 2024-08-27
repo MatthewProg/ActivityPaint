@@ -22,7 +22,7 @@ public class SaveCommandTests
     {
         // Arrange
         var model = GetValidModel();
-        model.CanvasData = null;
+        model.CanvasDataString = null!;
 
         // Act
         var result = model.Validate();
@@ -38,7 +38,7 @@ public class SaveCommandTests
     {
         // Arrange
         var model = GetValidModel();
-        model.StartDateString = startDate;
+        model.StartDateString = startDate!;
 
         // Act
         var result = model.Validate();
@@ -52,7 +52,7 @@ public class SaveCommandTests
     {
         // Arrange
         var model = GetValidModel();
-        model.Name = null;
+        model.Name = null!;
 
         // Act
         var result = model.Validate();
@@ -68,7 +68,7 @@ public class SaveCommandTests
     {
         // Arrange
         var model = GetValidModel();
-        model.Path = path;
+        model.Path = path!;
 
         // Act
         var result = model.Validate();
@@ -79,7 +79,7 @@ public class SaveCommandTests
 
     private static SaveCommandSettings GetValidModel() => new()
     {
-        CanvasData = "01234",
+        CanvasDataString = "01234",
         StartDateString = "2024-01-01",
         IsDarkModeDefault = true,
         Name = "Test",
