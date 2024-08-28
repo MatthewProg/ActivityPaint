@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace ActivityPaint.Client.Console.Commands.Generate;
 
-public class GenerateBranchSettings : CommandSettings
+public abstract class GenerateBranchSettings : CommandSettings
 {
     [CommandOption("--zip")]
     [Description("Save generated repository as a zip file instead of .git directory.")]

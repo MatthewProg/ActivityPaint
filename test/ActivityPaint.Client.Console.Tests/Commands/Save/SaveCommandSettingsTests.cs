@@ -1,11 +1,11 @@
 ﻿using ActivityPaint.Client.Console.Commands.Save;
 
-namespace ActivityPaint.Client.Console.Tests.Commands;
+namespace ActivityPaint.Client.Console.Tests.Commands.Save;
 
-public class SaveCommandTests
+public class GenerateNewCommandSettingsTests
 {
     [Fact]
-    public void SaveCommandSettings_WhenAllPropsAreCorrect_ShouldValidateSuccessfully()
+    public void Validate_WhenAllPropsAreCorrect_ShouldValidateSuccessfully()
     {
         // Arrange
         var model = GetValidModel();
@@ -18,7 +18,7 @@ public class SaveCommandTests
     }
 
     [Fact]
-    public void SaveCommandSettings_WhenIncorrectCanvasData_ShouldValidateSuccessfully()
+    public void Validate_WhenIncorrectCanvasDataString_ShouldFailValidation()
     {
         // Arrange
         var model = GetValidModel();
@@ -34,7 +34,7 @@ public class SaveCommandTests
     [Theory]
     [InlineData(null)]
     [InlineData("2020")]
-    public void SaveCommandSettings_WhenIncorrectStartDate_ShouldValidateSuccessfully(string? startDate)
+    public void Validate_WhenIncorrectStartDateString_ShouldFailValidation(string? startDate)
     {
         // Arrange
         var model = GetValidModel();
@@ -48,7 +48,7 @@ public class SaveCommandTests
     }
 
     [Fact]
-    public void SaveCommandSettings_WhenIncorrectName_ShouldValidateSuccessfully()
+    public void Validate_WhenIncorrectName_ShouldFailValidation()
     {
         // Arrange
         var model = GetValidModel();
@@ -64,7 +64,7 @@ public class SaveCommandTests
     [Theory]
     [InlineData(null)]
     [InlineData("https://wrong.com/test.json")]
-    public void SaveCommandSettings_WhenIncorrectPath_ShouldValidateSuccessfully(string? path)
+    public void Validate_WhenIncorrectPath_ShouldFailValidation(string? path)
     {
         // Arrange
         var model = GetValidModel();

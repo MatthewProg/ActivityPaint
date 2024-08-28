@@ -52,13 +52,21 @@ public static class ValidationResultExtensions
     private static string GetOptionName<TSource, TProperty>(Expression<Func<TSource, TProperty>> expression)
     {
         var propInfo = expression.GetPropertyInfo();
-        var attributes = propInfo.GetCustomAttributes(typeof(CommandOptionAttribute), false);
-        if (attributes.Length == 0)
+
+        var argumentAttributes = propInfo.GetCustomAttributes(typeof(CommandArgumentAttribute), false);
+        if (argumentAttributes.Length != 0)
         {
-            throw new ArgumentException($"Property in '{expression}' expression, is missing the CommandOptionAttribute.");
+            var argAttrib = (CommandArgumentAttribute)argumentAttributes[0];
+            return $"<{argAttrib.ValueName}>";
         }
 
-        var attribute = (CommandOptionAttribute)attributes[0];
+        var optionAttributes = propInfo.GetCustomAttributes(typeof(CommandOptionAttribute), false);
+        if (optionAttributes.Length == 0)
+        {
+            throw new ArgumentException($"Property in '{expression}' expression, is missing CommandOptionAttribute or CommandArgumentAttribute.");
+        }
+
+        var attribute = (CommandOptionAttribute)optionAttributes[0];
         var longName = attribute.LongNames.FirstOrDefault();
         if (longName is not null)
         {
