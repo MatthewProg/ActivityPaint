@@ -1,5 +1,4 @@
-﻿using ActivityPaint.Application.Abstractions.FileSystem;
-using ActivityPaint.Client.Console.Commands.Shared;
+﻿using ActivityPaint.Client.Console.Commands.Shared;
 using ActivityPaint.Client.Console.Services;
 using ActivityPaint.Client.Console.Validators;
 using ActivityPaint.Core.Enums;
@@ -47,12 +46,10 @@ public class GenerateNewCommandSettings : GenerateBranchSettings
 public class GenerateNewCommand : AsyncCommand<GenerateNewCommandSettings>
 {
     private readonly IErrorFeedbackService _errorFeedback;
-    private readonly IFileSaveService _fileSaveService;
     private readonly IMediator _mediator;
 
-    public GenerateNewCommand(IErrorFeedbackService errorFeedback, IFileSaveService fileSaveService, IMediator mediator)
+    public GenerateNewCommand(IErrorFeedbackService errorFeedback, IMediator mediator)
     {
-        _fileSaveService = fileSaveService;
         _errorFeedback = errorFeedback;
         _mediator = mediator;
     }
@@ -70,38 +67,14 @@ public class GenerateNewCommand : AsyncCommand<GenerateNewCommandSettings>
 
     private async Task<int> Generate(ProgressTask progressTask, GenerateNewCommandSettings settings)
     {
-        if (!settings.ZipMode)
-        {
-            var generateCommand = settings.ToGenerateRepoCommand(x => progressTask.MaxValue(x.Count).Value = x.Current);
-            progressTask.StartTask();
-
-            var generateResult = await _mediator.Send(generateCommand);
-
-            if (generateResult.IsFailure)
-            {
-                _errorFeedback.WriteError(generateResult.Error);
-                return -1;
-            }
-
-            return 0;
-        }
-
-        var downloadCommand = settings.ToDownloadRepoCommand(x => progressTask.MaxValue(x.Count).Value = x.Current);
+        var generateCommand = settings.ToGenerateRepoCommand(x => progressTask.MaxValue(x.Count).Value = x.Current);
         progressTask.StartTask();
 
-        var downloadResult = await _mediator.Send(downloadCommand);
+        var generateResult = await _mediator.Send(generateCommand);
 
-        if (downloadResult.IsFailure)
+        if (generateResult.IsFailure)
         {
-            _errorFeedback.WriteError(downloadResult.Error);
-            return -1;
-        }
-
-        var saveResult = await _fileSaveService.SaveFileAsync(settings.OutputPath, downloadResult.Value!, settings.Overwrite);
-
-        if (saveResult.IsFailure)
-        {
-            _errorFeedback.WriteError(downloadResult.Error);
+            _errorFeedback.WriteError(generateResult.Error);
             return -1;
         }
 

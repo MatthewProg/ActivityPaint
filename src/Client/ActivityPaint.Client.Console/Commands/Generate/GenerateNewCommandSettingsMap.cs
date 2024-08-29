@@ -22,14 +22,9 @@ public static class GenerateNewCommandSettingsMap
     public static GenerateRepoCommand ToGenerateRepoCommand(this GenerateNewCommandSettings model, Progress? callback = null) => new(
         Preset: model.ToPresetModel(),
         Author: model.ToAuthorModel(),
+        Zip: model.ZipMode,
         Path: model.OutputPath,
-        MessageFormat: model.MessageFormat,
-        ProgressCallback: callback
-    );
-
-    public static DownloadRepoCommand ToDownloadRepoCommand(this GenerateNewCommandSettings model, Progress? callback = null) => new(
-        Preset: model.ToPresetModel(),
-        Author: model.ToAuthorModel(),
+        Overwrite: model.Overwrite,
         MessageFormat: model.MessageFormat,
         ProgressCallback: callback
     );

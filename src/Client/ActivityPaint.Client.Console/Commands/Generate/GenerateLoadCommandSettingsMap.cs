@@ -15,14 +15,9 @@ public static class GenerateLoadCommandSettingsMap
     public static GenerateRepoCommand ToGenerateRepoCommand(this GenerateLoadCommandSettings model, PresetModel preset, Progress? callback = null) => new(
         Preset: preset,
         Author: model.ToAuthorModel(),
+        Zip: model.ZipMode,
         Path: model.OutputPath,
-        MessageFormat: model.MessageFormat,
-        ProgressCallback: callback
-    );
-
-    public static DownloadRepoCommand ToDownloadRepoCommand(this GenerateLoadCommandSettings model, PresetModel preset, Progress? callback = null) => new(
-        Preset: preset,
-        Author: model.ToAuthorModel(),
+        Overwrite: model.Overwrite,
         MessageFormat: model.MessageFormat,
         ProgressCallback: callback
     );
