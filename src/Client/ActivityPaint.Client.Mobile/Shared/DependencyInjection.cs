@@ -1,6 +1,7 @@
 ﻿using ActivityPaint.Application.Abstractions.Interactions;
 using ActivityPaint.Client.Components;
 using ActivityPaint.Client.Mobile.Shared.Interactions;
+using ActivityPaint.Integration.Database;
 using ActivityPaint.Integration.FileSystem;
 using ActivityPaint.Integration.Repository;
 using CommunityToolkit.Maui.Storage;
@@ -12,6 +13,7 @@ public static class DependencyInjection
     public static void AddApplication(this IServiceCollection services)
     {
         services.AddClientComponents();
+        services.AddDatabaseIntegration();
         services.AddFileSystemIntegration();
         services.AddRepositoryIntegration();
         services.AddMobile();

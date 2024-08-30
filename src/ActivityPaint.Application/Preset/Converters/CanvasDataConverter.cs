@@ -5,11 +5,11 @@ using System.Text.Json.Serialization;
 
 namespace ActivityPaint.Application.BusinessLogic.Preset.Converters;
 
-internal class CanvasDataConverter : JsonConverter<IEnumerable<IntensityEnum>>
+internal class CanvasDataConverter : JsonConverter<List<IntensityEnum>>
 {
-    public override IEnumerable<IntensityEnum>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+    public override List<IntensityEnum>? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         => CanvasDataHelper.ConvertToList(reader.GetString()!);
 
-    public override void Write(Utf8JsonWriter writer, IEnumerable<IntensityEnum> value, JsonSerializerOptions options)
+    public override void Write(Utf8JsonWriter writer, List<IntensityEnum> value, JsonSerializerOptions options)
         => writer.WriteStringValue(CanvasDataHelper.ConvertToString(value));
 }

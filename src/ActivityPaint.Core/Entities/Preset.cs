@@ -10,5 +10,5 @@ public sealed class Preset : BaseEntity
 
     public bool IsDarkModeDefault { get; set; }
 
-    public required IEnumerable<IntensityEnum> CanvasData { get; set; }
+    public List<IntensityEnum> CanvasData { get; set; } = [];
 }
