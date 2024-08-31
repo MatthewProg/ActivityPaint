@@ -12,13 +12,13 @@ public static class DependencyInjection
 
     private static void AddEntityFramework(this IServiceCollection services)
     {
-        services.AddDbContext<ActivityPaintContext>(options =>
+        services.AddDbContextFactory<ActivityPaintContext>(options =>
         {
+            options.UseSqlite("Data Source=C:/tmp/db.sqlite");
 #if DEBUG
-            options.EnableDetailedErrors();
-            options.EnableSensitiveDataLogging();
+            options.EnableDetailedErrors()
+                   .EnableSensitiveDataLogging();
 #endif
-            options.UseSqlite("Data Source=data/db.sqlite");
         });
     }
 }
