@@ -1,16 +1,16 @@
 ﻿using ActivityPaint.Application.Abstractions.FileSystem;
 using ActivityPaint.Application.Abstractions.Interactions;
+using ActivityPaint.Application.BusinessLogic.Preset.Mappers;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
-using ActivityPaint.Application.BusinessLogic.Shared.Preset;
-using ActivityPaint.Application.DTOs.Extensions;
-using ActivityPaint.Application.DTOs.Models;
+using ActivityPaint.Application.DTOs.Preset;
+using ActivityPaint.Application.DTOs.Shared.Extensions;
 using ActivityPaint.Core.Shared.Result;
 using FluentValidation;
 using System.Text.Json;
 
 namespace ActivityPaint.Application.BusinessLogic.Preset;
 
-public record SavePresetCommand(
+public sealed record SavePresetCommand(
     PresetModel Preset,
     string? Path = null,
     bool Overwrite = false
@@ -23,6 +23,9 @@ internal class SavePresetCommandValidator : AbstractValidator<SavePresetCommand>
         RuleFor(x => x.Preset)
             .NotNull()
             .SetDefaultValidator(presetValidators);
+
+        RuleFor(x => x.Path)
+            .Path();
     }
 }
 

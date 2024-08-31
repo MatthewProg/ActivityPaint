@@ -52,6 +52,19 @@
           "Microsoft.Extensions.Dependencyinjection.Abstractions": "2.1.0"
         }
       },
+      "LibGit2Sharp": {
+        "type": "Transitive",
+        "resolved": "0.30.0",
+        "contentHash": "1cBg/7nz6q+yzvComhqQaTS4nbXloLp/x29ZgY/Rr82ohpkuaWT8ZYzsPLFvs1zmCh/4xQbVt5sQxazGblgRig==",
+        "dependencies": {
+          "LibGit2Sharp.NativeBinaries": "[2.0.322]"
+        }
+      },
+      "LibGit2Sharp.NativeBinaries": {
+        "type": "Transitive",
+        "resolved": "2.0.322",
+        "contentHash": "EWQaEevzc8uS1ZGS6T83jqUPBY//2WUSCHwbZHBoHOjlfSehqr30nm/VAhJPzjam/69sv7nlLKVcho9t2XuR/Q=="
+      },
       "Mediator.Abstractions": {
         "type": "Transitive",
         "resolved": "2.1.7",
@@ -298,14 +311,13 @@
       "activitypaint.application.abstractions": {
         "type": "Project",
         "dependencies": {
-          "ActivityPaint.Core": "[1.0.0, )"
+          "ActivityPaint.Application.DTOs": "[1.0.0, )"
         }
       },
       "activitypaint.application.businesslogic": {
         "type": "Project",
         "dependencies": {
           "ActivityPaint.Application.Abstractions": "[1.0.0, )",
-          "ActivityPaint.Application.DTOs": "[1.0.0, )",
           "Mediator.Abstractions": "[2.1.7, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[8.0.1, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )"
@@ -339,9 +351,21 @@
         "dependencies": {
           "ActivityPaint.Application.Abstractions": "[1.0.0, )"
         }
+      },
+      "activitypaint.integration.repository": {
+        "type": "Project",
+        "dependencies": {
+          "ActivityPaint.Application.Abstractions": "[1.0.0, )",
+          "LibGit2Sharp": "[0.30.0, )"
+        }
       }
     },
     "net8.0/browser-wasm": {
+      "LibGit2Sharp.NativeBinaries": {
+        "type": "Transitive",
+        "resolved": "2.0.322",
+        "contentHash": "EWQaEevzc8uS1ZGS6T83jqUPBY//2WUSCHwbZHBoHOjlfSehqr30nm/VAhJPzjam/69sv7nlLKVcho9t2XuR/Q=="
+      },
       "System.Text.Encodings.Web": {
         "type": "Transitive",
         "resolved": "8.0.0",

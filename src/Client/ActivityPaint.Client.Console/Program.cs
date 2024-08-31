@@ -1,4 +1,5 @@
-﻿using ActivityPaint.Client.Console.Commands.Save;
+﻿using ActivityPaint.Client.Console.Commands.Generate;
+using ActivityPaint.Client.Console.Commands.Save;
 using ActivityPaint.Client.Console.Config;
 using Spectre.Console.Cli;
 
@@ -14,6 +15,19 @@ app.Configure(config =>
     config.AddCommand<SaveCommand>("save")
           .WithAlias("s")
           .WithDescription("Saves canvas data as a preset file in the specified location.");
+
+    config.AddBranch<GenerateBranchSettings>("generate", generate =>
+    {
+        generate.SetDescription("Generate repository based on a preset file or arguments provided.");
+
+        generate.AddCommand<GenerateNewCommand>("new")
+                .WithAlias("n")
+                .WithDescription("Generate repository by providing all the details as arguments.");
+
+        generate.AddCommand<GenerateLoadCommand>("load")
+                .WithAlias("l")
+                .WithDescription("Generate repository using a preset file.");
+    }).WithAlias("g");
 });
 
 return await app.RunAsync(args);

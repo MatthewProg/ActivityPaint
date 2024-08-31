@@ -1,65 +1,54 @@
-﻿using Spectre.Console;
-using System.Globalization;
+﻿using ActivityPaint.Application.DTOs.Shared.Validators;
+using ActivityPaint.Core.Extensions;
+using Spectre.Console;
 
 namespace ActivityPaint.Client.Console.Validators;
 
 public static class OptionsValidator
 {
-    private static readonly char[] InvalidPathChars = Path.GetInvalidFileNameChars()
-                                                          .Where(x => x is not '\\' and not '/' and not ':')
-                                                          .ToArray();
-
     public static bool ValidateRequired<T>(T? value, string optionName, out ValidationResult result)
     {
-        if (value is null
-            || (value is string valueStr && string.IsNullOrWhiteSpace(valueStr)))
-        {
-            result = ValidationResult.Error($"'{optionName}' option is required.");
-            return false;
-        }
+        var output = CommonValidators.ValidateRequired<T>(value, out var innerResult);
 
-        result = ValidationResult.Success();
-        return true;
+        result = innerResult.IsSuccess
+            ? ValidationResult.Success()
+            : ValidationResult.Error(FormatMessage(innerResult.Error.Message, optionName));
+
+        return output;
     }
 
     public static bool ValidateDateString(string? value, string format, string optionName, out ValidationResult result)
     {
-        if (!DateTime.TryParseExact(value, format, CultureInfo.InvariantCulture, DateTimeStyles.None, out _))
-        {
-            result = ValidationResult.Error($"'{optionName}' value is not a valid date in '{format}' format.");
-            return false;
-        }
+        var output = CommonValidators.ValidateDateString(value, format, out var innerResult);
 
-        result = ValidationResult.Success();
-        return true;
+        result = innerResult.IsSuccess
+            ? ValidationResult.Success()
+            : ValidationResult.Error(FormatMessage(innerResult.Error.Message, optionName));
+
+        return output;
     }
 
     public static bool ValidatePath(string? value, string optionName, out ValidationResult result)
     {
-        if (!ValidateRequired(value, optionName, out result))
-        {
-            return false;
-        }
+        var output = CommonValidators.ValidatePath(value, out var innerResult);
 
-        if (value!.IndexOfAny(InvalidPathChars) != -1)
-        {
-            result = ValidationResult.Error($"'{optionName}' value contains invalid characters.");
-            return false;
-        }
+        result = innerResult.IsSuccess
+            ? ValidationResult.Success()
+            : ValidationResult.Error(FormatMessage(innerResult.Error.Message, optionName));
 
-        if (!Uri.TryCreate(value, UriKind.RelativeOrAbsolute, out var parsedUri))
-        {
-            result = ValidationResult.Error($"'{optionName}' value is not a valid path.");
-            return false;
-        }
+        return output;
+    }
 
-        if (parsedUri.IsAbsoluteUri && !parsedUri.IsFile)
+    private static string FormatMessage(string innerErrorMessage, string optionName)
+    {
+        var normalized = innerErrorMessage switch
         {
-            result = ValidationResult.Error($"'{optionName}' value is not a valid file path.");
-            return false;
-        }
+            null or "" => "value is invalid",
+            { Length: 1 } => innerErrorMessage[0].ToLower().ToString(),
+            { Length: > 1 } => $"{innerErrorMessage[0].ToLower()}{innerErrorMessage[1..]}",
+            _ => "value is invalid"
+        };
 
-        result = ValidationResult.Success();
-        return true;
+        return $"'{optionName}' {normalized}";
     }
 }

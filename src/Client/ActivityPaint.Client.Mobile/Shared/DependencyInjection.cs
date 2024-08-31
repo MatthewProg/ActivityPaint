@@ -2,6 +2,7 @@
 using ActivityPaint.Client.Components;
 using ActivityPaint.Client.Mobile.Shared.Interactions;
 using ActivityPaint.Integration.FileSystem;
+using ActivityPaint.Integration.Repository;
 using CommunityToolkit.Maui.Storage;
 
 namespace ActivityPaint.Client.Mobile.Shared;
@@ -12,6 +13,7 @@ public static class DependencyInjection
     {
         services.AddClientComponents();
         services.AddFileSystemIntegration();
+        services.AddRepositoryIntegration();
         services.AddMobile();
     }
 

@@ -1,15 +1,26 @@
 ﻿using ActivityPaint.Application.Abstractions.FileSystem;
 using ActivityPaint.Application.Abstractions.Interactions;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
-using ActivityPaint.Application.DTOs.Models;
+using ActivityPaint.Application.DTOs.Preset;
+using ActivityPaint.Application.DTOs.Shared.Extensions;
 using ActivityPaint.Core.Shared.Result;
+using FluentValidation;
 using Mediator;
 
 namespace ActivityPaint.Application.BusinessLogic.Preset;
 
-public record LoadPresetCommand(
+public sealed record LoadPresetCommand(
     string? Path = null
 ) : IResultRequest<PresetModel?>;
+
+internal class LoadPresetCommandValidator : AbstractValidator<LoadPresetCommand>
+{
+    public LoadPresetCommandValidator()
+    {
+        RuleFor(x => x.Path)
+            .Path();
+    }
+}
 
 internal class LoadPresetCommandHandler : IResultRequestHandler<LoadPresetCommand, PresetModel?>
 {

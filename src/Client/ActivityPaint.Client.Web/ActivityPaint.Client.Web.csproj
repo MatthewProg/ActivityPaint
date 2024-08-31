@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Integration\ActivityPaint.Integration.FileSystem\ActivityPaint.Integration.FileSystem.csproj" />
+    <ProjectReference Include="..\..\Integration\ActivityPaint.Integration.Repository\ActivityPaint.Integration.Repository.csproj" />
     <ProjectReference Include="..\ActivityPaint.Client.Components\ActivityPaint.Client.Components.csproj" />
   </ItemGroup>
 

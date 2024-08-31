@@ -1,4 +1,3 @@
-﻿global using ActivityPaint.Application.DTOs.Models;
-global using ActivityPaint.Application.DTOs.Validators;
+﻿global using FluentAssertions;
 global using FluentValidation.TestHelper;
 global using Xunit;

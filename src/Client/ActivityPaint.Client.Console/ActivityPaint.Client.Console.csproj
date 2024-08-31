@@ -33,6 +33,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ActivityPaint.Application\ActivityPaint.Application.BusinessLogic.csproj" />
     <ProjectReference Include="..\..\Integration\ActivityPaint.Integration.FileSystem\ActivityPaint.Integration.FileSystem.csproj" />
+    <ProjectReference Include="..\..\Integration\ActivityPaint.Integration.Repository\ActivityPaint.Integration.Repository.csproj" />
   </ItemGroup>
 
 </Project>

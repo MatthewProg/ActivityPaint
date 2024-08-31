@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Application.Abstractions.Interactions;
+using ActivityPaint.Application.BusinessLogic.Generate.Services;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator.Pipelines;
 using ActivityPaint.Application.DTOs;
 using ActivityPaint.Core;
@@ -16,13 +17,19 @@ public static class DependencyInjection
         services.AddCore();
         services.AddDTOs();
 
-        services.AddValidation();
         services.AddCQRS();
+        services.AddServices();
+        services.AddValidation();
     }
 
     public static void ValidateBusinessLogicDI(this IServiceCollection services)
     {
         services.ThrowIfNotRegistered<IFileSystemInteraction>();
+    }
+
+    private static void AddServices(this IServiceCollection services)
+    {
+        services.AddScoped<ICommitsService, CommitsService>();
     }
 
     private static void AddCQRS(this IServiceCollection services)

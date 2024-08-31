@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ActivityPaint.Core\ActivityPaint.Core.csproj" />
+    <ProjectReference Include="..\ActivityPaint.Application.DTOs\ActivityPaint.Application.DTOs.csproj" />
   </ItemGroup>
 
 </Project>

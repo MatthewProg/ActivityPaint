@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildProjectName).Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Mediator.Abstractions" Version="2.1.7" />
     <PackageReference Include="Mediator.SourceGenerator" Version="2.1.7">
       <PrivateAssets>all</PrivateAssets>
@@ -20,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ActivityPaint.Application.Abstractions\ActivityPaint.Application.Abstractions.csproj" />
-    <ProjectReference Include="..\ActivityPaint.Application.DTOs\ActivityPaint.Application.DTOs.csproj" />
   </ItemGroup>
 
 </Project>
