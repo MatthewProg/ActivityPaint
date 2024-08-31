@@ -22,12 +22,16 @@ jobs:
           dotnet restore ./test/ActivityPaint.Core.Tests/ActivityPaint.Core.Tests.csproj --locked-mode
           dotnet restore ./test/ActivityPaint.Client.Console.Tests/ActivityPaint.Client.Console.Tests.csproj --locked-mode
           dotnet restore ./test/ActivityPaint.Application.DTOs.Tests/ActivityPaint.Application.DTOs.Tests.csproj --locked-mode
+          dotnet restore ./test/ActivityPaint.Application.BusinessLogic.Tests/ActivityPaint.Application.BusinessLogic.Tests.csproj --locked-mode
 
       - name: Run Core Tests
         run: dotnet test ./test/ActivityPaint.Core.Tests/ActivityPaint.Core.Tests.csproj --no-restore
 
       - name: Run DTO Tests
         run: dotnet test ./test/ActivityPaint.Application.DTOs.Tests/ActivityPaint.Application.DTOs.Tests.csproj --no-restore
+
+      - name: Run Business Logic Tests
+        run: dotnet test ./test/ActivityPaint.Application.BusinessLogic.Tests/ActivityPaint.Application.BusinessLogic.Tests.csproj --no-restore
 
       - name: Run Console Tests
         run: dotnet test ./test/ActivityPaint.Client.Console.Tests/ActivityPaint.Client.Console.Tests.csproj --no-restore
