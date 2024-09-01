@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.Abstractions.Database;
+﻿using ActivityPaint.Application.Abstractions.Database.Repositories;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Repository;
 using ActivityPaint.Core.Shared.Result;

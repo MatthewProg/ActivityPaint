@@ -26,6 +26,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IPaintCanvasInterop, PaintCanvasInterop>();
         services.AddScoped<IFileSystemInterop, FileSystemInterop>();
+        services.AddScoped<IDatabaseStorageInterop, DatabaseStorageInterop>();
 
         services.AddScoped<IFeedbackService, FeedbackService>();
     }

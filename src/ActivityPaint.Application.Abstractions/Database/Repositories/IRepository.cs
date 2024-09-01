@@ -1,6 +1,6 @@
 ﻿using ActivityPaint.Core.Entities;
 
-namespace ActivityPaint.Application.Abstractions.Database;
+namespace ActivityPaint.Application.Abstractions.Database.Repositories;
 
 public interface IRepository<T> where T : BaseEntity
 {

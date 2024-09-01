@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.Abstractions.Database;
+﻿using ActivityPaint.Application.Abstractions.Database.Repositories;
 using ActivityPaint.Core.Entities;
 
 namespace ActivityPaint.Integration.Database.Repositories;

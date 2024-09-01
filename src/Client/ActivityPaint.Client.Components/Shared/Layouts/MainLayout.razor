@@ -1,6 +1,10 @@
-﻿@using ActivityPaint.Client.Components.Shared.Components
+﻿@using ActivityPaint.Application.Abstractions.Database
+@using ActivityPaint.Client.Components.Shared.Components
+@using ActivityPaint.Client.Components.Shared.Interops
 @using ActivityPaint.Client.Components.Shared.Theming
 @inherits LayoutComponentBase
+@inject IDatabaseConfigService DatabaseConfigService
+@inject IDatabaseStorageInterop DatabaseStorageInterop
 
 <MudThemeProvider @ref="@_mudThemeProvider" IsDarkMode="_defaultTheme.IsDarkMode" Theme="_defaultTheme.MudTheme" />
 <MudPopoverProvider />
@@ -23,6 +27,18 @@
     private ThemeModel _defaultTheme = new ThemeModel();
     private MudThemeProvider? _mudThemeProvider;
     private bool _drawerOpen = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (OperatingSystem.IsBrowser())
+        {
+            var dbPath = DatabaseConfigService.GetDatabasePath();
+            await DatabaseStorageInterop.SynchronizeFileWithIndexedDb(dbPath);
+            await DatabaseConfigService.EnsureCreatedAsync();
+        }
+
+        await base.OnInitializedAsync();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

@@ -1,5 +1,7 @@
 ﻿using ActivityPaint.Application.Abstractions.Database;
+using ActivityPaint.Application.Abstractions.Database.Repositories;
 using ActivityPaint.Integration.Database.Repositories;
+using ActivityPaint.Integration.Database.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,6 +13,8 @@ public static class DependencyInjection
     {
         services.AddEntityFramework();
         services.AddRepositories();
+
+        services.AddScoped<IDatabaseConfigService, DatabaseConfigService>();
     }
 
     private static void AddRepositories(this IServiceCollection services)
@@ -23,7 +27,7 @@ public static class DependencyInjection
     {
         services.AddDbContextFactory<ActivityPaintContext>(options =>
         {
-            options.UseSqlite("Data Source=C:/tmp/db.sqlite");
+            options.UseSqlite($"Filename={GlobalConfig.DB_FILE_PATH}");
 #if DEBUG
             options.EnableDetailedErrors()
                    .EnableSensitiveDataLogging();
