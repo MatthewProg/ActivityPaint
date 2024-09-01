@@ -1,0 +1,84 @@
+﻿@using ActivityPaint.Application.BusinessLogic.Repository
+@using ActivityPaint.Application.DTOs.Repository
+@using ActivityPaint.Client.Components.Shared.Services
+@using Mediator
+@inject IFeedbackService FeedbackService
+@inject IMediator Mediator
+<MudForm>
+    <MudGrid>
+        <MudItem xs="12" sm="5" lg="4">
+            <MudCard Elevation="3" Class="mud-height-full">
+                <MudCardContent>
+                    <h2 class="mb-1">Commits</h2>
+                    <MudTextField Label="Author Full Name" @bind-Value="_model.AuthorFullName" Class="mb-2" />
+                    <MudTextField Label="Author Email" @bind-Value="_model.AuthorEmail" />
+                </MudCardContent>
+                <MudCardActions Class="justify-space-between px-4">
+                    <MudButton OnClick="Reset">Reset</MudButton>
+                    <MudButton OnClick="Save" Variant="Variant.Filled">Save</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+        <MudItem xs="12" sm="7" lg="8">
+            <MudPaper Elevation="3" Class="d-flex flex-column pa-4">
+                <MudTextField Label="Message Format" @bind-Value="_model.MessageFormat" />
+                <MudTextField ReadOnly="true" Lines="10" @bind-Value="_commitMsgPreview" />
+            </MudPaper>
+        </MudItem>
+        <MudItem xs="12">
+            <MudExpansionPanels Elevation="3">
+                <MudExpansionPanel Text="Message format cheat sheet">
+                    <MudText>
+                        <b>{name}</b> - name of the preset<br />
+                        <b>{start_date}</b> - start date ("yyyy-MM-dd" format)<br />
+                        <b>{current_date}</b> - start date increased by the current day number ("yyyy-MM-dd" format)<br />
+                        <b>{current_day}</b> - current day number (first day = 1)<br />
+                        <b>{current_day_commit}</b> - current commit number (this day)<br />
+                        <b>{current_total}</b> - current commit number overall<br />
+                        <b>{total_count}</b> - total number of commits to be created
+                    </MudText>
+                </MudExpansionPanel>
+            </MudExpansionPanels>
+        </MudItem>
+    </MudGrid>
+</MudForm>
+@code {
+    private ConfigurationModel _model = new();
+    private string _commitMsgPreview = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Reset();
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task Reset()
+    {
+        var getConfigCommand = new GetRepositoryConfigCommand();
+        var getConfigResult = await Mediator.Send(getConfigCommand);
+
+        if (getConfigResult.IsFailure)
+        {
+            FeedbackService.ShowError(getConfigResult.Error);
+            return;
+        }
+
+        ConfigurationModelMap.MapFromRepositoryConfigModel(getConfigResult.Value!, _model);
+    }
+
+    private async Task Save()
+    {
+        var config = _model.ToRepositoryConfigModel();
+        var updateConfigCommand = new UpdateRepositoryConfigCommand(config);
+        var updateConfigResult = await Mediator.Send(updateConfigCommand);
+
+        if (updateConfigResult.IsFailure)
+        {
+            FeedbackService.ShowError(updateConfigResult.Error);
+            return;
+        }
+
+        await Reset();
+    }
+}

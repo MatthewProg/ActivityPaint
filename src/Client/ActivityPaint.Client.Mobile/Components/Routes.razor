@@ -1,6 +1,26 @@
-﻿<Router AppAssembly="@typeof(MauiProgram).Assembly">
+﻿@using ActivityPaint.Client.Components.Shared.Services
+@inject IAppInitializationService AppInitializationService
+
+<Router AppAssembly="@typeof(MauiProgram).Assembly">
     <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+        @if (_appInitialized)
+        {
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        }
+        else
+        {
+            <p>Initializing..</p>
+        }
     </Found>
 </Router>
+
+@code {
+    private bool _appInitialized = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AppInitializationService.InitAsync();
+
+        await base.OnInitializedAsync();
+    }
+}

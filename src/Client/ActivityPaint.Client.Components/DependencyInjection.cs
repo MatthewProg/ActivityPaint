@@ -28,6 +28,7 @@ public static class DependencyInjection
         services.AddScoped<IFileSystemInterop, FileSystemInterop>();
         services.AddScoped<IDatabaseStorageInterop, DatabaseStorageInterop>();
 
+        services.AddScoped<IAppInitializationService, AppInitializationService>();
         services.AddScoped<IFeedbackService, FeedbackService>();
     }
 

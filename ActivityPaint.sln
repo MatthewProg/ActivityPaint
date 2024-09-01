@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Application.B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Integration.Database", "src\Integration\ActivityPaint.Integration.Database\ActivityPaint.Integration.Database.csproj", "{515F2E5C-BC6A-49F3-97C5-B8DE34223434}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Integration.Database.SeedData", "src\Integration\ActivityPaint.Integration.Database.SeedData\ActivityPaint.Integration.Database.SeedData.csproj", "{E2B55FFE-7AAE-4D9C-8DC5-78555ED71FDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Integration.Database.SeedData", "src\Integration\ActivityPaint.Integration.Database.SeedData\ActivityPaint.Integration.Database.SeedData.csproj", "{E2B55FFE-7AAE-4D9C-8DC5-78555ED71FDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
