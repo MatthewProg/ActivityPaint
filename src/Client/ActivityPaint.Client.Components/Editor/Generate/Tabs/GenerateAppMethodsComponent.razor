@@ -1,5 +1,7 @@
 ﻿@using ActivityPaint.Application.BusinessLogic.Generate
 @using ActivityPaint.Application.BusinessLogic.Preset
+@using ActivityPaint.Application.BusinessLogic.Repository
+@using ActivityPaint.Application.DTOs.Repository
 @using ActivityPaint.Client.Components.Shared.Services
 @using ActivityPaint.Core.Entities
 @using Mediator
@@ -59,17 +61,26 @@ else
     {
         if (EditorModel is null) return;
 
+        var getConfigCommand = new GetRepositoryConfigCommand();
+        var configResult = await Mediator.Send(getConfigCommand);
+        if (configResult.IsFailure)
+        {
+            FeedbackService.ShowError(configResult.Error);
+            return;
+        }
+
         var preset = EditorModel.ToPresetModel();
-        var command = new GenerateRepoCommand(
+        var author = configResult.Value!.ToAuthorModel();
+        var generateCommand = new GenerateRepoCommand(
             Preset: preset,
-            Author: new ("email@example.com", "Activity Paint"),
+            Author: author,
             Zip: true
         );
 
-        var result = await Mediator.Send(command);
-        if (result.IsFailure)
+        var generateResult = await Mediator.Send(generateCommand);
+        if (generateResult.IsFailure)
         {
-            FeedbackService.ShowError(result.Error);
+            FeedbackService.ShowError(generateResult.Error);
         }
     }
 }
