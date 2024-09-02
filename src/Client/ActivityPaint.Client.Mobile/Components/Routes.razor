@@ -20,6 +20,7 @@
     protected override async Task OnInitializedAsync()
     {
         await AppInitializationService.InitAsync();
+        _appInitialized = true;
 
         await base.OnInitializedAsync();
     }

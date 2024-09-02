@@ -1,0 +1,8 @@
+﻿::deep .message-preview__textarea > div {
+    background-color: rgba(0, 0, 0, .09);
+    padding: .125rem .5rem;
+}
+
+    ::deep .message-preview__textarea > div textarea {
+        white-space: pre;
+    }

@@ -16,6 +16,7 @@ internal class RepositoryConfigRepository : GenericRepository<RepositoryConfig>,
     public async ValueTask<RepositoryConfig?> GetFirstAsync(CancellationToken cancellationToken = default)
     {
         var item = await _context.RepositoryConfigs
+                                 .AsNoTracking()
                                  .FirstOrDefaultAsync(cancellationToken);
 
         return item;

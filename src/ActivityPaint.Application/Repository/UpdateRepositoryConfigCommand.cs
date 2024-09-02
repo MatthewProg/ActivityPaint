@@ -32,6 +32,10 @@ internal class UpdateRepositoryConfigCommandHandler : IResultRequestHandler<Upda
     {
         var model = request.Model.ToRepositoryConfig();
 
+        model.MessageFormat = model.MessageFormat == string.Empty ? null : model.MessageFormat;
+        model.AuthorFullName = model.AuthorFullName == string.Empty ? null : model.AuthorFullName;
+        model.AuthorEmail = model.AuthorEmail == string.Empty ? null : model.AuthorEmail;
+
         await _repositoryConfigRepository.UpsertFirstAsync(model, cancellationToken);
 
         return Result.Success();

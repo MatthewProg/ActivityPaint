@@ -16,6 +16,7 @@ internal abstract class GenericRepository<T> : IRepository<T> where T : BaseEnti
     public async ValueTask<List<T>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         var data = await _context.Set<T>()
+                                 .AsNoTracking()
                                  .ToListAsync(cancellationToken);
 
         return data;
@@ -24,6 +25,7 @@ internal abstract class GenericRepository<T> : IRepository<T> where T : BaseEnti
     public async ValueTask<T?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         var item = await _context.Set<T>()
+                                 .AsNoTracking()
                                  .FirstOrDefaultAsync(cancellationToken);
 
         return item;

@@ -1,5 +1,6 @@
 ﻿@using ActivityPaint.Application.BusinessLogic.Repository
 @using ActivityPaint.Application.DTOs.Repository
+@using ActivityPaint.Client.Components.Configuration.Commits
 @using ActivityPaint.Client.Components.Shared.Services
 @using Mediator
 @inject IFeedbackService FeedbackService
@@ -21,8 +22,7 @@
         </MudItem>
         <MudItem xs="12" sm="7" lg="8">
             <MudPaper Elevation="3" Class="d-flex flex-column pa-4">
-                <MudTextField Label="Message Format" @bind-Value="_model.MessageFormat" />
-                <MudTextField ReadOnly="true" Lines="10" @bind-Value="_commitMsgPreview" />
+                <CommitsMessageComponent @bind-MessageFormat="_model.MessageFormat" />
             </MudPaper>
         </MudItem>
         <MudItem xs="12">
@@ -44,7 +44,6 @@
 </MudForm>
 @code {
     private ConfigurationModel _model = new();
-    private string _commitMsgPreview = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -79,6 +78,7 @@
             return;
         }
 
+        FeedbackService.Show("Configuration saved!", Severity.Success);
         await Reset();
     }
 }
