@@ -13,5 +13,5 @@ internal sealed record PresetFileModel
     public bool IsDarkModeDefault { get; init; }
 
     [JsonConverter(typeof(CanvasDataConverter))]
-    public required IEnumerable<IntensityEnum> CanvasData { get; init; }
+    public required List<IntensityEnum> CanvasData { get; init; }
 }

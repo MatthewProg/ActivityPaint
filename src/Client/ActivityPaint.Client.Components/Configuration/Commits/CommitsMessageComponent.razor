@@ -1,0 +1,69 @@
+﻿@using ActivityPaint.Application.BusinessLogic.Generate
+@using ActivityPaint.Application.DTOs.Preset
+@using ActivityPaint.Client.Components.Shared.Services
+@using ActivityPaint.Core.Enums
+@using Mediator
+@inject IFeedbackService FeedbackService
+@inject IMediator Mediator
+
+<div>
+    <MudTextField Label="Message Format" @bind-Value:get="MessageFormat" @bind-Value:set="FormatChanged" DebounceInterval="500" />
+    <MudTextField ReadOnly="true" Lines="10" Class="message-preview__textarea" @bind-Value="_commitMsgPreview" />
+</div>
+
+@code {
+    private static readonly PresetModel _exampleModel = new(
+        Name: "Example",
+        StartDate: new DateTime(2024, 12, 9),
+        IsDarkModeDefault: true,
+        CanvasData: [
+            IntensityEnum.Level2,
+            IntensityEnum.Level1,
+            IntensityEnum.Level0,
+            IntensityEnum.Level0,
+            IntensityEnum.Level1,
+            IntensityEnum.Level4,
+            IntensityEnum.Level2
+        ]
+    );
+    private static readonly GenerateCommitsCommand _generateCommitsCommand = new(_exampleModel, null);
+    private string _commitMsgPreview = string.Empty;
+
+    [Parameter, EditorRequired]
+    public string? MessageFormat { get; set; }
+
+    [Parameter]
+    public EventCallback<string?> MessageFormatChanged { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await UpdatePreview(MessageFormat);
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task FormatChanged(string? newValue)
+    {
+        if (newValue == string.Empty)
+        {
+            newValue = null;
+        }
+
+        await UpdatePreview(newValue);
+
+        await MessageFormatChanged.InvokeAsync(newValue);
+    }
+
+    private async Task UpdatePreview(string? newFormat)
+    {
+        var commitsCommand = _generateCommitsCommand with { MessageFormat = newFormat };
+        var commitsResult = await Mediator.Send(commitsCommand);
+        if (commitsResult.IsFailure)
+        {
+            FeedbackService.ShowError(commitsResult.Error);
+            return;
+        }
+
+        _commitMsgPreview = string.Join('\n', commitsResult.Value!.Select(x => x.Message));
+    }
+}

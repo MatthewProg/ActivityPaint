@@ -1,0 +1,38 @@
+﻿using ActivityPaint.Application.Abstractions.Database.Repositories;
+using ActivityPaint.Core.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace ActivityPaint.Integration.Database.Repositories;
+
+internal class RepositoryConfigRepository : GenericRepository<RepositoryConfig>, IRepositoryConfigRepository
+{
+    private readonly ActivityPaintContext _context;
+
+    public RepositoryConfigRepository(ActivityPaintContext context) : base(context)
+    {
+        _context = context;
+    }
+
+    public async ValueTask<RepositoryConfig?> GetFirstAsync(CancellationToken cancellationToken = default)
+    {
+        var item = await _context.RepositoryConfigs
+                                 .AsNoTracking()
+                                 .FirstOrDefaultAsync(cancellationToken);
+
+        return item;
+    }
+
+    public async ValueTask UpsertFirstAsync(RepositoryConfig model, CancellationToken cancellationToken = default)
+    {
+        var dbItem = await GetFirstAsync(cancellationToken);
+
+        if (dbItem is null)
+        {
+            await InsertAsync(model, cancellationToken);
+            return;
+        }
+
+        model.Id = dbItem.Id;
+        await UpdateAsync(model, cancellationToken);
+    }
+}

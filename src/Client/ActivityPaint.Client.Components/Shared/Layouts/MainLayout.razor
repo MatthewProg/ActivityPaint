@@ -1,4 +1,6 @@
-﻿@using ActivityPaint.Client.Components.Shared.Components
+﻿@using ActivityPaint.Application.Abstractions.Database
+@using ActivityPaint.Client.Components.Shared.Components
+@using ActivityPaint.Client.Components.Shared.Interops
 @using ActivityPaint.Client.Components.Shared.Theming
 @inherits LayoutComponentBase
 
@@ -14,7 +16,9 @@
             <NavMenu />
         </MudDrawer>
         <MudMainContent Class="mt-16 pa-4">
-            @Body
+            <MudContainer Fixed="true">
+                @Body
+            </MudContainer>
         </MudMainContent>
     </MudLayout>
 </CascadingValue>
