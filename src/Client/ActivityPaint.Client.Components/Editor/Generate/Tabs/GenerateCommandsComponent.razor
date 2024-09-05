@@ -1,7 +1,9 @@
-﻿@using ActivityPaint.Application.BusinessLogic.Files
+﻿@using ActivityPaint.Application.BusinessLogic.Cli
+@using ActivityPaint.Application.BusinessLogic.Files
 @using ActivityPaint.Application.BusinessLogic.Generate
 @using ActivityPaint.Application.BusinessLogic.Repository
 @using ActivityPaint.Application.BusinessLogic.Shared.Mediator
+@using ActivityPaint.Application.DTOs.Repository
 @using ActivityPaint.Client.Components.Shared.Services
 @using ActivityPaint.Core.Shared.Result
 @using Mediator
@@ -11,7 +13,17 @@
 <div class="generate-commands__container">
     <div class="generate-commands__text-container">
         <MudTextField @ref="_commandsField" T="string" ReadOnly="true" Lines="6" Text="@_commands" Class="@_textFieldClass" />
-        <MudButton Variant="@Variant.Filled" Class="generate-commands__gen-button" OnClick="GenerateCommands" hidden="@(!string.IsNullOrEmpty(_commands))">Generate commands</MudButton>
+        <MudButton Variant="@Variant.Filled" Class="generate-commands__gen-button" OnClick="GenerateCommands" Disabled="_isBusy" hidden="@(!string.IsNullOrEmpty(_commands))">
+            @if(!_isBusy)
+            {
+                <MudText Typo="Typo.button">Generate commands</MudText>
+            }
+            else
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2" Typo="Typo.button">Generating...</MudText>
+            }
+        </MudButton>
     </div>
     <MudStack Row="true" Justify="@Justify.SpaceBetween">
         <MudButton Variant="@Variant.Filled" OnClick="SelectAll">Select all</MudButton>
@@ -24,6 +36,7 @@
     private MudTextField<string>? _commandsField;
     private string _commands = string.Empty;
     private bool _wrapText = true;
+    private bool _isBusy = false;
 
     private string _textFieldClass => _wrapText ? "generate-commands__textarea" : "generate-commands__textarea nowrap";
 
@@ -35,6 +48,13 @@
 
     [Parameter, EditorRequired]
     public bool IsCli { get; set; } = true;
+
+    protected override void OnParametersSet()
+    {
+        _commands = string.Empty;
+
+        base.OnParametersSet();
+    }
 
     private async Task SelectAll()
     {
@@ -60,34 +80,31 @@
     {
         if (EditorModel is null) return;
 
+        _isBusy = true;
+        await Task.Delay(1);
+
         var getConfigCommand = new GetRepositoryConfigCommand();
         var configResult = await Mediator.Send(getConfigCommand);
-        if (configResult.IsFailure)
-        {
-            FeedbackService.ShowError(configResult.Error);
-            return;
-        }
+        if (IsError(configResult)) return;
 
         var messageFormat = configResult.Value!.MessageFormat;
+        var author = configResult.Value!.ToAuthorModel();
         var preset = EditorModel.ToPresetModel();
 
         IResultRequest<string> command = SelectedMethod switch
         {
-            GenerationMethodEnum.SaveToFile => throw new NotImplementedException(),
-            GenerationMethodEnum.GenerateRepo => throw new NotImplementedException(),
+            GenerationMethodEnum.SaveToFile => new CliCmdSavePresetCommand(preset),
+            GenerationMethodEnum.GenerateRepo => new CliCmdGenerateRepoCommand(preset, author, messageFormat),
             GenerationMethodEnum.GenerateGitCommands when IsCli is true => throw new NotImplementedException(),
             GenerationMethodEnum.GenerateGitCommands when IsCli is false => new GenerateGitCmdCommand(preset, messageFormat),
             _ => throw new NotImplementedException("Method is not supported")
         };
 
         var result = await Mediator.Send(command);
-        if (result.IsFailure)
-        {
-            FeedbackService.ShowError(configResult.Error);
-            return;
-        }
+        if (IsError(result)) return;
 
         _commands = result.Value!;
+        _isBusy = false;
     }
 
     private bool IsError(Result result)
@@ -95,6 +112,7 @@
         if (result.IsFailure)
         {
             FeedbackService.ShowError(result.Error);
+            _isBusy = false;
             return true;
         }
 

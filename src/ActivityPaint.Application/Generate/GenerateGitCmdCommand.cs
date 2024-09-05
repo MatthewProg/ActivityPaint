@@ -2,7 +2,6 @@
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Shared.Extensions;
-using ActivityPaint.Core.Shared.Progress;
 using ActivityPaint.Core.Shared.Result;
 using FluentValidation;
 using System.Text;
@@ -11,8 +10,7 @@ namespace ActivityPaint.Application.BusinessLogic.Generate;
 
 public sealed record GenerateGitCmdCommand(
     PresetModel Preset,
-    string? MessageFormat = null,
-    Progress? ProgressCallback = null
+    string? MessageFormat = null
 ) : IResultRequest<string>;
 
 internal class GenerateGitCmdCommandValidator : AbstractValidator<GenerateGitCmdCommand>
@@ -34,13 +32,13 @@ internal class GenerateGitCmdCommandHandler : IResultRequestHandler<GenerateGitC
         _commitsService = commitsService;
     }
 
-    public async ValueTask<Result<string>> Handle(GenerateGitCmdCommand request, CancellationToken cancellationToken)
+    public ValueTask<Result<string>> Handle(GenerateGitCmdCommand request, CancellationToken cancellationToken)
     {
         var commits = _commitsService.GenerateCommits(request.Preset, request.MessageFormat);
 
         if (commits.Count == 0)
         {
-            return string.Empty;
+            return ValueTask.FromResult<Result<string>>(string.Empty);
         }
 
         var firstCommit = commits[0];
@@ -60,7 +58,7 @@ internal class GenerateGitCmdCommandHandler : IResultRequestHandler<GenerateGitC
             builder.Append(message);
         }
 
-        return builder.ToString();
+        return ValueTask.FromResult<Result<string>>(builder.ToString());
     }
 
     private static string GetCommand(DateTimeOffset date, string message)
