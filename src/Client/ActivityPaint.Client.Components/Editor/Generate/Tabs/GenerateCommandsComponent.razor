@@ -95,7 +95,7 @@
         {
             GenerationMethodEnum.SaveToFile => new CliCmdSavePresetCommand(preset),
             GenerationMethodEnum.GenerateRepo => new CliCmdGenerateRepoCommand(preset, author, messageFormat),
-            GenerationMethodEnum.GenerateGitCommands when IsCli is true => throw new NotImplementedException(),
+            GenerationMethodEnum.GenerateGitCommands when IsCli is true => new CliCmdGenerateGitCommand(preset, messageFormat),
             GenerationMethodEnum.GenerateGitCommands when IsCli is false => new GenerateGitCmdCommand(preset, messageFormat),
             _ => throw new NotImplementedException("Method is not supported")
         };
