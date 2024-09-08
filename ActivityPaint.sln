@@ -45,13 +45,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Client.Consol
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Integration.Repository", "src\Integration\ActivityPaint.Integration.Repository\ActivityPaint.Integration.Repository.csproj", "{05FA5394-5E7F-46D8-A8BC-21473C776E58}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{D938029C-7FC2-4053-8917-F540BD5D03F8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{D938029C-7FC2-4053-8917-F540BD5D03F8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Application.BusinessLogic.Tests", "test\ActivityPaint.Application.BusinessLogic.Tests\ActivityPaint.Application.BusinessLogic.Tests.csproj", "{5F5832F9-938F-4C58-BDD4-EDCCB1317838}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Integration.Database", "src\Integration\ActivityPaint.Integration.Database\ActivityPaint.Integration.Database.csproj", "{515F2E5C-BC6A-49F3-97C5-B8DE34223434}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Integration.Database.SeedData", "src\Integration\ActivityPaint.Integration.Database.SeedData\ActivityPaint.Integration.Database.SeedData.csproj", "{E2B55FFE-7AAE-4D9C-8DC5-78555ED71FDC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{E08A456E-DEDF-4962-80C9-9019B290C118}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Integration.Database.IntegrationTests", "test\ActivityPaint.Integration.Database.IntegrationTests\ActivityPaint.Integration.Database.IntegrationTests.csproj", "{A1216D88-19F2-488B-AAFB-D284D85A5111}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -125,6 +129,10 @@ Global
 		{E2B55FFE-7AAE-4D9C-8DC5-78555ED71FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2B55FFE-7AAE-4D9C-8DC5-78555ED71FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2B55FFE-7AAE-4D9C-8DC5-78555ED71FDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1216D88-19F2-488B-AAFB-D284D85A5111}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1216D88-19F2-488B-AAFB-D284D85A5111}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1216D88-19F2-488B-AAFB-D284D85A5111}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1216D88-19F2-488B-AAFB-D284D85A5111}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,6 +157,8 @@ Global
 		{5F5832F9-938F-4C58-BDD4-EDCCB1317838} = {D938029C-7FC2-4053-8917-F540BD5D03F8}
 		{515F2E5C-BC6A-49F3-97C5-B8DE34223434} = {2008054A-F010-4CFD-BC6F-043B684C90E7}
 		{E2B55FFE-7AAE-4D9C-8DC5-78555ED71FDC} = {2008054A-F010-4CFD-BC6F-043B684C90E7}
+		{E08A456E-DEDF-4962-80C9-9019B290C118} = {3E294701-D540-45AC-A29C-1196D2147354}
+		{A1216D88-19F2-488B-AAFB-D284D85A5111} = {E08A456E-DEDF-4962-80C9-9019B290C118}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3B32956-CAC1-413D-8790-4543CA380697}
