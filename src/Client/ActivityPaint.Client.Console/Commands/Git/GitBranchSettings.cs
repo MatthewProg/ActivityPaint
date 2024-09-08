@@ -14,7 +14,7 @@ public abstract class GitBranchSettings : CommandSettings
 
     [CommandOption("-o|--output")]
     [Description("Path to the output txt file with all the commands.")]
-    public required string OutputPath { get; set; }
+    public string? OutputPath { get; set; }
 
     [CommandOption("-m|--message")]
     [Description("Commit message format.")]

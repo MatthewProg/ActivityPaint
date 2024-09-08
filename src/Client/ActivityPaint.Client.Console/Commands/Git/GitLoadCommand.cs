@@ -1,11 +1,11 @@
-﻿using ActivityPaint.Application.BusinessLogic.Preset;
+﻿using ActivityPaint.Application.BusinessLogic.Files;
+using ActivityPaint.Application.BusinessLogic.Preset;
 using ActivityPaint.Client.Console.Services;
-using Mediator;
-using Spectre.Console.Cli;
-using Spectre.Console;
-using System.ComponentModel;
 using ActivityPaint.Client.Console.Validators;
-using ActivityPaint.Application.BusinessLogic.Files;
+using Mediator;
+using Spectre.Console;
+using Spectre.Console.Cli;
+using System.ComponentModel;
 
 namespace ActivityPaint.Client.Console.Commands.Git;
 

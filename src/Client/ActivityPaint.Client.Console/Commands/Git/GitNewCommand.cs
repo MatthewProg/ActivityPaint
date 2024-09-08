@@ -1,15 +1,14 @@
-﻿using ActivityPaint.Client.Console.Commands.Generate;
+﻿using ActivityPaint.Application.BusinessLogic.Files;
 using ActivityPaint.Client.Console.Commands.Shared;
 using ActivityPaint.Client.Console.Services;
+using ActivityPaint.Client.Console.Validators;
 using ActivityPaint.Core.Enums;
 using ActivityPaint.Core.Helpers;
 using Mediator;
-using Spectre.Console.Cli;
 using Spectre.Console;
+using Spectre.Console.Cli;
 using System.ComponentModel;
 using System.Globalization;
-using ActivityPaint.Client.Console.Validators;
-using ActivityPaint.Application.BusinessLogic.Files;
 
 namespace ActivityPaint.Client.Console.Commands.Git;
 
