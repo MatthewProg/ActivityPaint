@@ -3,5 +3,5 @@ using Mediator;
 
 namespace ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 
-internal interface IResultRequest : IRequest<Result>;
-internal interface IResultRequest<TResponse> : IRequest<Result<TResponse>>;
+public interface IResultRequest : IRequest<Result>;
+public interface IResultRequest<TResponse> : IRequest<Result<TResponse>>;

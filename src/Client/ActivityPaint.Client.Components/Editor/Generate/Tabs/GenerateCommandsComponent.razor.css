@@ -1,0 +1,27 @@
+﻿.generate-commands__container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+    .generate-commands__container ::deep .generate-commands__text-container {
+        position: relative;
+    }
+
+        .generate-commands__container ::deep .generate-commands__text-container .generate-commands__gen-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+    .generate-commands__container ::deep .generate-commands__textarea > div {
+        background-color: rgba(0, 0, 0, .09);
+        padding: .125rem .5rem;
+    }
+
+    .generate-commands__container ::deep .generate-commands__textarea.nowrap > div textarea {
+        white-space: pre;
+    }

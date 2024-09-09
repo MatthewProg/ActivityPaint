@@ -9,11 +9,9 @@
     </MudItem>
     <MudItem xs="12" sm="7" lg="6">
         <MudPaper Elevation="3" Class="mud-height-full">
-            <MudTabs @bind-ActivePanelIndex="_activePanelIndex" Centered="true" Class="mud-height-full" PanelClass="mud-height-full px-4 pt-1 pb-2">
+            <MudTabs @bind-ActivePanelIndex="_activePanelIndex" Centered="true" Class="mud-height-full" PanelClass="d-flex justify-center align-center mud-height-full px-4 pt-1 pb-2">
                 <MudTabPanel Icon="@Icons.Material.Filled.WebAsset" Text="App">
-                    <div class="d-flex justify-center align-center mud-height-full py-4">
-                        <GenerateAppMethodsComponent SelectedMethod="_selectedMethod" />
-                    </div>
+                    <GenerateAppMethodsComponent SelectedMethod="_selectedMethod" />
                 </MudTabPanel>
                 <MudTabPanel Icon="@Icons.Material.Filled.Terminal" Text="CLI">
                     <GenerateCliMethodsComponent SelectedMethod="_selectedMethod" />

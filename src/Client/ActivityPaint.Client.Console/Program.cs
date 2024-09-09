@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Client.Console.Commands.Generate;
+using ActivityPaint.Client.Console.Commands.Git;
 using ActivityPaint.Client.Console.Commands.Save;
 using ActivityPaint.Client.Console.Config;
 using Spectre.Console.Cli;
@@ -28,6 +29,19 @@ app.Configure(config =>
                 .WithAlias("l")
                 .WithDescription("Generate repository using a preset file.");
     }).WithAlias("g");
+
+    config.AddBranch<GitBranchSettings>("git", git =>
+    {
+        git.SetDescription("Generate git commands to create the repository based on a preset file or arguments provided.");
+
+        git.AddCommand<GitNewCommand>("new")
+           .WithAlias("n")
+           .WithDescription("Generate git commands by providing all the details as arguments.");
+
+        git.AddCommand<GitLoadCommand>("load")
+           .WithAlias("l")
+           .WithDescription("Generate git commands using a preset file.");
+    });
 });
 
 return await app.RunAsync(args);

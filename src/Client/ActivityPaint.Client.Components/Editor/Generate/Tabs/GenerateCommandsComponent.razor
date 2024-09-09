@@ -1,0 +1,121 @@
+﻿@using ActivityPaint.Application.BusinessLogic.Cli
+@using ActivityPaint.Application.BusinessLogic.Files
+@using ActivityPaint.Application.BusinessLogic.Generate
+@using ActivityPaint.Application.BusinessLogic.Repository
+@using ActivityPaint.Application.BusinessLogic.Shared.Mediator
+@using ActivityPaint.Application.DTOs.Repository
+@using ActivityPaint.Client.Components.Shared.Services
+@using ActivityPaint.Core.Shared.Result
+@using Mediator
+@inject IFeedbackService FeedbackService
+@inject IMediator Mediator
+
+<div class="generate-commands__container">
+    <div class="generate-commands__text-container">
+        <MudTextField @ref="_commandsField" T="string" ReadOnly="true" Lines="6" Text="@_commands" Class="@_textFieldClass" />
+        <MudButton Variant="@Variant.Filled" Class="generate-commands__gen-button" OnClick="GenerateCommands" Disabled="_isBusy" hidden="@(!string.IsNullOrEmpty(_commands))">
+            @if(!_isBusy)
+            {
+                <MudText Typo="Typo.button">Generate commands</MudText>
+            }
+            else
+            {
+                <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true" />
+                <MudText Class="ms-2" Typo="Typo.button">Generating...</MudText>
+            }
+        </MudButton>
+    </div>
+    <MudStack Row="true" Justify="@Justify.SpaceBetween">
+        <MudButton Variant="@Variant.Filled" OnClick="SelectAll">Select all</MudButton>
+        <MudCheckBox @bind-Value="_wrapText">Wrap</MudCheckBox>
+        <MudButton Variant="@Variant.Filled" Disabled="@string.IsNullOrEmpty(_commands)" OnClick="SaveAsFile">Save as file</MudButton>
+    </MudStack>
+</div>
+
+@code {
+    private MudTextField<string>? _commandsField;
+    private string _commands = string.Empty;
+    private bool _wrapText = true;
+    private bool _isBusy = false;
+
+    private string _textFieldClass => _wrapText ? "generate-commands__textarea" : "generate-commands__textarea nowrap";
+
+    [CascadingParameter(Name = "EditorModel")]
+    protected EditorModel? EditorModel { get; set; }
+
+    [Parameter, EditorRequired]
+    public GenerationMethodEnum? SelectedMethod { get; set; }
+
+    [Parameter, EditorRequired]
+    public bool IsCli { get; set; } = true;
+
+    protected override void OnParametersSet()
+    {
+        _commands = string.Empty;
+
+        base.OnParametersSet();
+    }
+
+    private async Task SelectAll()
+    {
+        if (_commandsField is null) return;
+
+        await _commandsField.SelectAsync();
+    }
+
+    private async Task SaveAsFile()
+    {
+        if (string.IsNullOrEmpty(_commands)) return;
+
+        var command = new SaveTextToFileCommand(_commands);
+        var result = await Mediator.Send(command);
+        if (result.IsFailure)
+        {
+            FeedbackService.ShowError(result.Error);
+            return;
+        }
+    }
+
+    private async Task GenerateCommands()
+    {
+        if (EditorModel is null) return;
+
+        _isBusy = true;
+        await Task.Delay(1);
+
+        var getConfigCommand = new GetRepositoryConfigCommand();
+        var configResult = await Mediator.Send(getConfigCommand);
+        if (IsError(configResult)) return;
+
+        var messageFormat = configResult.Value!.MessageFormat;
+        var author = configResult.Value!.ToAuthorModel();
+        var preset = EditorModel.ToPresetModel();
+
+        IResultRequest<string> command = SelectedMethod switch
+        {
+            GenerationMethodEnum.SaveToFile => new CliCmdSavePresetCommand(preset),
+            GenerationMethodEnum.GenerateRepo => new CliCmdGenerateRepoCommand(preset, author, messageFormat),
+            GenerationMethodEnum.GenerateGitCommands when IsCli is true => new CliCmdGenerateGitCommand(preset, messageFormat),
+            GenerationMethodEnum.GenerateGitCommands when IsCli is false => new GenerateGitCmdCommand(preset, messageFormat),
+            _ => throw new NotImplementedException("Method is not supported")
+        };
+
+        var result = await Mediator.Send(command);
+        if (IsError(result)) return;
+
+        _commands = result.Value!;
+        _isBusy = false;
+    }
+
+    private bool IsError(Result result)
+    {
+        if (result.IsFailure)
+        {
+            FeedbackService.ShowError(result.Error);
+            _isBusy = false;
+            return true;
+        }
+
+        return false;
+    }
+}
