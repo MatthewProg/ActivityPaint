@@ -1,6 +1,5 @@
 using ActivityPaint.Application.Abstractions.Interactions;
 using ActivityPaint.Client.Components;
-using ActivityPaint.Client.Web;
 using ActivityPaint.Client.Web.Interactions;
 using ActivityPaint.Integration.Database;
 using ActivityPaint.Integration.FileSystem;
@@ -8,19 +7,27 @@ using ActivityPaint.Integration.Repository;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
-builder.RootComponents.Add<HeadOutlet>("head::after");
+namespace ActivityPaint.Client.Web;
 
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+public class Program
+{
+    public static async Task Main(string[] args)
+    {
+        var builder = WebAssemblyHostBuilder.CreateDefault(args);
+        builder.RootComponents.Add<App>("#app");
+        builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddClientComponents();
-builder.Services.AddDatabaseIntegration();
-builder.Services.AddFileSystemIntegration();
-builder.Services.AddRepositoryIntegration();
+        builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-builder.Services.AddScoped<IFileSystemInteraction, FileSystemInteraction>();
+        builder.Services.AddClientComponents();
+        builder.Services.AddDatabaseIntegration();
+        builder.Services.AddFileSystemIntegration();
+        builder.Services.AddRepositoryIntegration();
 
-builder.Services.ValidateComponentsDI();
+        builder.Services.AddScoped<IFileSystemInteraction, FileSystemInteraction>();
 
-await builder.Build().RunAsync();
+        builder.Services.ValidateComponentsDI();
+
+        await builder.Build().RunAsync();
+    }
+}
