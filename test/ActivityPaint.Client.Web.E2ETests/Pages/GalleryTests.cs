@@ -2,19 +2,19 @@
 
 namespace ActivityPaint.Client.Web.E2ETests.Pages;
 
-public class GalleryTests(WebApplicationFixture app, PlaywrightFixture playwright) : IClassFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
+public class GalleryTests(WebApplicationFixture app, PlaywrightFixture playwright) : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
 {
     private readonly PlaywrightFixture _playwright = playwright;
     private readonly WebApplicationFixture _app = app;
 
     [Theory]
     [InlineData(BrowserEnum.Chromium)]
-    //[InlineData(BrowserEnum.Firefox)]
-    //[InlineData(BrowserEnum.Webkit)]
+    [InlineData(BrowserEnum.Firefox)]
+    [InlineData(BrowserEnum.Webkit)]
     public async Task GalleryPage_ShouldLoad(BrowserEnum browser)
     {
         // Arrange
-        var url = Path.Combine(WebApplicationFixture.BASE_URL, "/gallery");
+        var url = WebApplicationFixture.GetUrl("/gallery");
 
         // Act
         await _playwright.Run(browser, url, async page =>

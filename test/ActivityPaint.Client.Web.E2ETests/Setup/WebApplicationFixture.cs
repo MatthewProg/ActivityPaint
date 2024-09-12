@@ -6,24 +6,28 @@ public sealed class WebApplicationFixture : IDisposable
 {
     public const string BASE_URL = "https://localhost:5000";
 
+    private static readonly Uri _baseUri = new(BASE_URL);
     private readonly ActivityPaintWebApplicationFactory _factory;
-    private readonly HttpClient _httpClient;
 
+    public HttpClient HttpClient { get; private init; }
 
     public WebApplicationFixture()
     {
         _factory = new ActivityPaintWebApplicationFactory();
 
-        _httpClient = _factory.WithWebHostBuilder(builder =>
+        HttpClient = _factory.WithWebHostBuilder(builder =>
         {
             builder.UseUrls(BASE_URL);
         }).CreateDefaultClient();
     }
 
+    public static string GetUrl(string relative)
+        => new Uri(_baseUri, relative).ToString();
+
     public void Dispose()
     {
-        _httpClient.CancelPendingRequests();
-        _httpClient.Dispose();
+        HttpClient.CancelPendingRequests();
+        HttpClient.Dispose();
         _factory.Dispose();
     }
 }

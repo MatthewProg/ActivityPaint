@@ -61,7 +61,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Integration.F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "E2E", "E2E", "{FF3E3054-BFF6-4647-BEFD-2818BF678FE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Client.Web.E2ETests", "test\ActivityPaint.Client.Web.E2ETests\ActivityPaint.Client.Web.E2ETests.csproj", "{3FFCADA0-6E41-4478-94C2-ADF557D107CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Client.Web.E2ETests", "test\ActivityPaint.Client.Web.E2ETests\ActivityPaint.Client.Web.E2ETests.csproj", "{3FFCADA0-6E41-4478-94C2-ADF557D107CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Client.Web.E2EServer", "test\ActivityPaint.Client.Web.E2EServer\ActivityPaint.Client.Web.E2EServer.csproj", "{A6973442-B4FB-47DC-8A81-B7B4154B1622}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -147,6 +149,10 @@ Global
 		{3FFCADA0-6E41-4478-94C2-ADF557D107CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FFCADA0-6E41-4478-94C2-ADF557D107CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FFCADA0-6E41-4478-94C2-ADF557D107CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6973442-B4FB-47DC-8A81-B7B4154B1622}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6973442-B4FB-47DC-8A81-B7B4154B1622}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6973442-B4FB-47DC-8A81-B7B4154B1622}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6973442-B4FB-47DC-8A81-B7B4154B1622}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -176,6 +182,7 @@ Global
 		{FACE8330-E9B8-45CD-9254-1E149EF84AC0} = {E08A456E-DEDF-4962-80C9-9019B290C118}
 		{FF3E3054-BFF6-4647-BEFD-2818BF678FE9} = {3E294701-D540-45AC-A29C-1196D2147354}
 		{3FFCADA0-6E41-4478-94C2-ADF557D107CC} = {FF3E3054-BFF6-4647-BEFD-2818BF678FE9}
+		{A6973442-B4FB-47DC-8A81-B7B4154B1622} = {FF3E3054-BFF6-4647-BEFD-2818BF678FE9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D3B32956-CAC1-413D-8790-4543CA380697}

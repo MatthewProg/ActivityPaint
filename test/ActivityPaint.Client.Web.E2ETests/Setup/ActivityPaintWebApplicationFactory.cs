@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Hosting;
-using WebProgram = ActivityPaint.Client.Web.Program;
+using WebProgram = ActivityPaint.Client.Web.E2EServer.Program;
 
 namespace ActivityPaint.Client.Web.E2ETests.Setup;
 

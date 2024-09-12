@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Client\ActivityPaint.Client.Web\ActivityPaint.Client.Web.csproj" />
+    <ProjectReference Include="..\ActivityPaint.Client.Web.E2EServer\ActivityPaint.Client.Web.E2EServer.csproj" />
   </ItemGroup>
 
 </Project>
