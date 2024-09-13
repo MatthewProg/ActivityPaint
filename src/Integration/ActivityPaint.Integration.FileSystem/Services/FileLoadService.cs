@@ -5,8 +5,15 @@ namespace ActivityPaint.Integration.FileSystem.Services;
 
 internal class FileLoadService : IFileLoadService
 {
+    private static readonly Error _emptyPathError = new("Path", "File path cannot be empty!");
+
     public Result<Stream> GetFileStream(string filePath)
     {
+        if (string.IsNullOrWhiteSpace(filePath))
+        {
+            return _emptyPathError;
+        }
+
         var fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
 
         return fileStream;

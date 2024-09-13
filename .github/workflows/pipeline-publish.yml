@@ -31,19 +31,19 @@ jobs:
     if: ${{ inputs.run-build != 'false' }}
     uses: ./.github/workflows/build-all.yml
 
-  test-unit:
+  test:
     needs: [build]
     if: |
       always()
       && !contains(needs.build.result, 'failure')
       && inputs.run-test != 'false'
-    uses: ./.github/workflows/test-unit.yml
+    uses: ./.github/workflows/test-all.yml
 
   publish:
-    needs: [build, test-unit]
+    needs: [build, test]
     if: |
       always()
       && !contains(needs.build.result, 'failure')
-      && !contains(needs.test-unit.result, 'failure')
+      && !contains(needs.test.result, 'failure')
       && ((startsWith(github.ref, 'refs/heads/release/') && inputs.run-publish != 'false') || inputs.run-publish == 'true')
     uses: ./.github/workflows/publish-all.yml

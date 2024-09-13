@@ -50,7 +50,7 @@ internal abstract class GenericRepository<T> : IRepository<T> where T : BaseEnti
     public async ValueTask DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         var item = await _context.Set<T>()
-                                 .FindAsync(id, cancellationToken)
+                                 .FindAsync([id], cancellationToken: cancellationToken)
                                  ?? throw new KeyNotFoundException($"Item with ID: {id} was not found");
 
         _context.Set<T>()

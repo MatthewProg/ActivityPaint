@@ -1,0 +1,29 @@
+name: '[Test] Integration Tests'
+
+on:
+  workflow_call:
+
+jobs:
+  run-integration-tests:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: './global.json'
+          cache: true
+          cache-dependency-path: './test/*.IntegrationTests/packages.lock.json'
+
+      - name: Restore Test NuGets
+        run: |
+          dotnet restore ./test/ActivityPaint.Integration.Database.IntegrationTests/ActivityPaint.Integration.Database.IntegrationTests.csproj --locked-mode
+          dotnet restore ./test/ActivityPaint.Integration.FileSystem.IntegrationTests/ActivityPaint.Integration.FileSystem.IntegrationTests.csproj --locked-mode
+
+      - name: Run Database Integration Tests
+        run: dotnet test ./test/ActivityPaint.Integration.Database.IntegrationTests/ActivityPaint.Integration.Database.IntegrationTests.csproj --no-restore
+
+      - name: Run File System Integration Tests
+        run: dotnet test ./test/ActivityPaint.Integration.FileSystem.IntegrationTests/ActivityPaint.Integration.FileSystem.IntegrationTests.csproj --no-restore
