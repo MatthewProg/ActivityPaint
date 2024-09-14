@@ -8,9 +8,7 @@ public class GalleryTests(WebApplicationFixture app, PlaywrightFixture playwrigh
     private readonly WebApplicationFixture _app = app;
 
     [Theory]
-    [InlineData(BrowserEnum.Chromium)]
-    [InlineData(BrowserEnum.Firefox)]
-    [InlineData(BrowserEnum.Webkit)]
+    [ClassData(typeof(AllBrowsersData))]
     public async Task GalleryPage_ShouldLoad(BrowserEnum browser)
     {
         // Arrange
@@ -20,7 +18,7 @@ public class GalleryTests(WebApplicationFixture app, PlaywrightFixture playwrigh
         await _playwright.Run(browser, url, async page =>
         {
             // Assert
-            await page.Locator("h1:has-text(\"Gallery\")").IsVisibleAsync();
+            (await page.Locator("h1").TextContentAsync()).Should().Be("Gallery");
         });
     }
 }
