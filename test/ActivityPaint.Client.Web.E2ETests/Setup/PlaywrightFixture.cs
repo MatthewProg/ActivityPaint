@@ -22,9 +22,15 @@ public sealed class PlaywrightFixture : IAsyncLifetime
         InstallPlaywright();
 
         Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
-        ChromiumBrowser = new(Playwright.Chromium.LaunchAsync());
-        FirefoxBrowser = new(Playwright.Firefox.LaunchAsync());
-        WebkitBrowser = new(Playwright.Webkit.LaunchAsync());
+
+        var defaultSettings = new BrowserTypeLaunchOptions()
+        {
+            SlowMo = 100
+        };
+
+        ChromiumBrowser = new(Playwright.Chromium.LaunchAsync(defaultSettings));
+        FirefoxBrowser = new(Playwright.Firefox.LaunchAsync(defaultSettings));
+        WebkitBrowser = new(Playwright.Webkit.LaunchAsync(defaultSettings));
     }
 
     public async Task Run(BrowserEnum browserEnum, string url, Func<IPage, Task> testHandler)
