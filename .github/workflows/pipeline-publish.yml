@@ -37,7 +37,7 @@ jobs:
       always()
       && !contains(needs.build.result, 'failure')
       && inputs.run-test != 'false'
-    uses: ./.github/workflows/test-all.yml
+    uses: ./.github/workflows/test-e2e.yml
 
   publish:
     needs: [build, test]
