@@ -1,5 +1,7 @@
-﻿using ActivityPaint.Client.Web.E2ETests.Setup;
+﻿using ActivityPaint.Client.Web.E2ETests.Extensions;
+using ActivityPaint.Client.Web.E2ETests.Setup;
 using Microsoft.Playwright;
+using System.Net.Mime;
 using System.Text;
 
 namespace ActivityPaint.Client.Web.E2ETests.Pages;
@@ -64,9 +66,7 @@ public class EditorTests(WebApplicationFixture app, PlaywrightFixture playwright
             await page.Locator("#cell-11-5 div").ClickAsync();
             await page.Locator("#cell-11-2 div").ClickAsync();
             await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > div:nth-child(2)").ClickAsync();
-            await page.Locator("#cell-15-1 div").ClickAsync();
-            await page.Locator("#cell-15-5 div").ClickAsync();
-            await page.Locator("#cell-15-3 div").ClickAsync();
+            await page.DragAndDropStepsAsync("#cell-15-1 div", "#cell-15-5 div", 1);
             await page.Locator(".brush-size__input + button").ClickAsync(new() { ClickCount = 2 });
             (await page.Locator(".brush-size__input input").InputValueAsync()).Should().Be("1");
             await page.Locator("div[role=toolbar] .mud-toggle-group:first-child > div:nth-child(2)").ClickAsync();
@@ -120,6 +120,43 @@ public class EditorTests(WebApplicationFixture app, PlaywrightFixture playwright
             await page.GetByRole(AriaRole.Radio, new() { Name = "Generate git commands" }).ClickAsync();
             await page.GetByRole(AriaRole.Button, new() { Name = "Generate commands" }).ClickAsync();
             (await page.Locator(".generate-commands__textarea textarea").InputValueAsync()).Should().StartWith("git commit --allow-empty --no-verify --date=2020-01-01T12:00:00.0000000+00:00 -m \"ActivityPaint - 'Test' - (Commit 1/223)\";");
+        });
+    }
+
+    [Theory]
+    [ClassData(typeof(AllBrowsersData))]
+    public async Task EditorPage_ShouldUploadAndParsePreset(BrowserEnum browser)
+    {
+        // Arrange
+        var url = WebApplicationFixture.GetUrl("/");
+        var contentBytes = Encoding.UTF8.GetBytes("{\"Name\":\"Test\",\"StartDate\":\"2020-01-01T00:00:00\",\"IsDarkModeDefault\":true,\"CanvasData\":\"eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==\"}");
+        var uploadFile = new FilePayload()
+        {
+            Name = "file.json",
+            MimeType = MediaTypeNames.Application.Json,
+            Buffer = [..Encoding.UTF8.GetPreamble(), ..contentBytes]
+        };
+
+        // Act
+        await _playwright.Run(browser, url, async page =>
+        {
+            // Assert - load editor page
+            (await page.Locator("h1").TextContentAsync()).Should().Be("Editor");
+            (await page.GetByLabel("Name").InputValueAsync()).Should().BeEmpty();
+            (await page.GetByLabel("Picked year").InputValueAsync()).Should().Be(DateTime.Now.Year.ToString());
+
+            // Load file and wait to be processed
+            await page.Locator("input[type=file]").SetInputFilesAsync(uploadFile);
+            await Task.Delay(1000);
+
+            // Assert - file parsed
+            (await page.EvaluateAsync<string>("Array.from(document.querySelectorAll('#paint-canvas td[data-doy]')).map(x => x.dataset.level).reduce((x,y) => x+y)")).Should().Be("111113331111111100000000000000000000000000000000000014441333122211110000000000000000000000000000000000001444133312221111000000000000000000000000000000000000114441333122211010000000000000000000000000000000000001144413331222111100000000000000000000000000000000000011444133312221111000000000000000000000000000000000001144411111222111100000000000000000000000000000000000");
+            await page.GetByRole(AriaRole.Button, new() { Name = "Reset" }).ClickAsync();
+            (await page.EvaluateAsync<string[]>("Array.from(document.querySelectorAll('#paint-canvas td[data-doy]')).map(x => x.dataset.level)")).Should().AllBe("0");
+            await page.GetByRole(AriaRole.Button, new() { Name = "Previous stage" }).ClickAsync();
+            (await page.GetByLabel("Name").InputValueAsync()).Should().Be("Test");
+            (await page.GetByLabel("Dark mode is default").IsVisibleAsync()).Should().BeTrue();
+            (await page.GetByLabel("Picked year").InputValueAsync()).Should().Be("2020");
         });
     }
 

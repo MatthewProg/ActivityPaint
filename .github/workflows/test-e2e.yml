@@ -1,0 +1,25 @@
+name: '[Test] E2E Tests'
+
+on:
+  workflow_call:
+
+jobs:
+  run-e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: './global.json'
+          cache: true
+          cache-dependency-path: './test/*.E2ETests/packages.lock.json'
+
+      - name: Restore Test NuGets
+        run: |
+          dotnet restore ./test/ActivityPaint.Client.Web.E2ETests/ActivityPaint.Client.Web.E2ETests.csproj --locked-mode
+
+      - name: Run Web E2E Tests
+        run: dotnet test ./test/ActivityPaint.Client.Web.E2ETests/ActivityPaint.Client.Web.E2ETests.csproj --no-restore

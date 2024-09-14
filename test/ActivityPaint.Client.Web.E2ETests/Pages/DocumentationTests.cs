@@ -9,7 +9,7 @@ public class DocumentationTests(WebApplicationFixture app, PlaywrightFixture pla
 
     [Theory]
     [ClassData(typeof(AllBrowsersData))]
-    public async Task DocumentationyPage_ShouldLoad(BrowserEnum browser)
+    public async Task DocumentationPage_ShouldLoad(BrowserEnum browser)
     {
         // Arrange
         var url = WebApplicationFixture.GetUrl("/documentation");
