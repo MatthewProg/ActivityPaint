@@ -21,5 +21,12 @@ jobs:
         run: |
           dotnet restore ./test/ActivityPaint.Client.Web.E2ETests/ActivityPaint.Client.Web.E2ETests.csproj --locked-mode
 
+      - name: Build E2E tests
+        run: |
+          dotnet build ./test/ActivityPaint.Client.Web.E2ETests/ActivityPaint.Client.Web.E2ETests.csproj --no-restore
+
+      - name: Ensure browsers are installed
+        run: pwsh ./test/ActivityPaint.Client.Web.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps
+
       - name: Run Web E2E Tests
-        run: dotnet test ./test/ActivityPaint.Client.Web.E2ETests/ActivityPaint.Client.Web.E2ETests.csproj --no-restore
+        run: dotnet test ./test/ActivityPaint.Client.Web.E2ETests/ActivityPaint.Client.Web.E2ETests.csproj --no-restore --no-build
