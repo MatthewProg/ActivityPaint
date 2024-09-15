@@ -3,21 +3,13 @@ using ActivityPaint.Client.Web.E2ETests.Setup;
 using Microsoft.Playwright;
 using System.Net.Mime;
 using System.Text;
-using Xunit.Abstractions;
 
 namespace ActivityPaint.Client.Web.E2ETests.Pages;
 
-public class EditorTests : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
+public class EditorTests(WebApplicationFixture app, PlaywrightFixture playwright) : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
 {
-    private readonly PlaywrightFixture _playwright;
-    private readonly WebApplicationFixture _app;
-
-    public EditorTests(WebApplicationFixture app, PlaywrightFixture playwright, ITestOutputHelper testOutputHelper)
-    {
-        _playwright = playwright;
-        _playwright.SetOutputHelper(testOutputHelper);
-        _app = app;
-    }
+    private readonly PlaywrightFixture _playwright = playwright;
+    private readonly WebApplicationFixture _app = app;
 
     [Theory]
     [ClassData(typeof(AllBrowsersData))]

@@ -1,20 +1,12 @@
 ﻿using ActivityPaint.Client.Web.E2ETests.Setup;
 using Microsoft.Playwright;
-using Xunit.Abstractions;
 
 namespace ActivityPaint.Client.Web.E2ETests.Pages;
 
-public class ConfigurationTests : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
+public class ConfigurationTests(WebApplicationFixture app, PlaywrightFixture playwright) : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
 {
-    private readonly PlaywrightFixture _playwright;
-    private readonly WebApplicationFixture _app;
-
-    public ConfigurationTests(WebApplicationFixture app, PlaywrightFixture playwright, ITestOutputHelper testOutputHelper)
-    {
-        _playwright = playwright;
-        _playwright.SetOutputHelper(testOutputHelper);
-        _app = app;
-    }
+    private readonly PlaywrightFixture _playwright = playwright;
+    private readonly WebApplicationFixture _app = app;
 
     [Theory]
     [ClassData(typeof(AllBrowsersData))]

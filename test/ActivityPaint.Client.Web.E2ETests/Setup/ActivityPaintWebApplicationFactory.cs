@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using WebProgram = ActivityPaint.Client.Web.E2EServer.Program;
 
 namespace ActivityPaint.Client.Web.E2ETests.Setup;
@@ -12,11 +11,7 @@ public class ActivityPaintWebApplicationFactory : WebApplicationFactory<WebProgr
     {
         var testHost = base.CreateHost(builder);
 
-        builder.ConfigureWebHost(webHostBuilder =>
-        {
-            webHostBuilder.UseKestrel().CaptureStartupErrors(true);
-            webHostBuilder.ConfigureLogging(x => x.ClearProviders().AddConsole().AddDebug());
-        });
+        builder.ConfigureWebHost(webHostBuilder => webHostBuilder.UseKestrel());
 
         var host = builder.Build();
 
