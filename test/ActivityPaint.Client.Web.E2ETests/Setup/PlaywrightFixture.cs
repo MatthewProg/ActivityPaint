@@ -19,7 +19,10 @@ public sealed class PlaywrightFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        InstallPlaywright();
+        if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("IS_PIPELINE")))
+        {
+            InstallPlaywright();
+        }
 
         Playwright = await Microsoft.Playwright.Playwright.CreateAsync();
 
