@@ -12,6 +12,8 @@
                    Class="mud-height-full"
                    InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20"
                    InputStyle="opacity:0"
+                   Hidden="false"
+                   @ondrop="@ClearDragClass"
                    @ondragenter="@SetDragClass"
                    @ondragleave="@ClearDragClass"
                    @ondragend="@ClearDragClass">
