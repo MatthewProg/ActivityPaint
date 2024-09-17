@@ -6,6 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+
+    <WasmBuildNative>true</WasmBuildNative>
+
+    <!-- workaround for publish -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <EmccExtraLDFlags>-s WARN_ON_UNDEFINED_SYMBOLS=0</EmccExtraLDFlags>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,5 +33,9 @@
     <ProjectReference Include="..\..\Integration\ActivityPaint.Integration.Repository\ActivityPaint.Integration.Repository.csproj" />
     <ProjectReference Include="..\ActivityPaint.Client.Components\ActivityPaint.Client.Components.csproj" />
   </ItemGroup>
+
+  <!--<ItemGroup>
+    <NativeFileReference Include="e_sqlite3.a" />
+  </ItemGroup>-->
 
 </Project>
