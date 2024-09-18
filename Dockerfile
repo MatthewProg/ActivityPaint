@@ -17,14 +17,12 @@ COPY . ./repo
 RUN dotnet restore ./repo/src/Client/ActivityPaint.Client.Web/ActivityPaint.Client.Web.csproj
 # RUN dotnet build ./repo/src/Client/ActivityPaint.Client.Web/ActivityPaint.Client.Web.csproj --no-restore -c Release
 
-FROM build AS publish
-
 RUN dotnet publish ./repo/src/Client/ActivityPaint.Client.Web/ActivityPaint.Client.Web.csproj -r linux-x64 -c Release --self-contained true -o /app/publish
 
 FROM nginx:alpine AS runner
 
 WORKDIR /usr/share/nginx/html
 
-COPY --from=publish /app/publish/wwwroot .
+COPY --from=build /app/publish/wwwroot .
 # COPY --from=publish /app/publish/e_sqlite3.a ./_framework/e_sqlite3.a
 COPY nginx.conf /etc/nginx/nginx.conf
