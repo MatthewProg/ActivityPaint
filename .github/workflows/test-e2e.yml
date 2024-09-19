@@ -5,7 +5,7 @@ on:
 
 jobs:
   run-e2e-tests:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -16,6 +16,9 @@ jobs:
           global-json-file: './global.json'
           cache: true
           cache-dependency-path: './test/*.E2ETests/packages.lock.json'
+
+      - name: Install wasm-tools workload
+        run: dotnet workload install wasm-tools
 
       - name: Restore Test NuGets
         run: |
@@ -29,4 +32,4 @@ jobs:
         run: pwsh ./test/ActivityPaint.Client.Web.E2ETests/bin/Debug/net8.0/playwright.ps1 install --with-deps
 
       - name: Run Web E2E Tests
-        run: dotnet test ./test/ActivityPaint.Client.Web.E2ETests/ActivityPaint.Client.Web.E2ETests.csproj --no-restore --no-build -e IS_PIPELINE=true
+        run: dotnet test ./test/ActivityPaint.Client.Web.E2ETests/ActivityPaint.Client.Web.E2ETests.csproj --no-restore --no-build -l "console;verbosity=normal" -e IS_PIPELINE=true
