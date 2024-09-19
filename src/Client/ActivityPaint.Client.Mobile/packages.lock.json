@@ -498,32 +498,32 @@
       },
       "SQLitePCLRaw.bundle_e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "UxWuisvZ3uVcVOLJQv7urM/JiQH+v3TmaJc1BLKl5Dxfm/nTzTUrqswCqg/INiYLi61AXnHo1M1JPmPqqLnAdg==",
+        "resolved": "2.1.6",
+        "contentHash": "BmAf6XWt4TqtowmiWe4/5rRot6GerAeklmOPfviOvwLoF5WwgxcJHAxZtySuyW9r9w+HLILnm8VfJFLCUJYW8A==",
         "dependencies": {
-          "SQLitePCLRaw.lib.e_sqlite3": "2.1.10",
-          "SQLitePCLRaw.provider.e_sqlite3": "2.1.10"
+          "SQLitePCLRaw.lib.e_sqlite3": "2.1.6",
+          "SQLitePCLRaw.provider.e_sqlite3": "2.1.6"
         }
       },
       "SQLitePCLRaw.core": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "Ii8JCbC7oiVclaE/mbDEK000EFIJ+ShRPwAvvV89GOZhQ+ZLtlnSWl6ksCNMKu/VGXA4Nfi2B7LhN/QFN9oBcw==",
+        "resolved": "2.1.6",
+        "contentHash": "wO6v9GeMx9CUngAet8hbO7xdm+M42p1XeJq47ogyRoYSvNSp0NGLI+MgC0bhrMk9C17MTVFlLiN6ylyExLCc5w==",
         "dependencies": {
           "System.Memory": "4.5.3"
         }
       },
       "SQLitePCLRaw.lib.e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "mAr69tDbnf3QJpRy2nJz8Qdpebdil00fvycyByR58Cn9eARvR+UiG2Vzsp+4q1tV3ikwiYIjlXCQFc12GfebbA=="
+        "resolved": "2.1.6",
+        "contentHash": "2ObJJLkIUIxRpOUlZNGuD4rICpBnrBR5anjyfUFQep4hMOIeqW+XGQYzrNmHSVz5xSWZ3klSbh7sFR6UyDj68Q=="
       },
       "SQLitePCLRaw.provider.e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "uZVTi02C1SxqzgT0HqTWatIbWGb40iIkfc3FpFCpE/r7g6K0PqzDUeefL6P6HPhDtc6BacN3yQysfzP7ks+wSQ==",
+        "resolved": "2.1.6",
+        "contentHash": "PQ2Oq3yepLY4P7ll145P3xtx2bX8xF4PzaKPRpw9jZlKvfe4LE/saAV82inND9usn1XRpmxXk7Lal3MTI+6CNg==",
         "dependencies": {
-          "SQLitePCLRaw.core": "2.1.10"
+          "SQLitePCLRaw.core": "2.1.6"
         }
       },
       "System.IO.Pipelines": {
@@ -596,8 +596,7 @@
         "type": "Project",
         "dependencies": {
           "ActivityPaint.Application.Abstractions": "[1.0.0, )",
-          "Microsoft.EntityFrameworkCore.Sqlite": "[8.0.8, )",
-          "SQLitePCLRaw.bundle_e_sqlite3": "[2.1.10, )"
+          "Microsoft.EntityFrameworkCore.Sqlite": "[8.0.8, )"
         }
       },
       "activitypaint.integration.filesystem": {
@@ -622,8 +621,8 @@
       },
       "SQLitePCLRaw.lib.e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "mAr69tDbnf3QJpRy2nJz8Qdpebdil00fvycyByR58Cn9eARvR+UiG2Vzsp+4q1tV3ikwiYIjlXCQFc12GfebbA=="
+        "resolved": "2.1.6",
+        "contentHash": "2ObJJLkIUIxRpOUlZNGuD4rICpBnrBR5anjyfUFQep4hMOIeqW+XGQYzrNmHSVz5xSWZ3klSbh7sFR6UyDj68Q=="
       },
       "System.Text.Encodings.Web": {
         "type": "Transitive",
@@ -639,8 +638,8 @@
       },
       "SQLitePCLRaw.lib.e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "mAr69tDbnf3QJpRy2nJz8Qdpebdil00fvycyByR58Cn9eARvR+UiG2Vzsp+4q1tV3ikwiYIjlXCQFc12GfebbA=="
+        "resolved": "2.1.6",
+        "contentHash": "2ObJJLkIUIxRpOUlZNGuD4rICpBnrBR5anjyfUFQep4hMOIeqW+XGQYzrNmHSVz5xSWZ3klSbh7sFR6UyDj68Q=="
       },
       "System.Text.Encodings.Web": {
         "type": "Transitive",
@@ -656,8 +655,8 @@
       },
       "SQLitePCLRaw.lib.e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "mAr69tDbnf3QJpRy2nJz8Qdpebdil00fvycyByR58Cn9eARvR+UiG2Vzsp+4q1tV3ikwiYIjlXCQFc12GfebbA=="
+        "resolved": "2.1.6",
+        "contentHash": "2ObJJLkIUIxRpOUlZNGuD4rICpBnrBR5anjyfUFQep4hMOIeqW+XGQYzrNmHSVz5xSWZ3klSbh7sFR6UyDj68Q=="
       },
       "System.Text.Encodings.Web": {
         "type": "Transitive",
@@ -1209,32 +1208,32 @@
       },
       "SQLitePCLRaw.bundle_e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "UxWuisvZ3uVcVOLJQv7urM/JiQH+v3TmaJc1BLKl5Dxfm/nTzTUrqswCqg/INiYLi61AXnHo1M1JPmPqqLnAdg==",
+        "resolved": "2.1.6",
+        "contentHash": "BmAf6XWt4TqtowmiWe4/5rRot6GerAeklmOPfviOvwLoF5WwgxcJHAxZtySuyW9r9w+HLILnm8VfJFLCUJYW8A==",
         "dependencies": {
-          "SQLitePCLRaw.lib.e_sqlite3": "2.1.10",
-          "SQLitePCLRaw.provider.e_sqlite3": "2.1.10"
+          "SQLitePCLRaw.lib.e_sqlite3": "2.1.6",
+          "SQLitePCLRaw.provider.e_sqlite3": "2.1.6"
         }
       },
       "SQLitePCLRaw.core": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "Ii8JCbC7oiVclaE/mbDEK000EFIJ+ShRPwAvvV89GOZhQ+ZLtlnSWl6ksCNMKu/VGXA4Nfi2B7LhN/QFN9oBcw==",
+        "resolved": "2.1.6",
+        "contentHash": "wO6v9GeMx9CUngAet8hbO7xdm+M42p1XeJq47ogyRoYSvNSp0NGLI+MgC0bhrMk9C17MTVFlLiN6ylyExLCc5w==",
         "dependencies": {
           "System.Memory": "4.5.3"
         }
       },
       "SQLitePCLRaw.lib.e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "mAr69tDbnf3QJpRy2nJz8Qdpebdil00fvycyByR58Cn9eARvR+UiG2Vzsp+4q1tV3ikwiYIjlXCQFc12GfebbA=="
+        "resolved": "2.1.6",
+        "contentHash": "2ObJJLkIUIxRpOUlZNGuD4rICpBnrBR5anjyfUFQep4hMOIeqW+XGQYzrNmHSVz5xSWZ3klSbh7sFR6UyDj68Q=="
       },
       "SQLitePCLRaw.provider.e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "uZVTi02C1SxqzgT0HqTWatIbWGb40iIkfc3FpFCpE/r7g6K0PqzDUeefL6P6HPhDtc6BacN3yQysfzP7ks+wSQ==",
+        "resolved": "2.1.6",
+        "contentHash": "PQ2Oq3yepLY4P7ll145P3xtx2bX8xF4PzaKPRpw9jZlKvfe4LE/saAV82inND9usn1XRpmxXk7Lal3MTI+6CNg==",
         "dependencies": {
-          "SQLitePCLRaw.core": "2.1.10"
+          "SQLitePCLRaw.core": "2.1.6"
         }
       },
       "System.IO.Pipelines": {
@@ -1312,8 +1311,7 @@
         "type": "Project",
         "dependencies": {
           "ActivityPaint.Application.Abstractions": "[1.0.0, )",
-          "Microsoft.EntityFrameworkCore.Sqlite": "[8.0.8, )",
-          "SQLitePCLRaw.bundle_e_sqlite3": "[2.1.10, )"
+          "Microsoft.EntityFrameworkCore.Sqlite": "[8.0.8, )"
         }
       },
       "activitypaint.integration.filesystem": {
@@ -1354,8 +1352,8 @@
       },
       "SQLitePCLRaw.lib.e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "mAr69tDbnf3QJpRy2nJz8Qdpebdil00fvycyByR58Cn9eARvR+UiG2Vzsp+4q1tV3ikwiYIjlXCQFc12GfebbA=="
+        "resolved": "2.1.6",
+        "contentHash": "2ObJJLkIUIxRpOUlZNGuD4rICpBnrBR5anjyfUFQep4hMOIeqW+XGQYzrNmHSVz5xSWZ3klSbh7sFR6UyDj68Q=="
       },
       "System.Speech": {
         "type": "Transitive",
@@ -1392,8 +1390,8 @@
       },
       "SQLitePCLRaw.lib.e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "mAr69tDbnf3QJpRy2nJz8Qdpebdil00fvycyByR58Cn9eARvR+UiG2Vzsp+4q1tV3ikwiYIjlXCQFc12GfebbA=="
+        "resolved": "2.1.6",
+        "contentHash": "2ObJJLkIUIxRpOUlZNGuD4rICpBnrBR5anjyfUFQep4hMOIeqW+XGQYzrNmHSVz5xSWZ3klSbh7sFR6UyDj68Q=="
       },
       "System.Speech": {
         "type": "Transitive",
@@ -1430,8 +1428,8 @@
       },
       "SQLitePCLRaw.lib.e_sqlite3": {
         "type": "Transitive",
-        "resolved": "2.1.10",
-        "contentHash": "mAr69tDbnf3QJpRy2nJz8Qdpebdil00fvycyByR58Cn9eARvR+UiG2Vzsp+4q1tV3ikwiYIjlXCQFc12GfebbA=="
+        "resolved": "2.1.6",
+        "contentHash": "2ObJJLkIUIxRpOUlZNGuD4rICpBnrBR5anjyfUFQep4hMOIeqW+XGQYzrNmHSVz5xSWZ3klSbh7sFR6UyDj68Q=="
       },
       "System.Speech": {
         "type": "Transitive",
