@@ -1,4 +1,4 @@
-<h1 align="center">Activity Paint<br><span style="color:red;font-size:.75em;">(IN DEVELOPMENT)</span></h1>
+<h1 align="center">Activity Paint<br><span style="font-size:.75em;">$\textsf{\color{red}{(IN DEVELOPMENT)}}$</span></h1>
 
 <details open="open">
   <summary>Table of Contents</summary>
@@ -7,11 +7,18 @@
     <li>
         <a href="#technical-overview">Technical overview</a>
         <ul>
-            <li><a href="#core">Core</a></li>
-            <li><a href="#web">Web</a></li>
-            <li><a href="#desktop">Desktop</a></li>
-            <li><a href="#cli">CLI</a></li>
+          <li><a href="#core">Core</a></li>
+          <li><a href="#web">Web</a></li>
+          <li><a href="#mobile">Mobile</a></li>
+          <li><a href="#cli">CLI</a></li>
         </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting started</a>
+      <ul>
+        <li><a href="#docker">Docker</a></li>
+      </ul>
+    </li>
     <li><a href="#license">License</a></li>
   </ol>
 </details>
@@ -40,6 +47,24 @@ To integrate with the existing UIs, and given the fact that Xamarin has been dep
 ### CLI
 
 The assumption was to use a library that supports both CLI creation and nice console outputs. It was decided to go with the [`Spectre.Console`](https://github.com/spectreconsole/spectre.console)
+
+## Getting started
+
+### Docker
+
+If you want to test the application but do not want to bother with the whole setup, the Docker will be a perfect choice! The Web project has Docker support implemented. All you need to do is follow these steps:
+
+1. Have Docker up-and-running (see: https://www.docker.com/get-started/).
+2. Open a terminal in the projects directory.
+3. Run:
+```bash
+# Build docker image
+docker build -t activitypaint:latest .
+
+# Create and start a new container at port 8080
+docker run -p 8080:80 activitypaint:latest
+```
+4. Open http://localhost:8080 in the browser.
 
 ## [License](/./LICENSE)
 

@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
+    <WasmBuildNative>true</WasmBuildNative>
   </PropertyGroup>
 
   <ItemGroup>
