@@ -14,24 +14,30 @@ public static class DependencyInjection
         services.AddEntityFramework();
         services.AddRepositories();
 
-        services.AddScoped<IDatabaseConfigService, DatabaseConfigService>();
+        services.AddTransient<IDatabaseConfigService, DatabaseConfigService>();
     }
 
     private static void AddRepositories(this IServiceCollection services)
     {
-        services.AddScoped<IPresetRepository, PresetRepository>();
-        services.AddScoped<IRepositoryConfigRepository, RepositoryConfigRepository>();
+        services.AddTransient<IPresetRepository, PresetRepository>();
+        services.AddTransient<IRepositoryConfigRepository, RepositoryConfigRepository>();
     }
 
     private static void AddEntityFramework(this IServiceCollection services)
     {
-        services.AddDbContextFactory<ActivityPaintContext>(options =>
+        services.AddDbContext<ActivityPaintContext>(options =>
         {
             options.UseSqlite($"Filename={GlobalConfig.DB_FILE_PATH}");
 #if DEBUG
             options.EnableDetailedErrors()
                    .EnableSensitiveDataLogging();
 #endif
-        });
+        }, contextLifetime: ServiceLifetime.Transient, optionsLifetime: ServiceLifetime.Singleton);
+
+        services.AddDbContextFactory<ActivityPaintContext>(x =>
+        {
+            // This should never be called, as AddDbContext already sets options
+            throw new NotImplementedException("Database configuration is not set!");
+        }, ServiceLifetime.Singleton);
     }
 }

@@ -17,6 +17,7 @@ internal class RepositoryConfigRepository : GenericRepository<RepositoryConfig>,
     {
         var item = await _context.RepositoryConfigs
                                  .AsNoTracking()
+                                 .OrderBy(x => x.Id)
                                  .FirstOrDefaultAsync(cancellationToken);
 
         return item;

@@ -36,7 +36,7 @@ public static class DependencyInjection
     {
         services.AddMediator(x =>
         {
-            x.ServiceLifetime = ServiceLifetime.Scoped;
+            x.ServiceLifetime = ServiceLifetime.Transient;
         });
 
         services.AddSingleton(typeof(IPipelineBehavior<,>), typeof(ExceptionHandlingPipeline<,>));
