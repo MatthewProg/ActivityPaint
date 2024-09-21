@@ -6,16 +6,12 @@ using Microsoft.Extensions.Logging;
 
 namespace ActivityPaint.Application.BusinessLogic.Shared.Mediator.Pipelines;
 
-internal sealed class ExceptionHandlingPipeline<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+internal sealed class ExceptionHandlingPipeline<TRequest, TResponse>(ILogger<ExceptionHandlingPipeline<TRequest, TResponse>> logger)
+    : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
     where TResponse : Result
 {
-    private readonly ILogger<ExceptionHandlingPipeline<TRequest, TResponse>> _logger;
-
-    public ExceptionHandlingPipeline(ILogger<ExceptionHandlingPipeline<TRequest, TResponse>> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<ExceptionHandlingPipeline<TRequest, TResponse>> _logger = logger;
 
     public async ValueTask<TResponse> Handle(TRequest message, CancellationToken cancellationToken, MessageHandlerDelegate<TRequest, TResponse> next)
     {

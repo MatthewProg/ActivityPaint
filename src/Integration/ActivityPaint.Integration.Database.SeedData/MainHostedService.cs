@@ -2,14 +2,9 @@
 
 namespace ActivityPaint.Integration.Database.SeedData;
 
-internal class MainHostedService : IHostedService
+internal class MainHostedService(IDatabaseSeedService databaseSeedService) : IHostedService
 {
-    private readonly IDatabaseSeedService _databaseSeedService;
-
-    public MainHostedService(IDatabaseSeedService databaseSeedService)
-    {
-        _databaseSeedService = databaseSeedService;
-    }
+    private readonly IDatabaseSeedService _databaseSeedService = databaseSeedService;
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {

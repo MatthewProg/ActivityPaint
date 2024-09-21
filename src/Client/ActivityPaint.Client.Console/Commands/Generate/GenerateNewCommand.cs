@@ -43,16 +43,10 @@ public class GenerateNewCommandSettings : GenerateBranchSettings
     }
 }
 
-public class GenerateNewCommand : AsyncCommand<GenerateNewCommandSettings>
+public class GenerateNewCommand(IErrorFeedbackService errorFeedback, IMediator mediator) : AsyncCommand<GenerateNewCommandSettings>
 {
-    private readonly IErrorFeedbackService _errorFeedback;
-    private readonly IMediator _mediator;
-
-    public GenerateNewCommand(IErrorFeedbackService errorFeedback, IMediator mediator)
-    {
-        _errorFeedback = errorFeedback;
-        _mediator = mediator;
-    }
+    private readonly IErrorFeedbackService _errorFeedback = errorFeedback;
+    private readonly IMediator _mediator = mediator;
 
     public override async Task<int> ExecuteAsync(CommandContext context, GenerateNewCommandSettings settings)
     {

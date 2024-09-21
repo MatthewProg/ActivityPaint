@@ -5,7 +5,7 @@ using WebProgram = ActivityPaint.Client.Web.E2EServer.Program;
 
 namespace ActivityPaint.Client.Web.E2ETests.Setup;
 
-public class ActivityPaintWebApplicationFactory : WebApplicationFactory<WebProgram>
+public sealed class ActivityPaintWebApplicationFactory : WebApplicationFactory<WebProgram>
 {
     protected override IHost CreateHost(IHostBuilder builder)
     {
@@ -20,18 +20,12 @@ public class ActivityPaintWebApplicationFactory : WebApplicationFactory<WebProgr
         return new CompositeHost(testHost, host);
     }
 
-    public class CompositeHost : IHost
+    public class CompositeHost(IHost testHost, IHost kestrelHost) : IHost
     {
-        private readonly IHost _testHost;
-        private readonly IHost _kestrelHost;
+        private readonly IHost _testHost = testHost;
+        private readonly IHost _kestrelHost = kestrelHost;
 
         public IServiceProvider Services => _testHost.Services;
-
-        public CompositeHost(IHost testHost, IHost kestrelHost)
-        {
-            _testHost = testHost;
-            _kestrelHost = kestrelHost;
-        }
 
         public async Task StartAsync(CancellationToken cancellationToken = default)
         {

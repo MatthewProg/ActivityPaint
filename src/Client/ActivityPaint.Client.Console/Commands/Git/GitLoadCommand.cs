@@ -24,16 +24,10 @@ public class GitLoadCommandSettings : GitBranchSettings
 }
 
 
-public class GitLoadCommand : AsyncCommand<GitLoadCommandSettings>
+public class GitLoadCommand(IErrorFeedbackService errorFeedback, IMediator mediator) : AsyncCommand<GitLoadCommandSettings>
 {
-    private readonly IErrorFeedbackService _errorFeedback;
-    private readonly IMediator _mediator;
-
-    public GitLoadCommand(IErrorFeedbackService errorFeedback, IMediator mediator)
-    {
-        _errorFeedback = errorFeedback;
-        _mediator = mediator;
-    }
+    private readonly IErrorFeedbackService _errorFeedback = errorFeedback;
+    private readonly IMediator _mediator = mediator;
 
     public override async Task<int> ExecuteAsync(CommandContext context, GitLoadCommandSettings settings)
     {

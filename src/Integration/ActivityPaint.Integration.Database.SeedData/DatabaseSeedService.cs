@@ -9,16 +9,10 @@ internal interface IDatabaseSeedService
     Task SeedAsync(CancellationToken cancellationToken);
 }
 
-internal class DatabaseSeedService : IDatabaseSeedService
+internal class DatabaseSeedService(IDbContextFactory<ActivityPaintContext> dbContextFactory, ILogger<DatabaseSeedService> logger) : IDatabaseSeedService
 {
-    private readonly IDbContextFactory<ActivityPaintContext> _dbContextFactory;
-    private readonly ILogger _logger;
-
-    public DatabaseSeedService(IDbContextFactory<ActivityPaintContext> dbContextFactory, ILogger<DatabaseSeedService> logger)
-    {
-        _dbContextFactory = dbContextFactory;
-        _logger = logger;
-    }
+    private readonly IDbContextFactory<ActivityPaintContext> _dbContextFactory = dbContextFactory;
+    private readonly ILogger _logger = logger;
 
     public async Task SeedAsync(CancellationToken cancellationToken)
     {

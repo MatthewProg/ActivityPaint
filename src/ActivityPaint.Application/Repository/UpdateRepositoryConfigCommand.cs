@@ -19,14 +19,9 @@ internal class UpdateRepositoryConfigCommandValidator : AbstractValidator<Update
     }
 }
 
-internal class UpdateRepositoryConfigCommandHandler : IResultRequestHandler<UpdateRepositoryConfigCommand>
+internal class UpdateRepositoryConfigCommandHandler(IRepositoryConfigRepository repositoryConfigRepository) : IResultRequestHandler<UpdateRepositoryConfigCommand>
 {
-    private readonly IRepositoryConfigRepository _repositoryConfigRepository;
-
-    public UpdateRepositoryConfigCommandHandler(IRepositoryConfigRepository repositoryConfigRepository)
-    {
-        _repositoryConfigRepository = repositoryConfigRepository;
-    }
+    private readonly IRepositoryConfigRepository _repositoryConfigRepository = repositoryConfigRepository;
 
     public async ValueTask<Result> Handle(UpdateRepositoryConfigCommand request, CancellationToken cancellationToken)
     {

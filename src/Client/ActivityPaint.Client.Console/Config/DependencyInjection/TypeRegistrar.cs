@@ -3,14 +3,9 @@ using Spectre.Console.Cli;
 
 namespace ActivityPaint.Client.Console.Config.DependencyInjection;
 
-internal sealed class TypeRegistrar : ITypeRegistrar
+internal sealed class TypeRegistrar(IServiceCollection builder) : ITypeRegistrar
 {
-    private readonly IServiceCollection _builder;
-
-    public TypeRegistrar(IServiceCollection builder)
-    {
-        _builder = builder;
-    }
+    private readonly IServiceCollection _builder = builder;
 
     public ITypeResolver Build()
     {

@@ -23,14 +23,9 @@ internal class GenerateCommitsCommandValidator : AbstractValidator<GenerateCommi
     }
 }
 
-internal class GenerateCommitsCommandHandler : IResultRequestHandler<GenerateCommitsCommand, List<CommitModel>>
+internal class GenerateCommitsCommandHandler(ICommitsService commitsService) : IResultRequestHandler<GenerateCommitsCommand, List<CommitModel>>
 {
-    private readonly ICommitsService _commitsService;
-
-    public GenerateCommitsCommandHandler(ICommitsService commitsService)
-    {
-        _commitsService = commitsService;
-    }
+    private readonly ICommitsService _commitsService = commitsService;
 
     public ValueTask<Result<List<CommitModel>>> Handle(GenerateCommitsCommand request, CancellationToken cancellationToken)
     {

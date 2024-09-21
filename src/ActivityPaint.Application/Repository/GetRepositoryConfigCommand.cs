@@ -7,14 +7,9 @@ namespace ActivityPaint.Application.BusinessLogic.Repository;
 
 public record GetRepositoryConfigCommand() : IResultRequest<RepositoryConfigModel>;
 
-internal class GetRepositoryConfigCommandHandler : IResultRequestHandler<GetRepositoryConfigCommand, RepositoryConfigModel>
+internal class GetRepositoryConfigCommandHandler(IRepositoryConfigRepository repositoryConfigRepository) : IResultRequestHandler<GetRepositoryConfigCommand, RepositoryConfigModel>
 {
-    private readonly IRepositoryConfigRepository _repositoryConfigRepository;
-
-    public GetRepositoryConfigCommandHandler(IRepositoryConfigRepository repositoryConfigRepository)
-    {
-        _repositoryConfigRepository = repositoryConfigRepository;
-    }
+    private readonly IRepositoryConfigRepository _repositoryConfigRepository = repositoryConfigRepository;
 
     public async ValueTask<Result<RepositoryConfigModel>> Handle(GetRepositoryConfigCommand request, CancellationToken cancellationToken)
     {

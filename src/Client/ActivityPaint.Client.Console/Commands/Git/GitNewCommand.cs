@@ -44,16 +44,10 @@ public class GitNewCommandSettings : GitBranchSettings
     }
 }
 
-public class GitNewCommand : AsyncCommand<GitNewCommandSettings>
+public class GitNewCommand(IErrorFeedbackService errorFeedback, IMediator mediator) : AsyncCommand<GitNewCommandSettings>
 {
-    private readonly IErrorFeedbackService _errorFeedback;
-    private readonly IMediator _mediator;
-
-    public GitNewCommand(IErrorFeedbackService errorFeedback, IMediator mediator)
-    {
-        _errorFeedback = errorFeedback;
-        _mediator = mediator;
-    }
+    private readonly IErrorFeedbackService _errorFeedback = errorFeedback;
+    private readonly IMediator _mediator = mediator;
 
     public override async Task<int> ExecuteAsync(CommandContext context, GitNewCommandSettings settings)
     {

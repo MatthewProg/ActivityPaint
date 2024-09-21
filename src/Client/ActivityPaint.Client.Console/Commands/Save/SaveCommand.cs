@@ -30,16 +30,10 @@ public class SaveCommandSettings : ManualDataSettings
     }
 }
 
-public class SaveCommand : AsyncCommand<SaveCommandSettings>
+public class SaveCommand(IErrorFeedbackService errorFeedback, IMediator mediator) : AsyncCommand<SaveCommandSettings>
 {
-    private readonly IErrorFeedbackService _errorFeedback;
-    private readonly IMediator _mediator;
-
-    public SaveCommand(IErrorFeedbackService errorFeedback, IMediator mediator)
-    {
-        _errorFeedback = errorFeedback;
-        _mediator = mediator;
-    }
+    private readonly IErrorFeedbackService _errorFeedback = errorFeedback;
+    private readonly IMediator _mediator = mediator;
 
     public override async Task<int> ExecuteAsync(CommandContext context, SaveCommandSettings settings)
     {

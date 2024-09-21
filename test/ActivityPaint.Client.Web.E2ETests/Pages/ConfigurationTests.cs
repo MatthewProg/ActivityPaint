@@ -3,10 +3,9 @@ using Microsoft.Playwright;
 
 namespace ActivityPaint.Client.Web.E2ETests.Pages;
 
-public class ConfigurationTests(WebApplicationFixture app, PlaywrightFixture playwright) : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
+public class ConfigurationTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
 {
     private readonly PlaywrightFixture _playwright = playwright;
-    private readonly WebApplicationFixture _app = app;
 
     [Theory]
     [ClassData(typeof(AllBrowsersData))]

@@ -3,16 +3,10 @@ using Spectre.Console;
 
 namespace ActivityPaint.Client.Console.Config.Logging;
 
-internal sealed class ConsoleLogger : ILogger
+internal sealed class ConsoleLogger(string name, LoggerConsoleConfigModel config) : ILogger
 {
-    private readonly LoggerConsoleConfigModel _config;
-    private readonly string _name;
-
-    public ConsoleLogger(string name, LoggerConsoleConfigModel config)
-    {
-        _name = name;
-        _config = config;
-    }
+    private readonly LoggerConsoleConfigModel _config = config;
+    private readonly string _name = name;
 
     public IDisposable? BeginScope<TState>(TState state) where TState : notnull
         => default!;

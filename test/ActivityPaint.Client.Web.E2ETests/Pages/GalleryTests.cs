@@ -2,10 +2,9 @@
 
 namespace ActivityPaint.Client.Web.E2ETests.Pages;
 
-public class GalleryTests(WebApplicationFixture app, PlaywrightFixture playwright) : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
+public class GalleryTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
 {
     private readonly PlaywrightFixture _playwright = playwright;
-    private readonly WebApplicationFixture _app = app;
 
     [Theory]
     [ClassData(typeof(AllBrowsersData))]
