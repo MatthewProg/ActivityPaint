@@ -7,10 +7,20 @@
     <li>
         <a href="#technical-overview">Technical overview</a>
         <ul>
-          <li><a href="#core">Core</a></li>
-          <li><a href="#web">Web</a></li>
-          <li><a href="#mobile">Mobile</a></li>
-          <li><a href="#cli">CLI</a></li>
+          <li><a href="#development">Development</a></li>
+          <ul>
+            <li><a href="#core">Core</a></li>
+            <li><a href="#web">Web</a></li>
+            <li><a href="#mobile">Mobile</a></li>
+            <li><a href="#cli">CLI</a></li>
+          </ul>
+          <li><a href="#testing">Testing</a></li>
+          <ul>
+            <li><a href="#unit-tests">Unit tests</a></li>
+            <li><a href="#integration-tests">Integration tests</a></li>
+            <li><a href="#e2e-tests">E2E tests</a></li>
+          </ul>
+          <li><a href="#cicd">CI/CD</a></li>
         </ul>
     </li>
     <li>
@@ -29,24 +39,45 @@ Activity Paint is a tool that allows you to easily create an artificial commit h
 
 ## Technical overview
 
+### Development
 The libraries and technologies used to develop the application were a bit unconventional. I wanted to experiment a bit with source generators and new features introduced between .NET 6 and .NET 8.
 
-### Core
+#### Core
 
 In order to make the whole architecture clean and readable, I chose to use [`Hexagonal Architecture`](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) with most of the folder structure using [`Vertical Slicing`](https://en.wikipedia.org/wiki/Vertical_slice). To maintain the high performance of the app, as the heart of the system, I decided to use the source-generated [`Mediator`](https://github.com/martinothamar/Mediator) implementation. Also, the [`Mapperly`](https://github.com/riok/mapperly) library has been used as a default mapping framework to allow for close to native performance of the mapper.\
 To avoid writing separate UI for every platform, a single common `Razor Component Library` project has been created that contains most of the UI elements.
 
-### Web
+#### Web
 
 The main assumption was that the application should work mostly client-side and easily consume UIs used on other platforms. Because of that, the `Blazor WebAssembly` project has been created.
 
-### Mobile
+#### Mobile
 
 To integrate with the existing UIs, and given the fact that Xamarin has been deprecated, the `MAUI Blazor Hybrid` has been chosen as the best option.
 
-### CLI
+#### CLI
 
 The assumption was to use a library that supports both CLI creation and nice console outputs. It was decided to go with the [`Spectre.Console`](https://github.com/spectreconsole/spectre.console)
+
+### Testing
+
+The tests cover the most important bits of the application and ensure they work correctly. Common for all tests is naming convention (`MethodName_StateUnderTest_ExpectedBehaviour`) and the `Arrange Act Assert` pattern. Also, all tests use the `XUnit` framework and [`FluentAssertions`](https://github.com/fluentassertions/fluentassertions) for cleaner test assertions. All test projects are stored in the `test` directory.
+
+#### Unit tests
+
+The tests are focused on testing very specific aspects of code and only a small pieces of it. They check all kinds of the business logic (model validations included). The test project names end with `*.Tests` and could be found in the `Unit` solution folder.
+
+#### Integration tests
+
+The tests validate the integration between the app and any external system (e.g. app <-> database, app <-> file system). Tests operate on real resources, not mocks. However, for convenience, they support automatic setup and cleanup of all the temporary resources created before and during testing. The test project names end with `*.IntegrationTests` and could be found in the `Integration` solution folder.
+
+#### E2E tests
+
+The main purpose of the end-to-end tests is to validate that the app runs the same in all the supported browsers. Instead of focussing on the very specific case, it runs real-world scenarios that usually test a whole application workflow. To help with the browser integration, the [`Puppeteer Sharp`](https://github.com/hardkoded/puppeteer-sharp) library has been used. The test project names end with `*.E2ETests` and could be found in the `E2E` solution folder. Additionally, the `*.E2EServer` project has been created to enable running and serving the application from the memory using the `WebApplicationFactory`.
+
+### CI/CD
+
+As the repository is hosted on GitHub, the natural choice was to use the GitHub Actions. The project at the moment has only a single pipeline named [`[CI/CD] Release pipeline`](https://github.com/MatthewProg/ActivityPaint/actions/workflows/pipeline-publish.yml). It is configured to run multiple stages (build, test, publish), each of them could be triggered manually from GitHub's UI.
 
 ## Getting started
 
