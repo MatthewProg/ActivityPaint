@@ -55,22 +55,22 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
 
             // Assert - paint
             (await page.EvaluateAsync<string[]>("Array.from(document.querySelectorAll('#paint-canvas td[data-doy]')).map(x => x.dataset.level)")).Should().AllBe("0");
-            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > div:nth-child(5)").ClickAsync();
+            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > button:nth-child(5)").ClickAsync();
             await page.Locator("#cell-3-5 div").ClickAsync();
             await page.Locator("#cell-3-2 div").ClickAsync();
-            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > div:nth-child(4)").ClickAsync();
+            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > button:nth-child(4)").ClickAsync();
             await page.Locator("#cell-7-1 div").ClickAsync();
             await page.Locator("#cell-7-4 div").ClickAsync();
-            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > div:nth-child(3)").ClickAsync();
+            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > button:nth-child(3)").ClickAsync();
             await page.Locator("#cell-11-5 div").ClickAsync();
             await page.Locator("#cell-11-2 div").ClickAsync();
-            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > div:nth-child(2)").ClickAsync();
+            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > button:nth-child(2)").ClickAsync();
             await page.DragAndDropStepsAsync("#cell-15-1 div", "#cell-15-5 div", 1);
             await page.Locator(".brush-size__input + button").ClickAsync(new() { ClickCount = 2 });
             (await page.Locator(".brush-size__input input").InputValueAsync()).Should().Be("1");
-            await page.Locator("div[role=toolbar] .mud-toggle-group:first-child > div:nth-child(2)").ClickAsync();
+            await page.Locator("div[role=toolbar] .mud-toggle-group:first-child > button:nth-child(2)").ClickAsync();
             await page.Locator("#cell-15-3 div").ClickAsync();
-            await page.Locator("div[role=toolbar] .mud-toggle-group:first-child > div:nth-child(3)").ClickAsync();
+            await page.Locator("div[role=toolbar] .mud-toggle-group:first-child > button:nth-child(3)").ClickAsync();
             await page.Locator("#cell-0-3 div").ClickAsync();
             (await page.EvaluateAsync<string>("Array.from(document.querySelectorAll('#paint-canvas td[data-doy]')).map(x => x.dataset.level).reduce((x,y) => x+y)")).Should().Be("111113331111111100000000000000000000000000000000000014441333122211110000000000000000000000000000000000001444133312221111000000000000000000000000000000000000114441333122211010000000000000000000000000000000000001144413331222111100000000000000000000000000000000000011444133312221111000000000000000000000000000000000001144411111222111100000000000000000000000000000000000");
             await page.GetByRole(AriaRole.Button, new() { Name = "Next stage" }).ClickAsync();
