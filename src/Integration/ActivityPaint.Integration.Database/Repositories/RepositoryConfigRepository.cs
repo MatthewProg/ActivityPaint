@@ -6,8 +6,6 @@ namespace ActivityPaint.Integration.Database.Repositories;
 
 internal class RepositoryConfigRepository(ActivityPaintContext context) : GenericRepository<RepositoryConfig>(context), IRepositoryConfigRepository
 {
-    private readonly ActivityPaintContext _context = context;
-
     public async ValueTask<RepositoryConfig?> GetFirstAsync(CancellationToken cancellationToken = default)
     {
         var item = await _context.RepositoryConfigs

@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Client.Web.E2ETests.Setup;
+using Microsoft.Playwright;
 
 namespace ActivityPaint.Client.Web.E2ETests.Pages;
 
@@ -17,7 +18,10 @@ public class GalleryTests(PlaywrightFixture playwright) : IAssemblyFixture<WebAp
         await _playwright.Run(browser, url, async page =>
         {
             // Assert
-            (await page.Locator("h1").TextContentAsync()).Should().Be("Gallery");
+            (await GetTextHeader(page).TextContentAsync()).Should().Be("Gallery");
         });
     }
+
+    // Text
+    private static ILocator GetTextHeader(IPage page) => page.Locator("h1");
 }
