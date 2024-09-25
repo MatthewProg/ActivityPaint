@@ -4,14 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ActivityPaint.Integration.Database.Repositories;
 
-internal abstract class GenericRepository<T> : IRepository<T> where T : BaseEntity
+internal abstract class GenericRepository<T>(ActivityPaintContext context) : IRepository<T> where T : BaseEntity
 {
-    private readonly ActivityPaintContext _context;
-
-    protected GenericRepository(ActivityPaintContext context)
-    {
-        _context = context;
-    }
+    protected readonly ActivityPaintContext _context = context;
 
     public async ValueTask<List<T>> GetAllAsync(CancellationToken cancellationToken = default)
     {

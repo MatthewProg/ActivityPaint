@@ -6,12 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ActivityPaint.Integration.Database;
 
-public sealed class ActivityPaintContext : DbContext
+public sealed class ActivityPaintContext(DbContextOptions<ActivityPaintContext> options) : DbContext(options)
 {
     public DbSet<Preset> Presets { get; set; }
     public DbSet<RepositoryConfig> RepositoryConfigs { get; set; }
-
-    public ActivityPaintContext(DbContextOptions<ActivityPaintContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

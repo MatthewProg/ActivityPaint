@@ -3,9 +3,6 @@ using ActivityPaint.Core.Entities;
 
 namespace ActivityPaint.Integration.Database.Repositories;
 
-internal class PresetRepository : GenericRepository<Preset>, IPresetRepository
+internal class PresetRepository(ActivityPaintContext context) : GenericRepository<Preset>(context), IPresetRepository
 {
-    public PresetRepository(ActivityPaintContext context) : base(context)
-    {
-    }
 }

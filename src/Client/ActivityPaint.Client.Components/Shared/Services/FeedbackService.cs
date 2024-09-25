@@ -10,14 +10,9 @@ public interface IFeedbackService
     void ClearAll();
 }
 
-public class FeedbackService : IFeedbackService
+public class FeedbackService(ISnackbar snackbar) : IFeedbackService
 {
-    private readonly ISnackbar _snackbar;
-
-    public FeedbackService(ISnackbar snackbar)
-    {
-        _snackbar = snackbar;
-    }
+    private readonly ISnackbar _snackbar = snackbar;
 
     public void Show(string message, Severity severity)
     {

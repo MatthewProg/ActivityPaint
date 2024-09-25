@@ -4,14 +4,9 @@ using ActivityPaint.Core.Shared.Result;
 
 namespace ActivityPaint.Client.Web.Interactions;
 
-public class FileSystemInteraction : IFileSystemInteraction
+public class FileSystemInteraction(IFileSystemInterop fileSystemInterop) : IFileSystemInteraction
 {
-    private readonly IFileSystemInterop _fileSystemInterop;
-
-    public FileSystemInteraction(IFileSystemInterop fileSystemInterop)
-    {
-        _fileSystemInterop = fileSystemInterop;
-    }
+    private readonly IFileSystemInterop _fileSystemInterop = fileSystemInterop;
 
     public async Task<Result> PromptFileSaveAsync(string fileName, Stream data, CancellationToken cancellationToken)
     {

@@ -1,11 +1,12 @@
 ﻿@using ActivityPaint.Client.Components.Editor.Shared
 @using ActivityPaint.Client.Components.Shared.Theming
+@using ActivityPaint.Core.Enums
 @implements IDisposable
 
 <h3>Define new</h3>
 <MudForm @ref="_form" Class="gap-2 my-4">
     <MudTextField @bind-Value="EditorModel!.Name" Label="Name" Required="true" RequiredError="Preset name is required!" />
-    <EditorYearPickComponent @bind-PickedDate="EditorModel!.StartDate" />
+    <EditorYearPickComponent PickedDate="EditorModel!.StartDate" PickedDateChanged="StartDateChanged" />
     <MudSwitch @bind-Value:get="IsDarkMode" @bind-Value:set="DarkModeChanged" Label="@(IsDarkMode ? "Dark mode is default" : "Light mode is default")" />
 </MudForm>
 <MudButton Size="@Size.Medium" Variant="@Variant.Filled" @onclick="NextStage">Next stage</MudButton>
@@ -52,6 +53,34 @@
         {
             EditorModel.IsDarkModeDefault = newValue;
             StateHasChanged();
+        }
+    }
+
+    private void StartDateChanged(DateTime? newValue)
+    {
+        if (EditorModel is null) return;
+
+        var prevValue = EditorModel.StartDate;
+        EditorModel.StartDate = newValue;
+
+        if (newValue is null
+            || prevValue is null
+            || EditorModel.CanvasData?.Any() != true)
+        {
+            return;
+        }
+
+        var diff = newValue.Value.DayOfWeek - prevValue.Value.DayOfWeek;
+
+        if (diff > 0)
+        {
+            EditorModel.CanvasData = EditorModel.CanvasData[diff..];
+        }
+
+        if (diff < 0)
+        {
+            var insert = Enumerable.Repeat(IntensityEnum.Level0, -diff);
+            EditorModel.CanvasData = [..insert, ..EditorModel.CanvasData[..^-diff]];
         }
     }
 

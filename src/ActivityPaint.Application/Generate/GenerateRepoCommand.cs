@@ -41,21 +41,17 @@ internal class GenerateRepoCommandValidator : AbstractValidator<GenerateRepoComm
     }
 }
 
-internal class GenerateRepoCommandHandler : IResultRequestHandler<GenerateRepoCommand>
+internal class GenerateRepoCommandHandler(
+    IFileSystemInteraction fileSystemInteraction,
+    IRepositoryService repositoryService,
+    IFileSaveService fileSaveService,
+    ICommitsService commitsService)
+    : IResultRequestHandler<GenerateRepoCommand>
 {
-    private readonly IFileSystemInteraction _fileSystemInteraction;
-    private readonly IRepositoryService _repositoryService;
-    private readonly IFileSaveService _fileSaveService;
-    private readonly ICommitsService _commitsService;
-
-    public GenerateRepoCommandHandler(IFileSystemInteraction fileSystemInteraction, IRepositoryService repositoryService,
-                                      IFileSaveService fileSaveService, ICommitsService commitsService)
-    {
-        _fileSystemInteraction = fileSystemInteraction;
-        _repositoryService = repositoryService;
-        _fileSaveService = fileSaveService;
-        _commitsService = commitsService;
-    }
+    private readonly IFileSystemInteraction _fileSystemInteraction = fileSystemInteraction;
+    private readonly IRepositoryService _repositoryService = repositoryService;
+    private readonly IFileSaveService _fileSaveService = fileSaveService;
+    private readonly ICommitsService _commitsService = commitsService;
 
     public async ValueTask<Result> Handle(GenerateRepoCommand request, CancellationToken cancellationToken)
     {

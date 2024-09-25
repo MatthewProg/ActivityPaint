@@ -10,14 +10,9 @@ public interface IErrorFeedbackService
     void WriteError(Error error);
 }
 
-internal sealed class ErrorFeedbackService : IErrorFeedbackService
+internal sealed class ErrorFeedbackService(ILogger<ErrorFeedbackService> logger) : IErrorFeedbackService
 {
-    private readonly ILogger _logger;
-
-    public ErrorFeedbackService(ILogger<ErrorFeedbackService> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger _logger = logger;
 
     public void WriteError(Error error)
     {

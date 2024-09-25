@@ -29,16 +29,10 @@ internal class SavePresetCommandValidator : AbstractValidator<SavePresetCommand>
     }
 }
 
-internal class SavePresetCommandHandler : IResultRequestHandler<SavePresetCommand>
+internal class SavePresetCommandHandler(IFileSystemInteraction fileSystemInteraction, IFileSaveService fileSaveService) : IResultRequestHandler<SavePresetCommand>
 {
-    private readonly IFileSystemInteraction _fileSystemInteraction;
-    private readonly IFileSaveService _fileSaveService;
-
-    public SavePresetCommandHandler(IFileSystemInteraction fileSystemInteraction, IFileSaveService fileSaveService)
-    {
-        _fileSystemInteraction = fileSystemInteraction;
-        _fileSaveService = fileSaveService;
-    }
+    private readonly IFileSystemInteraction _fileSystemInteraction = fileSystemInteraction;
+    private readonly IFileSaveService _fileSaveService = fileSaveService;
 
     public async ValueTask<Result> Handle(SavePresetCommand command, CancellationToken cancellationToken)
     {

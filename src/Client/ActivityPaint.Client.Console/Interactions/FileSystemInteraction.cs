@@ -6,16 +6,10 @@ using Spectre.Console;
 
 namespace ActivityPaint.Client.Console.Interactions;
 
-internal class FileSystemInteraction : IFileSystemInteraction
+internal class FileSystemInteraction(IFileSaveService fileSaveService, IFileLoadService fileLoadService) : IFileSystemInteraction
 {
-    private readonly IFileSaveService _fileSaveService;
-    private readonly IFileLoadService _fileLoadService;
-
-    public FileSystemInteraction(IFileSaveService fileSaveService, IFileLoadService fileLoadService)
-    {
-        _fileSaveService = fileSaveService;
-        _fileLoadService = fileLoadService;
-    }
+    private readonly IFileSaveService _fileSaveService = fileSaveService;
+    private readonly IFileLoadService _fileLoadService = fileLoadService;
 
     public async Task<Result> PromptFileSaveAsync(string fileName, Stream data, CancellationToken cancellationToken = default)
     {

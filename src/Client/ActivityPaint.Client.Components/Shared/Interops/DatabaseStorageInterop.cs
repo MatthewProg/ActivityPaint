@@ -8,15 +8,10 @@ public interface IDatabaseStorageInterop : IAsyncDisposable
     ValueTask SynchronizeFileWithIndexedDb(string filename, CancellationToken cancellationToken = default);
 }
 
-public sealed class DatabaseStorageInterop : IDatabaseStorageInterop
+public sealed class DatabaseStorageInterop(IJSRuntime jsRuntime) : IDatabaseStorageInterop
 {
-    private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
-
-    public DatabaseStorageInterop(IJSRuntime jsRuntime)
-    {
-        _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
+    private readonly Lazy<Task<IJSObjectReference>> _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
             "import", "./_content/ActivityPaint.Client.Components/js/database-storage.js").AsTask());
-    }
 
     public async ValueTask SynchronizeFileWithIndexedDb(string filename, CancellationToken cancellationToken = default)
     {

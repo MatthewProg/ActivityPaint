@@ -23,14 +23,9 @@ internal class GenerateGitCmdCommandValidator : AbstractValidator<GenerateGitCmd
     }
 }
 
-internal class GenerateGitCmdCommandHandler : IResultRequestHandler<GenerateGitCmdCommand, string>
+internal class GenerateGitCmdCommandHandler(ICommitsService commitsService) : IResultRequestHandler<GenerateGitCmdCommand, string>
 {
-    private readonly ICommitsService _commitsService;
-
-    public GenerateGitCmdCommandHandler(ICommitsService commitsService)
-    {
-        _commitsService = commitsService;
-    }
+    private readonly ICommitsService _commitsService = commitsService;
 
     public ValueTask<Result<string>> Handle(GenerateGitCmdCommand request, CancellationToken cancellationToken)
     {

@@ -3,7 +3,6 @@
 namespace ActivityPaint.Client.Console.Commands.Shared;
 
 [AttributeUsage(AttributeTargets.Property)]
-public class CurrentYearDefaultValueAttribute : DefaultValueAttribute
+public class CurrentYearDefaultValueAttribute() : DefaultValueAttribute($"{DateTime.UtcNow.Year}-01-01")
 {
-    public CurrentYearDefaultValueAttribute() : base($"{DateTime.UtcNow.Year}-01-01") { }
 }

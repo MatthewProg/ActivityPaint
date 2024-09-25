@@ -3,14 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ActivityPaint.Integration.Database.Services;
 
-internal class DatabaseConfigService : IDatabaseConfigService
+internal class DatabaseConfigService(IDbContextFactory<ActivityPaintContext> dbContextFactory) : IDatabaseConfigService
 {
-    private readonly IDbContextFactory<ActivityPaintContext> _dbContextFactory;
-
-    public DatabaseConfigService(IDbContextFactory<ActivityPaintContext> dbContextFactory)
-    {
-        _dbContextFactory = dbContextFactory;
-    }
+    private readonly IDbContextFactory<ActivityPaintContext> _dbContextFactory = dbContextFactory;
 
     public async Task EnsureCreatedAsync(CancellationToken cancellationToken = default)
     {

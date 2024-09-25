@@ -12,15 +12,10 @@ public interface IPaintCanvasInterop : IAsyncDisposable
     ValueTask Destroy();
 }
 
-public sealed class PaintCanvasInterop : IPaintCanvasInterop
+public sealed class PaintCanvasInterop(IJSRuntime jsRuntime) : IPaintCanvasInterop
 {
-    private readonly Lazy<Task<IJSObjectReference>> _moduleTask;
-
-    public PaintCanvasInterop(IJSRuntime jsRuntime)
-    {
-        _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
+    private readonly Lazy<Task<IJSObjectReference>> _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
             "import", "./_content/ActivityPaint.Client.Components/Editor/Paint/Canvas/PaintCanvasComponent.razor.js").AsTask());
-    }
 
     public async ValueTask Init()
     {

@@ -5,16 +5,10 @@ using CommunityToolkit.Maui.Storage;
 
 namespace ActivityPaint.Client.Mobile.Shared.Interactions
 {
-    public class FileSystemInteraction : IFileSystemInteraction
+    public class FileSystemInteraction(IFileSaver fileSaver, IFilePicker filePicker) : IFileSystemInteraction
     {
-        private readonly IFileSaver _fileSaver;
-        private readonly IFilePicker _filePicker;
-
-        public FileSystemInteraction(IFileSaver fileSaver, IFilePicker filePicker)
-        {
-            _fileSaver = fileSaver;
-            _filePicker = filePicker;
-        }
+        private readonly IFileSaver _fileSaver = fileSaver;
+        private readonly IFilePicker _filePicker = filePicker;
 
         public async Task<Result> PromptFileSaveAsync(string fileName, Stream data, CancellationToken cancellationToken = default)
         {

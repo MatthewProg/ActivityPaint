@@ -1,11 +1,11 @@
 ﻿using ActivityPaint.Client.Web.E2ETests.Setup;
+using Microsoft.Playwright;
 
 namespace ActivityPaint.Client.Web.E2ETests.Pages;
 
-public class GalleryTests(WebApplicationFixture app, PlaywrightFixture playwright) : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
+public class GalleryTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
 {
     private readonly PlaywrightFixture _playwright = playwright;
-    private readonly WebApplicationFixture _app = app;
 
     [Theory]
     [ClassData(typeof(AllBrowsersData))]
@@ -18,7 +18,10 @@ public class GalleryTests(WebApplicationFixture app, PlaywrightFixture playwrigh
         await _playwright.Run(browser, url, async page =>
         {
             // Assert
-            (await page.Locator("h1").TextContentAsync()).Should().Be("Gallery");
+            (await GetTextHeader(page).TextContentAsync()).Should().Be("Gallery");
         });
     }
+
+    // Text
+    private static ILocator GetTextHeader(IPage page) => page.Locator("h1");
 }

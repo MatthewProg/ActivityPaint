@@ -8,16 +8,10 @@ public interface IAppInitializationService
     Task InitAsync(CancellationToken cancellationToken = default);
 }
 
-internal class AppInitializationService : IAppInitializationService
+internal class AppInitializationService(IDatabaseStorageInterop databaseStorageInterop, IDatabaseConfigService databaseConfigService) : IAppInitializationService
 {
-    private readonly IDatabaseStorageInterop _databaseStorageInterop;
-    private readonly IDatabaseConfigService _databaseConfigService;
-
-    public AppInitializationService(IDatabaseStorageInterop databaseStorageInterop, IDatabaseConfigService databaseConfigService)
-    {
-        _databaseStorageInterop = databaseStorageInterop;
-        _databaseConfigService = databaseConfigService;
-    }
+    private readonly IDatabaseStorageInterop _databaseStorageInterop = databaseStorageInterop;
+    private readonly IDatabaseConfigService _databaseConfigService = databaseConfigService;
 
     public async Task InitAsync(CancellationToken cancellationToken)
     {

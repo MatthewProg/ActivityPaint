@@ -2,14 +2,9 @@
 
 namespace ActivityPaint.Client.Console.Config.DependencyInjection;
 
-internal sealed class TypeResolver : ITypeResolver
+internal sealed class TypeResolver(IServiceProvider provider) : ITypeResolver
 {
-    private readonly IServiceProvider _provider;
-
-    public TypeResolver(IServiceProvider provider)
-    {
-        _provider = provider ?? throw new ArgumentNullException(nameof(provider));
-    }
+    private readonly IServiceProvider _provider = provider ?? throw new ArgumentNullException(nameof(provider));
 
     public object? Resolve(Type? type)
     {

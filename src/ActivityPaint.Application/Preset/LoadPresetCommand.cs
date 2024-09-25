@@ -22,18 +22,12 @@ internal class LoadPresetCommandValidator : AbstractValidator<LoadPresetCommand>
     }
 }
 
-internal class LoadPresetCommandHandler : IResultRequestHandler<LoadPresetCommand, PresetModel?>
+internal class LoadPresetCommandHandler(IFileSystemInteraction fileSystemInteraction, IFileLoadService fileLoadService, IMediator mediator)
+    : IResultRequestHandler<LoadPresetCommand, PresetModel?>
 {
-    private readonly IFileSystemInteraction _fileSystemInteraction;
-    private readonly IFileLoadService _fileLoadService;
-    private readonly IMediator _mediator;
-
-    public LoadPresetCommandHandler(IFileSystemInteraction fileSystemInteraction, IFileLoadService fileLoadService, IMediator mediator)
-    {
-        _fileSystemInteraction = fileSystemInteraction;
-        _fileLoadService = fileLoadService;
-        _mediator = mediator;
-    }
+    private readonly IFileSystemInteraction _fileSystemInteraction = fileSystemInteraction;
+    private readonly IFileLoadService _fileLoadService = fileLoadService;
+    private readonly IMediator _mediator = mediator;
 
     public async ValueTask<Result<PresetModel?>> Handle(LoadPresetCommand command, CancellationToken cancellationToken)
     {

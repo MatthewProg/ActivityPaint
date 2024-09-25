@@ -23,16 +23,10 @@ public class GenerateLoadCommandSettings : GenerateBranchSettings
 }
 
 
-public class GenerateLoadCommand : AsyncCommand<GenerateLoadCommandSettings>
+public class GenerateLoadCommand(IErrorFeedbackService errorFeedback, IMediator mediator) : AsyncCommand<GenerateLoadCommandSettings>
 {
-    private readonly IErrorFeedbackService _errorFeedback;
-    private readonly IMediator _mediator;
-
-    public GenerateLoadCommand(IErrorFeedbackService errorFeedback, IMediator mediator)
-    {
-        _errorFeedback = errorFeedback;
-        _mediator = mediator;
-    }
+    private readonly IErrorFeedbackService _errorFeedback = errorFeedback;
+    private readonly IMediator _mediator = mediator;
 
     public override async Task<int> ExecuteAsync(CommandContext context, GenerateLoadCommandSettings settings)
     {

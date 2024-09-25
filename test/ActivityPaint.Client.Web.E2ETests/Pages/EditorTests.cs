@@ -1,15 +1,15 @@
 ﻿using ActivityPaint.Client.Web.E2ETests.Extensions;
 using ActivityPaint.Client.Web.E2ETests.Setup;
+using ActivityPaint.Core.Enums;
 using Microsoft.Playwright;
 using System.Net.Mime;
 using System.Text;
 
 namespace ActivityPaint.Client.Web.E2ETests.Pages;
 
-public class EditorTests(WebApplicationFixture app, PlaywrightFixture playwright) : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
+public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApplicationFixture>, IClassFixture<PlaywrightFixture>
 {
     private readonly PlaywrightFixture _playwright = playwright;
-    private readonly WebApplicationFixture _app = app;
 
     [Theory]
     [ClassData(typeof(AllBrowsersData))]
@@ -22,70 +22,70 @@ public class EditorTests(WebApplicationFixture app, PlaywrightFixture playwright
         await _playwright.Run(browser, url, async page =>
         {
             // Assert - load editor page
-            (await page.Locator("h1").TextContentAsync()).Should().Be("Editor");
-            (await page.GetByLabel("Name").InputValueAsync()).Should().BeEmpty();
-            (await page.GetByLabel("Picked year").InputValueAsync()).Should().Be(DateTime.Now.Year.ToString());
+            (await GetTextHeader(page).TextContentAsync()).Should().Be("Editor");
+            (await GetFieldName(page).InputValueAsync()).Should().BeEmpty();
+            (await GetFieldYear(page).InputValueAsync()).Should().Be(DateTime.Now.Year.ToString());
 
             // Assert - name required
-            await page.GetByRole(AriaRole.Button, new() { Name = "Next stage" }).ClickAsync();
+            await GetButtonNextStage(page).ClickAsync();
             (await page.GetByText("Preset name is required!").IsVisibleAsync()).Should().BeTrue();
-            await page.GetByLabel("Name").FillAsync("Test");
+            await GetFieldName(page).FillAsync("Test");
 
             // Assert - theme mode text change
-            (await page.GetByLabel("Light mode is default").IsVisibleAsync()).Should().BeTrue();
+            (await GetCheckboxDarkMode(page, false).IsVisibleAsync()).Should().BeTrue();
             await page.EvalOnSelectorAsync("input[type=checkbox]", "el => el.click()"); // Normal click does not work
-            (await page.GetByLabel("Dark mode is default").IsVisibleAsync()).Should().BeTrue();
+            (await GetCheckboxDarkMode(page, true).IsVisibleAsync()).Should().BeTrue();
 
             // Assert - year pick
             await page.GetByLabel("Open Date Picker").ClickAsync();
             await page.GetByText("2020").ClickAsync();
-            (await page.GetByLabel("Picked year").InputValueAsync()).Should().Be("2020");
-            await page.GetByRole(AriaRole.Button, new() { Name = "Next stage" }).ClickAsync();
+            (await GetFieldYear(page).InputValueAsync()).Should().Be("2020");
+            await GetButtonNextStage(page).ClickAsync();
             await Task.Delay(500);
 
             // Assert - brush size
-            (await page.Locator(".brush-size__input input").InputValueAsync()).Should().Be("1");
-            await page.Locator(".brush-size__input input").FillAsync("50");
-            await page.Locator(".brush-size__input input").BlurAsync();
-            (await page.Locator(".brush-size__input input").InputValueAsync()).Should().Be("30");
-            await page.Locator(".brush-size__input input").FillAsync("0");
-            await page.Locator(".brush-size__input input").BlurAsync();
-            (await page.Locator(".brush-size__input input").InputValueAsync()).Should().Be("1");
-            await page.Locator("button:has(+ .brush-size__input)").ClickAsync(new() { ClickCount = 2 });
-            (await page.Locator(".brush-size__input input").InputValueAsync()).Should().Be("3");
+            (await GetFieldBrushSize(page).InputValueAsync()).Should().Be("1");
+            await GetFieldBrushSize(page).FillAsync("50");
+            await GetFieldBrushSize(page).BlurAsync();
+            (await GetFieldBrushSize(page).InputValueAsync()).Should().Be("30");
+            await GetFieldBrushSize(page).FillAsync("0");
+            await GetFieldBrushSize(page).BlurAsync();
+            (await GetFieldBrushSize(page).InputValueAsync()).Should().Be("1");
+            await GetButtonBrushSizePlus(page).ClickAsync(new() { ClickCount = 2 });
+            (await GetFieldBrushSize(page).InputValueAsync()).Should().Be("3");
 
             // Assert - paint
-            (await page.EvaluateAsync<string[]>("Array.from(document.querySelectorAll('#paint-canvas td[data-doy]')).map(x => x.dataset.level)")).Should().AllBe("0");
-            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > div:nth-child(5)").ClickAsync();
-            await page.Locator("#cell-3-5 div").ClickAsync();
-            await page.Locator("#cell-3-2 div").ClickAsync();
-            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > div:nth-child(4)").ClickAsync();
-            await page.Locator("#cell-7-1 div").ClickAsync();
-            await page.Locator("#cell-7-4 div").ClickAsync();
-            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > div:nth-child(3)").ClickAsync();
-            await page.Locator("#cell-11-5 div").ClickAsync();
-            await page.Locator("#cell-11-2 div").ClickAsync();
-            await page.Locator("div[role=toolbar] .mud-toggle-group:nth-child(3) > div:nth-child(2)").ClickAsync();
-            await page.DragAndDropStepsAsync("#cell-15-1 div", "#cell-15-5 div", 1);
-            await page.Locator(".brush-size__input + button").ClickAsync(new() { ClickCount = 2 });
-            (await page.Locator(".brush-size__input input").InputValueAsync()).Should().Be("1");
-            await page.Locator("div[role=toolbar] .mud-toggle-group:first-child > div:nth-child(2)").ClickAsync();
-            await page.Locator("#cell-15-3 div").ClickAsync();
-            await page.Locator("div[role=toolbar] .mud-toggle-group:first-child > div:nth-child(3)").ClickAsync();
-            await page.Locator("#cell-0-3 div").ClickAsync();
-            (await page.EvaluateAsync<string>("Array.from(document.querySelectorAll('#paint-canvas td[data-doy]')).map(x => x.dataset.level).reduce((x,y) => x+y)")).Should().Be("111113331111111100000000000000000000000000000000000014441333122211110000000000000000000000000000000000001444133312221111000000000000000000000000000000000000114441333122211010000000000000000000000000000000000001144413331222111100000000000000000000000000000000000011444133312221111000000000000000000000000000000000001144411111222111100000000000000000000000000000000000");
-            await page.GetByRole(AriaRole.Button, new() { Name = "Next stage" }).ClickAsync();
+            (await GetCanvasContent(page)).Should().Be("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+            await GetButtonIntensity(page, IntensityEnum.Level4).ClickAsync();
+            await GetCanvasCell(page, 3, 5).ClickAsync();
+            await GetCanvasCell(page, 3, 2).ClickAsync();
+            await GetButtonIntensity(page, IntensityEnum.Level3).ClickAsync();
+            await GetCanvasCell(page, 7, 1).ClickAsync();
+            await GetCanvasCell(page, 7, 4).ClickAsync();
+            await GetButtonIntensity(page, IntensityEnum.Level2).ClickAsync();
+            await GetCanvasCell(page, 11, 5).ClickAsync();
+            await GetCanvasCell(page, 11, 2).ClickAsync();
+            await GetButtonIntensity(page, IntensityEnum.Level1).ClickAsync();
+            await page.DragAndDropStepsAsync(GetCanvasCell(page, 15, 1), GetCanvasCell(page, 15, 5), 1);
+            await GetButtonBrushSizeMinus(page).ClickAsync(new() { ClickCount = 2 });
+            (await GetFieldBrushSize(page).InputValueAsync()).Should().Be("1");
+            await GetButtonToolEraser(page).ClickAsync();
+            await GetCanvasCell(page, 15, 3).ClickAsync();
+            await GetButtonToolFill(page).ClickAsync();
+            await GetCanvasCell(page, 0, 3).ClickAsync();
+            (await GetCanvasContent(page)).Should().Be("111113331111111100000000000000000000000000000000000014441333122211110000000000000000000000000000000000001444133312221111000000000000000000000000000000000000114441333122211010000000000000000000000000000000000001144413331222111100000000000000000000000000000000000011444133312221111000000000000000000000000000000000001144411111222111100000000000000000000000000000000000");
+            await GetButtonNextStage(page).ClickAsync();
             await Task.Delay(500);
 
             // Assert - generate default
-            (await page.GetByRole(AriaRole.Heading, new() { Name = "Please select the method first" }).IsVisibleAsync()).Should().BeTrue();
-            await page.GetByText("CLI", new() { Exact = true }).ClickAsync();
-            (await page.GetByRole(AriaRole.Heading, new() { Name = "Please select the method first" }).IsVisibleAsync()).Should().BeTrue();
+            (await GetTextMethodNotSelected(page).IsVisibleAsync()).Should().BeTrue();
+            await GetCliTab(page).ClickAsync();
+            (await GetTextMethodNotSelected(page).IsVisibleAsync()).Should().BeTrue();
 
             // Assert - CLI generate git commands
-            await page.GetByRole(AriaRole.Radio, new() { Name = "Generate git commands" }).ClickAsync();
-            await page.GetByRole(AriaRole.Button, new() { Name = "Generate commands" }).ClickAsync();
-            (await page.Locator(".generate-commands__textarea textarea").InputValueAsync()).Should().Be("ap-cli.exe git --output \"Test.txt\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
+            await GetButtonGitCommands(page).ClickAsync();
+            await GetButtonGenerateCommands(page).ClickAsync();
+            (await GetTextCommands(page).InputValueAsync()).Should().Be("ap-cli.exe git --output \"Test.txt\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
             var commandText = await page.RunAndWaitForDownloadAsync(async () =>
             {
                 await page.GetByRole(AriaRole.Button, new() { Name = "Save as file" }).ClickAsync();
@@ -94,17 +94,17 @@ public class EditorTests(WebApplicationFixture app, PlaywrightFixture playwright
             (await GetFileContentAsync(commandText)).Should().Be("ap-cli.exe git --output \"Test.txt\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
 
             // Assert - CLI generate and download repo
-            await page.GetByRole(AriaRole.Radio, new() { Name = "Generate and download repository" }).ClickAsync();
-            await page.GetByRole(AriaRole.Button, new() { Name = "Generate commands" }).ClickAsync();
-            (await page.Locator(".generate-commands__textarea textarea").InputValueAsync()).Should().Be("ap-cli.exe generate --author-name \"Activity Paint\" --author-email \"email@example.com\" --zip --output \"Test.zip\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
+            await GetButtonGenerateRepo(page).ClickAsync();
+            await GetButtonGenerateCommands(page).ClickAsync();
+            (await GetTextCommands(page).InputValueAsync()).Should().Be("ap-cli.exe generate --author-name \"Activity Paint\" --author-email \"email@example.com\" --zip --output \"Test.zip\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
 
             // Assert - CLI save preset to file
-            await page.GetByRole(AriaRole.Radio, new() { Name = "Save preset to file" }).ClickAsync();
-            await page.GetByRole(AriaRole.Button, new() { Name = "Generate commands" }).ClickAsync();
-            (await page.Locator(".generate-commands__textarea textarea").InputValueAsync()).Should().Be("ap-cli.exe save --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w== --dark-mode --output \"Test.json\"");
+            await GetButtonSavePreset(page).ClickAsync();
+            await GetButtonGenerateCommands(page).ClickAsync();
+            (await GetTextCommands(page).InputValueAsync()).Should().Be("ap-cli.exe save --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w== --dark-mode --output \"Test.json\"");
 
             // Assert - APP save preset to file
-            await page.GetByText("App", new() { Exact = true }).ClickAsync();
+            await GetAppTab(page).ClickAsync();
             var presetDownload = await page.RunAndWaitForDownloadAsync(async () =>
             {
                 await page.GetByRole(AriaRole.Button, new() { Name = "Save preset" }).ClickAsync();
@@ -113,13 +113,13 @@ public class EditorTests(WebApplicationFixture app, PlaywrightFixture playwright
             (await GetFileContentAsync(presetDownload)).Should().Be("{\"Name\":\"Test\",\"StartDate\":\"2020-01-01T00:00:00\",\"IsDarkModeDefault\":true,\"CanvasData\":\"eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==\"}");
 
             // Assert - APP generate and download repo
-            await page.GetByRole(AriaRole.Radio, new() { Name = "Generate and download repository" }).ClickAsync();
+            await GetButtonGenerateRepo(page).ClickAsync();
             (await page.GetByRole(AriaRole.Heading, new() { Name = "Generation in the browser is not supported yet." }).IsVisibleAsync()).Should().BeTrue();
 
             // Assert - APP generate git commands
-            await page.GetByRole(AriaRole.Radio, new() { Name = "Generate git commands" }).ClickAsync();
-            await page.GetByRole(AriaRole.Button, new() { Name = "Generate commands" }).ClickAsync();
-            (await page.Locator(".generate-commands__textarea textarea").InputValueAsync()).Should().StartWith("git commit --allow-empty --no-verify --date=2020-01-01T12:00:00.0000000+00:00 -m \"ActivityPaint - 'Test' - (Commit 1/223)\";");
+            await GetButtonGitCommands(page).ClickAsync();
+            await GetButtonGenerateCommands(page).ClickAsync();
+            (await GetTextCommands(page).InputValueAsync()).Should().StartWith("git commit --allow-empty --no-verify --date=2020-01-01T12:00:00.0000000+00:00 -m \"ActivityPaint - 'Test' - (Commit 1/223)\";");
         });
     }
 
@@ -134,29 +134,29 @@ public class EditorTests(WebApplicationFixture app, PlaywrightFixture playwright
         {
             Name = "file.json",
             MimeType = MediaTypeNames.Application.Json,
-            Buffer = [..Encoding.UTF8.GetPreamble(), ..contentBytes]
+            Buffer = [.. Encoding.UTF8.GetPreamble(), .. contentBytes]
         };
 
         // Act
         await _playwright.Run(browser, url, async page =>
         {
             // Assert - load editor page
-            (await page.Locator("h1").TextContentAsync()).Should().Be("Editor");
-            (await page.GetByLabel("Name").InputValueAsync()).Should().BeEmpty();
-            (await page.GetByLabel("Picked year").InputValueAsync()).Should().Be(DateTime.Now.Year.ToString());
+            (await GetTextHeader(page).TextContentAsync()).Should().Be("Editor");
+            (await GetFieldName(page).InputValueAsync()).Should().BeEmpty();
+            (await GetFieldYear(page).InputValueAsync()).Should().Be(DateTime.Now.Year.ToString());
 
             // Load file and wait to be processed
-            await page.Locator("input[type=file]").SetInputFilesAsync(uploadFile);
+            await GetFieldFile(page).SetInputFilesAsync(uploadFile);
             await Task.Delay(1000);
 
             // Assert - file parsed
-            (await page.EvaluateAsync<string>("Array.from(document.querySelectorAll('#paint-canvas td[data-doy]')).map(x => x.dataset.level).reduce((x,y) => x+y)")).Should().Be("111113331111111100000000000000000000000000000000000014441333122211110000000000000000000000000000000000001444133312221111000000000000000000000000000000000000114441333122211010000000000000000000000000000000000001144413331222111100000000000000000000000000000000000011444133312221111000000000000000000000000000000000001144411111222111100000000000000000000000000000000000");
-            await page.GetByRole(AriaRole.Button, new() { Name = "Reset" }).ClickAsync();
-            (await page.EvaluateAsync<string[]>("Array.from(document.querySelectorAll('#paint-canvas td[data-doy]')).map(x => x.dataset.level)")).Should().AllBe("0");
-            await page.GetByRole(AriaRole.Button, new() { Name = "Previous stage" }).ClickAsync();
-            (await page.GetByLabel("Name").InputValueAsync()).Should().Be("Test");
-            (await page.GetByLabel("Dark mode is default").IsVisibleAsync()).Should().BeTrue();
-            (await page.GetByLabel("Picked year").InputValueAsync()).Should().Be("2020");
+            (await GetCanvasContent(page)).Should().Be("111113331111111100000000000000000000000000000000000014441333122211110000000000000000000000000000000000001444133312221111000000000000000000000000000000000000114441333122211010000000000000000000000000000000000001144413331222111100000000000000000000000000000000000011444133312221111000000000000000000000000000000000001144411111222111100000000000000000000000000000000000");
+            await GetButtonReset(page).ClickAsync();
+            (await GetCanvasContent(page)).Should().Be("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000");
+            await GetButtonPreviousStage(page).ClickAsync();
+            (await GetFieldName(page).InputValueAsync()).Should().Be("Test");
+            (await GetCheckboxDarkMode(page, true).IsVisibleAsync()).Should().BeTrue();
+            (await GetFieldYear(page).InputValueAsync()).Should().Be("2020");
         });
     }
 
@@ -191,4 +191,44 @@ public class EditorTests(WebApplicationFixture app, PlaywrightFixture playwright
 
         return text;
     }
+
+    // Checkbox
+    private static ILocator GetCheckboxDarkMode(IPage page, bool @checked) => @checked
+        ? page.GetByLabel("Dark mode is default")
+        : page.GetByLabel("Light mode is default");
+
+    // Fields
+    private static ILocator GetFieldName(IPage page) => page.GetByLabel("Name");
+    private static ILocator GetFieldYear(IPage page) => page.GetByLabel("Picked year");
+    private static ILocator GetFieldBrushSize(IPage page) => page.Locator(".brush-size__input input");
+    private static ILocator GetFieldFile(IPage page) => page.Locator("input[type=file]");
+
+    // Buttons
+    private static ILocator GetButtonPreviousStage(IPage page) => page.GetByRole(AriaRole.Button, new() { Name = "Previous stage" });
+    private static ILocator GetButtonNextStage(IPage page) => page.GetByRole(AriaRole.Button, new() { Name = "Next stage" });
+    private static ILocator GetButtonReset(IPage page) => page.GetByRole(AriaRole.Button, new() { Name = "Reset" });
+    private static ILocator GetButtonBrushSizePlus(IPage page) => page.Locator("button:has(+ .brush-size__input)");
+    private static ILocator GetButtonBrushSizeMinus(IPage page) => page.Locator(".brush-size__input + button");
+    private static ILocator GetButtonIntensity(IPage page, IntensityEnum intensity) => page.Locator($"div[role=toolbar] .mud-toggle-group:nth-child(3) > button:nth-child({(int)intensity + 1})");
+    private static ILocator GetButtonToolBrush(IPage page) => GetButtonTool(page, 0);
+    private static ILocator GetButtonToolEraser(IPage page) => GetButtonTool(page, 1);
+    private static ILocator GetButtonToolFill(IPage page) => GetButtonTool(page, 2);
+    private static ILocator GetButtonTool(IPage page, int index) => page.Locator($"div[role=toolbar] .mud-toggle-group:first-child > button:nth-child({index + 1})");
+    private static ILocator GetButtonSavePreset(IPage page) => page.GetByRole(AriaRole.Radio, new() { Name = "Save preset to file" });
+    private static ILocator GetButtonGenerateRepo(IPage page) => page.GetByRole(AriaRole.Radio, new() { Name = "Generate and download repository" });
+    private static ILocator GetButtonGitCommands(IPage page) => page.GetByRole(AriaRole.Radio, new() { Name = "Generate git commands" });
+    private static ILocator GetButtonGenerateCommands(IPage page) => page.GetByRole(AriaRole.Button, new() { Name = "Generate commands" });
+
+    // Canvas
+    private static ILocator GetCanvasCell(IPage page, int x, int y) => page.Locator($"#cell-{x}-{y} div");
+    private static Task<string> GetCanvasContent(IPage page) => page.EvaluateAsync<string>("Array.from(document.querySelectorAll('#paint-canvas td[data-doy]')).map(x => x.dataset.level).reduce((x,y) => x+y)");
+
+    // Tabs
+    private static ILocator GetCliTab(IPage page) => page.GetByText("CLI", new() { Exact = true });
+    private static ILocator GetAppTab(IPage page) => page.GetByText("App", new() { Exact = true });
+
+    // Text
+    private static ILocator GetTextHeader(IPage page) => page.Locator("h1");
+    private static ILocator GetTextMethodNotSelected(IPage page) => page.GetByRole(AriaRole.Heading, new() { Name = "Please select the method first" });
+    private static ILocator GetTextCommands(IPage page) => page.Locator(".generate-commands__textarea textarea");
 }

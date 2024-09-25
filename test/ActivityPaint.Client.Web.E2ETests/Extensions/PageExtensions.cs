@@ -5,10 +5,18 @@ namespace ActivityPaint.Client.Web.E2ETests.Extensions;
 
 public static class PageExtensions
 {
-    public static async Task DragAndDropStepsAsync(this IPage page, string source, string target, int steps = 0)
+    public static Task DragAndDropStepsAsync(this IPage page, string source, string target, int steps = 0)
     {
-        var sourceCentre = await page.Locator(source).PositionAsync();
-        var targetCentre = await page.Locator(target).PositionAsync();
+        var sourceLocator = page.Locator(source);
+        var targetLocator = page.Locator(target);
+
+        return page.DragAndDropStepsAsync(sourceLocator, targetLocator, steps);
+    }
+
+    public static async Task DragAndDropStepsAsync(this IPage page, ILocator source, ILocator target, int steps = 0)
+    {
+        var sourceCentre = await source.PositionAsync();
+        var targetCentre = await target.PositionAsync();
 
         ArgumentNullException.ThrowIfNull(sourceCentre);
         ArgumentNullException.ThrowIfNull(targetCentre);
