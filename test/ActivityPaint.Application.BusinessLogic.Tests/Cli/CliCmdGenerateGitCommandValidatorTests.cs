@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Application.BusinessLogic.Cli;
+using ActivityPaint.Application.BusinessLogic.Tests.Mock;
 using ActivityPaint.Application.DTOs.Preset;
 
 namespace ActivityPaint.Application.BusinessLogic.Tests.Cli;

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using FluentValidation.Results;
 
-namespace ActivityPaint.Application.BusinessLogic.Tests;
+namespace ActivityPaint.Application.BusinessLogic.Tests.Mock;
 
 public static class ValidatorMockFactory
 {

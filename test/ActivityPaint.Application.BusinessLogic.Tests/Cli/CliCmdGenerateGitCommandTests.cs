@@ -40,7 +40,7 @@ public class CliCmdGenerateGitCommandTests
         result.Value.Should().Be(expected);
     }
 
-    public static PresetModel GetValidPreset() => new(
+    private static PresetModel GetValidPreset() => new(
         Name: "Example name",
         StartDate: new DateTime(2023, 1, 1),
         IsDarkModeDefault: true,
