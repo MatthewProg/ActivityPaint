@@ -8,8 +8,11 @@
     <DisableImplicitNuGetFallbackFolder>true</DisableImplicitNuGetFallbackFolder>
   </PropertyGroup>
 
-  <ItemGroup>
-    <InternalsVisibleTo Condition="'$(Configuration)'=='Debug'" Include="$(MSBuildProjectName).Tests" />
+  <ItemGroup Condition="'$(Configuration)'=='Debug'">
+    <InternalsVisibleTo Include="$(MSBuildProjectName).Tests" />
+
+    <!-- For Moq library -->
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
   </ItemGroup>
 
   <ItemGroup>

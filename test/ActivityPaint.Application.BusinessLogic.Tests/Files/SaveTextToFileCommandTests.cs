@@ -30,7 +30,7 @@ public class SaveTextToFileCommandTests
                                                   It.IsAny<CancellationToken>()),
                              Times.Once);
         result.IsSuccess.Should().BeTrue();
-        saveMock.SaveOperationBytes.Should().BeEquivalentTo(contentBytes);
+        saveMock.SaveOperationBytes.Should().Equal(contentBytes);
     }
 
     [Theory]
@@ -56,7 +56,7 @@ public class SaveTextToFileCommandTests
                                                                It.IsAny<CancellationToken>()),
                                     Times.Once);
         result.IsSuccess.Should().BeTrue();
-        interactionMock.SaveOperationBytes.Should().BeEquivalentTo(contentBytes);
+        interactionMock.SaveOperationBytes.Should().Equal(contentBytes);
     }
 
     [Fact]

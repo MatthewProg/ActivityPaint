@@ -91,6 +91,6 @@ public class CanvasDataHelperTests
         var result = CanvasDataHelper.ConvertToList(input);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 }
