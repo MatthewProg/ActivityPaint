@@ -238,7 +238,7 @@ public class GenerateRepoCommandTests
         _commitsServiceMock.VerifyAll();
         _repositoryServiceMock.VerifyAll();
         saveMock.Mock.VerifyNoOtherCalls();
-        interactionMock.Mock.Verify(x => x.PromptFileSaveAsync(It.Is<string>(x => x == $"{preset.Name}.zip"),
+        interactionMock.Mock.Verify(x => x.PromptFileSaveAsync(It.Is<string>(x => x == $"Name_.zip"),
                                                   It.Is<Stream>(x => x.Equals(dummyStream)),
                                                   It.Is<CancellationToken>(x => x.Equals(cancellationToken))),
                              Times.Once);
@@ -247,7 +247,7 @@ public class GenerateRepoCommandTests
     }
 
     private static PresetModel GetValidPreset() => new(
-        Name: "Name",
+        Name: "Name?",
         StartDate: new DateTime(2020, 1, 1),
         IsDarkModeDefault: true,
         CanvasData: [IntensityEnum.Level1, IntensityEnum.Level2]

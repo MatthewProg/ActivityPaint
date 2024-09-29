@@ -17,6 +17,7 @@ internal class ParsePresetCommandValidator : AbstractValidator<ParsePresetComman
     public ParsePresetCommandValidator()
     {
         RuleFor(x => x.PresetStream)
+            .Cascade(CascadeMode.Stop)
             .NotNull()
             .Must(x => x.CanRead).WithMessage("Stream must support reading.");
     }

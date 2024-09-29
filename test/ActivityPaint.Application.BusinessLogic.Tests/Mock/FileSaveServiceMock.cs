@@ -5,7 +5,7 @@ namespace ActivityPaint.Application.BusinessLogic.Tests.Mock;
 
 public class FileSaveServiceMock
 {
-    public Mock<IFileSaveService> Mock { get; } = new();
+    public readonly Mock<IFileSaveService> Mock = new();
     public byte[]? SaveOperationBytes { get; private set; }
 
     public FileSaveServiceMock(bool shouldFail = false)

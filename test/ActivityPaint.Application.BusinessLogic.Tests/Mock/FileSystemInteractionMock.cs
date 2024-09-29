@@ -6,12 +6,14 @@ namespace ActivityPaint.Application.BusinessLogic.Tests.Mock;
 
 public class FileSystemInteractionMock
 {
-    public Mock<IFileSystemInteraction> Mock { get; } = new();
-    public byte[] LoadOperationBytes { get; init; } = Encoding.UTF8.GetPreamble();
+    public readonly Mock<IFileSystemInteraction> Mock = new();
+    public readonly byte[] LoadOperationBytes;
     public byte[]? SaveOperationBytes { get; private set; }
 
-    public FileSystemInteractionMock(bool shouldFail = false)
+    public FileSystemInteractionMock(byte[]? loadOperationBytes = null, bool shouldFail = false)
     {
+        LoadOperationBytes = loadOperationBytes ?? Encoding.UTF8.GetPreamble();
+
         Mock.Setup(x => x.PromptFileSaveAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((string _, Stream stream, CancellationToken _) =>
             {

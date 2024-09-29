@@ -83,7 +83,7 @@ public class SaveTextToFileCommandTests
     public async Task Handle_WhenInteractionFails_ShouldReturnError()
     {
         // Arrange
-        var interactionMock = new FileSystemInteractionMock(true);
+        var interactionMock = new FileSystemInteractionMock(shouldFail: true);
         var saveMock = new FileSaveServiceMock();
         var command = GetValidModel() with { Path = null };
         var service = new SaveTextToFileCommandHandler(interactionMock.Mock.Object, saveMock.Mock.Object);
