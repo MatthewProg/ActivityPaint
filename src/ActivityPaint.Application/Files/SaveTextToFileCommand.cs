@@ -26,16 +26,10 @@ internal class SaveTextToFileCommandValidator : AbstractValidator<SaveTextToFile
     }
 }
 
-internal class SaveTextToFileCommandHandler : IResultRequestHandler<SaveTextToFileCommand>
+internal class SaveTextToFileCommandHandler(IFileSystemInteraction fileSystemInteraction, IFileSaveService fileSaveService) : IResultRequestHandler<SaveTextToFileCommand>
 {
-    private readonly IFileSystemInteraction _fileSystemInteraction;
-    private readonly IFileSaveService _fileSaveService;
-
-    public SaveTextToFileCommandHandler(IFileSystemInteraction fileSystemInteraction, IFileSaveService fileSaveService)
-    {
-        _fileSystemInteraction = fileSystemInteraction;
-        _fileSaveService = fileSaveService;
-    }
+    private readonly IFileSystemInteraction _fileSystemInteraction = fileSystemInteraction;
+    private readonly IFileSaveService _fileSaveService = fileSaveService;
 
     public async ValueTask<Result> Handle(SaveTextToFileCommand command, CancellationToken cancellationToken)
     {

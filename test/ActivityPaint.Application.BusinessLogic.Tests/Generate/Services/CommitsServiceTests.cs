@@ -31,7 +31,7 @@ public class CommitsServiceTests
         var result = service.GenerateCommits(model, format);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public class CommitsServiceTests
         var result = service.GenerateCommits(model, format);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 
     [Fact]
@@ -85,7 +85,7 @@ public class CommitsServiceTests
         var result = service.GenerateCommits(model, format);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 
     [Fact]
@@ -112,7 +112,7 @@ public class CommitsServiceTests
         var result = service.GenerateCommits(model, format);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 
     [Fact]
@@ -139,7 +139,7 @@ public class CommitsServiceTests
         var result = service.GenerateCommits(model, format);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 
     [Fact]
@@ -166,7 +166,7 @@ public class CommitsServiceTests
         var result = service.GenerateCommits(model, format);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 
     [Fact]
@@ -193,7 +193,7 @@ public class CommitsServiceTests
         var result = service.GenerateCommits(model, format);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 
     [Fact]
@@ -220,7 +220,7 @@ public class CommitsServiceTests
         var result = service.GenerateCommits(model, format);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 
     [Fact]
@@ -247,7 +247,7 @@ public class CommitsServiceTests
         var result = service.GenerateCommits(model, format);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 
     [Fact]
@@ -274,7 +274,7 @@ public class CommitsServiceTests
         var result = service.GenerateCommits(model, format);
 
         // Assert
-        result.Should().BeEquivalentTo(expected);
+        result.Should().Equal(expected);
     }
 
     public static PresetModel GetSampleValidPreset() => new(
