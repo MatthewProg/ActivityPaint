@@ -1,11 +1,11 @@
-﻿using ActivityPaint.Application.Abstractions.FileSystem;
-using ActivityPaint.Application.Abstractions.Interactions;
+﻿using ActivityPaint.Application.BusinessLogic.Files;
 using ActivityPaint.Application.BusinessLogic.Preset.Mappers;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Shared.Extensions;
 using ActivityPaint.Core.Shared.Result;
 using FluentValidation;
+using Mediator;
 using System.Text.Json;
 
 namespace ActivityPaint.Application.BusinessLogic.Preset;
@@ -29,10 +29,9 @@ internal class SavePresetCommandValidator : AbstractValidator<SavePresetCommand>
     }
 }
 
-internal class SavePresetCommandHandler(IFileSystemInteraction fileSystemInteraction, IFileSaveService fileSaveService) : IResultRequestHandler<SavePresetCommand>
+internal class SavePresetCommandHandler(IMediator mediator) : IResultRequestHandler<SavePresetCommand>
 {
-    private readonly IFileSystemInteraction _fileSystemInteraction = fileSystemInteraction;
-    private readonly IFileSaveService _fileSaveService = fileSaveService;
+    private readonly IMediator _mediator = mediator;
 
     public async ValueTask<Result> Handle(SavePresetCommand command, CancellationToken cancellationToken)
     {
@@ -42,13 +41,10 @@ internal class SavePresetCommandHandler(IFileSystemInteraction fileSystemInterac
         await JsonSerializer.SerializeAsync(data, model, cancellationToken: cancellationToken);
         data.Seek(0, SeekOrigin.Begin);
 
-        if (string.IsNullOrWhiteSpace(command.Path))
-        {
-            var fileName = GetFileName(model.Name);
-            return await _fileSystemInteraction.PromptFileSaveAsync(fileName, data, cancellationToken);
-        }
+        var fileName = GetFileName(model.Name);
+        var saveCommand = new SaveToFileCommand(data, fileName, command.Path, command.Overwrite);
 
-        return await _fileSaveService.SaveFileAsync(command.Path, data, command.Overwrite, cancellationToken);
+        return await _mediator.Send(saveCommand, cancellationToken);
     }
 
     private static string GetFileName(string name)

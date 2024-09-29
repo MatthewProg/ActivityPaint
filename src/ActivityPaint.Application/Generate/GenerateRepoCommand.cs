@@ -1,6 +1,5 @@
-﻿using ActivityPaint.Application.Abstractions.FileSystem;
-using ActivityPaint.Application.Abstractions.Interactions;
-using ActivityPaint.Application.Abstractions.Repository;
+﻿using ActivityPaint.Application.Abstractions.Repository;
+using ActivityPaint.Application.BusinessLogic.Files;
 using ActivityPaint.Application.BusinessLogic.Generate.Services;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Preset;
@@ -9,6 +8,7 @@ using ActivityPaint.Application.DTOs.Shared.Extensions;
 using ActivityPaint.Core.Shared.Progress;
 using ActivityPaint.Core.Shared.Result;
 using FluentValidation;
+using Mediator;
 
 namespace ActivityPaint.Application.BusinessLogic.Generate;
 
@@ -42,16 +42,14 @@ internal class GenerateRepoCommandValidator : AbstractValidator<GenerateRepoComm
 }
 
 internal class GenerateRepoCommandHandler(
-    IFileSystemInteraction fileSystemInteraction,
     IRepositoryService repositoryService,
-    IFileSaveService fileSaveService,
-    ICommitsService commitsService)
+    ICommitsService commitsService,
+    IMediator mediator)
     : IResultRequestHandler<GenerateRepoCommand>
 {
-    private readonly IFileSystemInteraction _fileSystemInteraction = fileSystemInteraction;
     private readonly IRepositoryService _repositoryService = repositoryService;
-    private readonly IFileSaveService _fileSaveService = fileSaveService;
     private readonly ICommitsService _commitsService = commitsService;
+    private readonly IMediator _mediator = mediator;
 
     public async ValueTask<Result> Handle(GenerateRepoCommand request, CancellationToken cancellationToken)
     {
@@ -74,14 +72,8 @@ internal class GenerateRepoCommandHandler(
             return streamResult.Error;
         }
 
-        if (string.IsNullOrWhiteSpace(request.Path))
-        {
-            var fileName = GetFileName(request.Preset.Name);
-
-            return await _fileSystemInteraction.PromptFileSaveAsync(fileName, streamResult.Value!, cancellationToken);
-        }
-
-        return await _fileSaveService.SaveFileAsync(request.Path, streamResult.Value!, request.Overwrite, cancellationToken);
+        var saveCommand = new SaveToFileCommand(streamResult.Value!, GetFileName(request.Preset.Name), request.Path, request.Overwrite);
+        return await _mediator.Send(saveCommand, cancellationToken);
     }
 
     private static string GetFileName(string name)
