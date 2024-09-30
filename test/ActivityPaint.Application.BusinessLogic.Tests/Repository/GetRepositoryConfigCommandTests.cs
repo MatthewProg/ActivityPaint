@@ -7,19 +7,21 @@ namespace ActivityPaint.Application.BusinessLogic.Tests.Repository;
 
 public class GetRepositoryConfigCommandTests
 {
+    private readonly Mock<IRepositoryConfigRepository> _repositoryMock = new();
+
     [Fact]
     public async Task Handle_WhenNoConfigs_ShouldReturnModelWithNulls()
     {
         // Arrange
         var expected = new RepositoryConfigModel(null, null, null);
         var cancellationToken = new CancellationToken();
-        var mock = new Mock<IRepositoryConfigRepository>();
-        mock.Setup(x => x.GetFirstAsync(It.Is<CancellationToken>(x => x.Equals(cancellationToken))))
-            .ReturnsAsync((RepositoryConfig)null!)
-            .Verifiable(Times.Once);
+
+        _repositoryMock.Setup(x => x.GetFirstAsync(It.Is<CancellationToken>(x => x.Equals(cancellationToken))))
+                       .ReturnsAsync((RepositoryConfig)null!)
+                       .Verifiable(Times.Once);
 
         var command = new GetRepositoryConfigCommand();
-        var service = new GetRepositoryConfigCommandHandler(mock.Object);
+        var service = new GetRepositoryConfigCommandHandler(_repositoryMock.Object);
 
         // Act
         var result = await service.Handle(command, cancellationToken);
@@ -35,19 +37,19 @@ public class GetRepositoryConfigCommandTests
         // Arrange
         var expected = new RepositoryConfigModel("{name} commit", "test@example.com", "Unit Test");
         var cancellationToken = new CancellationToken();
-        var mock = new Mock<IRepositoryConfigRepository>();
-        mock.Setup(x => x.GetFirstAsync(It.Is<CancellationToken>(x => x.Equals(cancellationToken))))
-            .ReturnsAsync(new RepositoryConfig()
-            {
-                Id = 1,
-                AuthorEmail = "test@example.com",
-                AuthorFullName = "Unit Test",
-                MessageFormat = "{name} commit"
-            })
-            .Verifiable(Times.Once);
+
+        _repositoryMock.Setup(x => x.GetFirstAsync(It.Is<CancellationToken>(x => x.Equals(cancellationToken))))
+                       .ReturnsAsync(new RepositoryConfig()
+                       {
+                           Id = 1,
+                           AuthorEmail = "test@example.com",
+                           AuthorFullName = "Unit Test",
+                           MessageFormat = "{name} commit"
+                       })
+                       .Verifiable(Times.Once);
 
         var command = new GetRepositoryConfigCommand();
-        var service = new GetRepositoryConfigCommandHandler(mock.Object);
+        var service = new GetRepositoryConfigCommandHandler(_repositoryMock.Object);
 
         // Act
         var result = await service.Handle(command, cancellationToken);
