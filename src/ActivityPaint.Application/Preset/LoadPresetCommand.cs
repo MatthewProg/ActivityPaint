@@ -1,5 +1,4 @@
-﻿using ActivityPaint.Application.Abstractions.FileSystem;
-using ActivityPaint.Application.Abstractions.Interactions;
+﻿using ActivityPaint.Application.BusinessLogic.Files;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Shared.Extensions;
@@ -22,18 +21,14 @@ internal class LoadPresetCommandValidator : AbstractValidator<LoadPresetCommand>
     }
 }
 
-internal class LoadPresetCommandHandler(IFileSystemInteraction fileSystemInteraction, IFileLoadService fileLoadService, IMediator mediator)
-    : IResultRequestHandler<LoadPresetCommand, PresetModel?>
+internal class LoadPresetCommandHandler(IMediator mediator) : IResultRequestHandler<LoadPresetCommand, PresetModel?>
 {
-    private readonly IFileSystemInteraction _fileSystemInteraction = fileSystemInteraction;
-    private readonly IFileLoadService _fileLoadService = fileLoadService;
     private readonly IMediator _mediator = mediator;
 
     public async ValueTask<Result<PresetModel?>> Handle(LoadPresetCommand command, CancellationToken cancellationToken)
     {
-        var streamResult = string.IsNullOrWhiteSpace(command.Path)
-            ? await _fileSystemInteraction.PromptFileLoadAsync(cancellationToken)
-            : _fileLoadService.GetFileStream(command.Path);
+        var loadCommand = new LoadFromFileCommand(command.Path);
+        var streamResult = await _mediator.Send(loadCommand, cancellationToken);
 
         if (streamResult.IsFailure)
         {

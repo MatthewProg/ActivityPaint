@@ -7,6 +7,8 @@ namespace ActivityPaint.Application.BusinessLogic.Tests.Repository;
 
 public class UpdateRepositoryConfigCommandTests
 {
+    private readonly Mock<IRepositoryConfigRepository> _repositoryMock = new();
+
     [Fact]
     public async Task Handle_WhenAllHaveValues_ShouldMapCorrectly()
     {
@@ -19,19 +21,19 @@ public class UpdateRepositoryConfigCommandTests
             AuthorFullName = "Author Name",
             MessageFormat = "Format"
         };
-        var mock = new Mock<IRepositoryConfigRepository>();
-        mock.Setup(x => x.UpsertFirstAsync(It.IsAny<RepositoryConfig>(), It.IsAny<CancellationToken>()));
+
+        _repositoryMock.Setup(x => x.UpsertFirstAsync(It.Is<RepositoryConfig>(x => CompareRepositoryConfig(x, expected)),
+                                                      It.Is<CancellationToken>(x => x.Equals(cancellationToken))))
+                       .Verifiable(Times.Once);
 
         var command = new UpdateRepositoryConfigCommand(model);
-        var service = new UpdateRepositoryConfigCommandHandler(mock.Object);
+        var service = new UpdateRepositoryConfigCommandHandler(_repositoryMock.Object);
 
         // Act
         var result = await service.Handle(command, cancellationToken);
 
         // Assert
-        mock.Verify(x => x.UpsertFirstAsync(It.Is<RepositoryConfig>(x => CompareRepositoryConfig(x, expected)),
-                                            It.Is<CancellationToken>(x => x.Equals(cancellationToken))),
-                    Times.Once);
+        _repositoryMock.VerifyAll();
         result.IsSuccess.Should().BeTrue();
     }
 
@@ -41,19 +43,19 @@ public class UpdateRepositoryConfigCommandTests
         // Arrange
         var cancellationToken = new CancellationToken();
         var model = new RepositoryConfigModel(string.Empty, string.Empty, string.Empty);
-        var mock = new Mock<IRepositoryConfigRepository>();
-        mock.Setup(x => x.UpsertFirstAsync(It.IsAny<RepositoryConfig>(), It.IsAny<CancellationToken>()));
+
+        _repositoryMock.Setup(x => x.UpsertFirstAsync(It.Is<RepositoryConfig>(x => CompareRepositoryConfig(x, new())),
+                                                      It.Is<CancellationToken>(x => x.Equals(cancellationToken))))
+                       .Verifiable(Times.Once);
 
         var command = new UpdateRepositoryConfigCommand(model);
-        var service = new UpdateRepositoryConfigCommandHandler(mock.Object);
+        var service = new UpdateRepositoryConfigCommandHandler(_repositoryMock.Object);
 
         // Act
         var result = await service.Handle(command, cancellationToken);
 
         // Assert
-        mock.Verify(x => x.UpsertFirstAsync(It.Is<RepositoryConfig>(x => CompareRepositoryConfig(x, new())),
-                                            It.Is<CancellationToken>(x => x.Equals(cancellationToken))),
-                    Times.Once);
+        _repositoryMock.VerifyAll();
         result.IsSuccess.Should().BeTrue();
     }
 

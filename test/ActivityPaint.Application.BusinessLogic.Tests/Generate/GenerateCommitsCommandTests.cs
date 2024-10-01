@@ -8,6 +8,8 @@ namespace ActivityPaint.Application.BusinessLogic.Tests.Generate;
 
 public class GenerateCommitsCommandTests
 {
+    private readonly Mock<ICommitsService> _commitsServiceMock = new();
+
     [Theory]
     [InlineData(null)]
     [InlineData("{name} commit")]
@@ -16,20 +18,20 @@ public class GenerateCommitsCommandTests
         // Arrange
         var preset = GetValidPreset();
         var expected = new List<CommitModel> { new("Sample", DateTimeOffset.Now) };
-        var mock = new Mock<ICommitsService>();
 
-        mock.Setup(x => x.GenerateCommits(It.Is<PresetModel>(x => x.Equals(preset)), It.Is<string?>(x => x == messageFormat)))
-            .Returns(expected)
-            .Verifiable(Times.Once);
+        _commitsServiceMock.Setup(x => x.GenerateCommits(It.Is<PresetModel>(x => x.Equals(preset)),
+                                                         It.Is<string?>(x => x == messageFormat)))
+                           .Returns(expected)
+                           .Verifiable(Times.Once);
 
         var command = new GenerateCommitsCommand(preset, messageFormat);
-        var service = new GenerateCommitsCommandHandler(mock.Object);
+        var service = new GenerateCommitsCommandHandler(_commitsServiceMock.Object);
 
         // Act
         var result = await service.Handle(command, default);
 
         // Assert
-        mock.VerifyAll();
+        _commitsServiceMock.VerifyAll();
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeSameAs(expected);
     }

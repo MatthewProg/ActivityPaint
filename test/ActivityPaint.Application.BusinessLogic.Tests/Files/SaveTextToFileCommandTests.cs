@@ -1,100 +1,62 @@
 ﻿using ActivityPaint.Application.BusinessLogic.Files;
 using ActivityPaint.Application.BusinessLogic.Tests.Mock;
 using ActivityPaint.Core.Shared.Result;
+using Mediator;
 using System.Text;
 
 namespace ActivityPaint.Application.BusinessLogic.Tests.Files;
 
 public class SaveTextToFileCommandTests
 {
+    private readonly Mock<IMediator> _mediatorMock = new();
+
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
-    public async Task Handle_WhenAllDataFilled_ShouldSaveFile(bool overwrite)
+    public async Task Handle_WhenAllCorrect_ShouldSaveFile(bool overwrite)
     {
         // Arrange
-        var interactionMock = new FileSystemInteractionMock();
-        var saveMock = new FileSaveServiceMock();
+        var cancellationToken = new CancellationToken();
         var command = GetValidModel() with { Overwrite = overwrite };
-        byte[] contentBytes = Encoding.UTF8.GetBytes(command.Text, true);
-        var service = new SaveTextToFileCommandHandler(interactionMock.Mock.Object, saveMock.Mock.Object);
+        var bytes = Encoding.UTF8.GetBytes(command.Text, true);
+
+        _mediatorMock.Setup(x => x.Send(It.Is<SaveToFileCommand>(x => x.Overwrite == command.Overwrite
+                                                                      && x.Path == command.Path
+                                                                      && x.SuggestedFileName == "save.txt"
+                                                                      && x.DataStream.ReadBytes().SequenceEqual(bytes)),
+                                        It.Is<CancellationToken>(x => x.Equals(cancellationToken))))
+                     .ReturnsAsync(Result.Success())
+                     .Verifiable(Times.Once);
+
+        var service = new SaveTextToFileCommandHandler(_mediatorMock.Object);
 
         // Act
-        var result = await service.Handle(command, default);
+        var result = await service.Handle(command, cancellationToken);
 
         // Assert
-        interactionMock.Mock.VerifyNoOtherCalls();
-        saveMock.Mock.Verify(x => x.SaveFileAsync(It.Is(command.Path!, StringComparer.Ordinal),
-                                                  It.IsAny<Stream>(),
-                                                  It.Is<bool>(x => x == overwrite),
-                                                  It.IsAny<CancellationToken>()),
-                             Times.Once);
+        _mediatorMock.VerifyAll();
         result.IsSuccess.Should().BeTrue();
-        saveMock.SaveOperationBytes.Should().Equal(contentBytes);
-    }
-
-    [Theory]
-    [InlineData("")]
-    [InlineData(null)]
-    [InlineData("   ")]
-    public async Task Handle_WhenPathIsNullOrWhitespace_ShouldCallInteraction(string? path)
-    {
-        // Arrange
-        var interactionMock = new FileSystemInteractionMock();
-        var saveMock = new FileSaveServiceMock();
-        var command = GetValidModel() with { Path = path };
-        byte[] contentBytes = Encoding.UTF8.GetBytes(command.Text, true);
-        var service = new SaveTextToFileCommandHandler(interactionMock.Mock.Object, saveMock.Mock.Object);
-
-        // Act
-        var result = await service.Handle(command, default);
-
-        // Assert
-        saveMock.Mock.VerifyNoOtherCalls();
-        interactionMock.Mock.Verify(x => x.PromptFileSaveAsync(It.Is("save.txt", StringComparer.Ordinal),
-                                                               It.IsAny<Stream>(),
-                                                               It.IsAny<CancellationToken>()),
-                                    Times.Once);
-        result.IsSuccess.Should().BeTrue();
-        interactionMock.SaveOperationBytes.Should().Equal(contentBytes);
     }
 
     [Fact]
     public async Task Handle_WhenSaveFails_ShouldReturnError()
     {
         // Arrange
-        var interactionMock = new FileSystemInteractionMock();
-        var saveMock = new FileSaveServiceMock(true);
+        var cancellationToken = new CancellationToken();
         var command = GetValidModel();
-        var service = new SaveTextToFileCommandHandler(interactionMock.Mock.Object, saveMock.Mock.Object);
+
+        _mediatorMock.Setup(x => x.Send(It.IsAny<SaveToFileCommand>(),
+                                        It.Is<CancellationToken>(x => x.Equals(cancellationToken))))
+                     .ReturnsAsync(Error.Unknown)
+                     .Verifiable(Times.Once);
+
+        var service = new SaveTextToFileCommandHandler(_mediatorMock.Object);
 
         // Act
-        var result = await service.Handle(command, default);
+        var result = await service.Handle(command, cancellationToken);
 
         // Assert
-        interactionMock.Mock.VerifyNoOtherCalls();
-        saveMock.Mock.Verify(x => x.SaveFileAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<bool>(), It.IsAny<CancellationToken>()),
-                             Times.Once);
-        result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(Error.Unknown);
-    }
-
-    [Fact]
-    public async Task Handle_WhenInteractionFails_ShouldReturnError()
-    {
-        // Arrange
-        var interactionMock = new FileSystemInteractionMock(shouldFail: true);
-        var saveMock = new FileSaveServiceMock();
-        var command = GetValidModel() with { Path = null };
-        var service = new SaveTextToFileCommandHandler(interactionMock.Mock.Object, saveMock.Mock.Object);
-
-        // Act
-        var result = await service.Handle(command, default);
-
-        // Assert
-        saveMock.Mock.VerifyNoOtherCalls();
-        interactionMock.Mock.Verify(x => x.PromptFileSaveAsync(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<CancellationToken>()),
-                                    Times.Once);
+        _mediatorMock.VerifyAll();
         result.IsFailure.Should().BeTrue();
         result.Error.Should().Be(Error.Unknown);
     }

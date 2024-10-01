@@ -1,9 +1,8 @@
-﻿using ActivityPaint.Application.Abstractions.FileSystem;
-using ActivityPaint.Application.Abstractions.Interactions;
-using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
+﻿using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Shared.Extensions;
 using ActivityPaint.Core.Shared.Result;
 using FluentValidation;
+using Mediator;
 using System.Text;
 
 namespace ActivityPaint.Application.BusinessLogic.Files;
@@ -26,10 +25,9 @@ internal class SaveTextToFileCommandValidator : AbstractValidator<SaveTextToFile
     }
 }
 
-internal class SaveTextToFileCommandHandler(IFileSystemInteraction fileSystemInteraction, IFileSaveService fileSaveService) : IResultRequestHandler<SaveTextToFileCommand>
+internal class SaveTextToFileCommandHandler(IMediator mediator) : IResultRequestHandler<SaveTextToFileCommand>
 {
-    private readonly IFileSystemInteraction _fileSystemInteraction = fileSystemInteraction;
-    private readonly IFileSaveService _fileSaveService = fileSaveService;
+    private readonly IMediator _mediator = mediator;
 
     public async ValueTask<Result> Handle(SaveTextToFileCommand command, CancellationToken cancellationToken)
     {
@@ -41,11 +39,7 @@ internal class SaveTextToFileCommandHandler(IFileSystemInteraction fileSystemInt
 
         data.Seek(0, SeekOrigin.Begin);
 
-        if (string.IsNullOrWhiteSpace(command.Path))
-        {
-            return await _fileSystemInteraction.PromptFileSaveAsync("save.txt", data, cancellationToken);
-        }
-
-        return await _fileSaveService.SaveFileAsync(command.Path, data, command.Overwrite, cancellationToken);
+        var saveCommand = new SaveToFileCommand(data, "save.txt", command.Path, command.Overwrite);
+        return await _mediator.Send(saveCommand, cancellationToken);
     }
 }
