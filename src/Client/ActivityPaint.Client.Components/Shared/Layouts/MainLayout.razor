@@ -10,6 +10,9 @@
 <CascadingValue Value="@_defaultTheme" Name="Theme">
     <MudLayout>
         <MudAppBar Elevation="1">
+            <MudTooltip Delay="1000" Text="Drawer">
+                <MudIconButton OnClick="DrawerToggle" Icon="@Icons.Material.Rounded.Notes" Color="Color.Inherit" Edge="Edge.Start" aria-label="Open drawer" />
+            </MudTooltip>
             <MudText Typo="Typo.h5" Class="ml-3">Activity Paint</MudText>
         </MudAppBar>
         <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
