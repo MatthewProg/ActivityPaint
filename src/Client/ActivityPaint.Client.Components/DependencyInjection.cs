@@ -24,9 +24,10 @@ public static class DependencyInjection
 
     private static void AddComponents(this IServiceCollection services)
     {
+        services.AddScoped<IDatabaseStorageInterop, DatabaseStorageInterop>();
         services.AddScoped<IPaintCanvasInterop, PaintCanvasInterop>();
         services.AddScoped<IFileSystemInterop, FileSystemInterop>();
-        services.AddScoped<IDatabaseStorageInterop, DatabaseStorageInterop>();
+        services.AddScoped<IUtilitiesInterop, UtilitiesInterop>();
 
         services.AddScoped<IAppInitializationService, AppInitializationService>();
         services.AddScoped<IFeedbackService, FeedbackService>();
