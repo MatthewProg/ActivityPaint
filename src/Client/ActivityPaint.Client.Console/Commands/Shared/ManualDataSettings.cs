@@ -11,7 +11,7 @@ namespace ActivityPaint.Client.Console.Commands.Shared;
 public abstract class ManualDataSettings : CommandSettings
 {
     [CommandOption("-n|--name")]
-    [Description("Set preset default name.")]
+    [Description("Preset name.")]
     [CurrentYearDefaultValue()]
     public required string Name { get; set; }
 
