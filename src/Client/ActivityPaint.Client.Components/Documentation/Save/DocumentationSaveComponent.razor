@@ -1,0 +1,39 @@
+﻿@using ActivityPaint.Client.Components.Documentation.Shared
+@using ActivityPaint.Client.Components.Shared.Components.Code
+@using Option = ActivityPaint.Client.Components.Documentation.Shared.DocumentationOptionsTableModel
+
+<MudContainer>
+    <MudText Typo="Typo.h5">Saving preset</MudText>
+    <MudText Typo="Typo.h6" Class="my-2">Overview</MudText>
+    <CodeComponent>ap-cli.exe save [OPTIONS]</CodeComponent>
+    <MudText Typo="Typo.body1" Class="mt-1 mb-2">
+        Alias: <CodeComponent>s</CodeComponent>
+    </MudText>
+    <MudText Typo="Typo.body1">
+        This command allows to create a preset file by passing all the details as arguments.
+        By default, preset files should be in the <CodeComponent>.json</CodeComponent> extension, so they can be
+        easily opened by web and desktop applications.
+    </MudText>
+    <MudText Typo="Typo.h6" Class="my-2">Options</MudText>
+    <DocumentationOptionsTableComponent Options="_options" />
+    <MudText Typo="Typo.h6" Class="my-2">Examples</MudText>
+    <CodeComponent Block="true">
+        ap-cli.exe save --name Rainbow --start-date 2020-01-01 --data eAFiZmJkYGRiZmEepekQDgAAAAD//w== --dark-mode --output "./rainbow.json" --force
+    </CodeComponent>
+    <CodeComponent Block="true">
+        ap-cli.exe s -n "Random shapes" -s 2024-01-01 -d eAGUTkESACEIMsf/v3kJ0pymDutBRFE0axF/o+0+ymA/CLgONj2Ug3V5LpazVBLbFfCHV7Y1327lIwf9oIu5cmI91YtTtLhPjfkdBsKcGfIPAAD//w== --output "./shapes.json"
+    </CodeComponent>
+</MudContainer>
+
+@code {
+    private static readonly DateOnly _yearStart = new DateOnly(DateTime.Now.Year, 1, 1);
+    private static readonly List<Option> _options =
+    [
+        Option.Build<string>("-n|--name", "Preset name (default: first day of the current year)", _yearStart.ToString("yyyy-MM-dd")),
+        Option.Build<DateOnly>("-s|--start-date", "Start date of the canvas data in yyyy-MM-dd format (default: first day of the current year)", _yearStart, "{0:yyyy-MM-dd}"),
+        Option.Build<string>("-d|--data", "Canvas data in an encoded string form"),
+        Option.Build<bool>("--dark-mode", "	Use dark mode as a default preview theme", "false"),
+        Option.Build<string>("-o|--output", "Path to the output JSON preset file"),
+        Option.Build<bool>("--force", "Overwrite the existing file", "false")
+    ];
+}

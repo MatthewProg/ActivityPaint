@@ -1,0 +1,26 @@
+﻿@using ActivityPaint.Client.Components.Shared.Components.Code
+
+<MudTable Items="Options">
+    <HeaderContent>
+        <MudTh>Name</MudTh>
+        <MudTh>Type</MudTh>
+        <MudTh>Default</MudTh>
+        <MudTh>Description</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd><CodeComponent>@context.Name</CodeComponent></MudTd>
+        <MudTd><CodeComponent>@context.Type</CodeComponent></MudTd>
+        <MudTd>
+            @if (!string.IsNullOrEmpty(context.Default))
+            {
+                <CodeComponent>@context.Default</CodeComponent>
+            }
+        </MudTd>
+        <MudTd>@context.Description</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    [Parameter, EditorRequired]
+    public IEnumerable<DocumentationOptionsTableModel> Options { get; set; } = [];
+}
