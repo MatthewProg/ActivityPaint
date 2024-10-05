@@ -1,0 +1,14 @@
+﻿@using ActivityPaint.Client.Components.Shared.Components.Code
+
+<MudText Typo="Typo.h6" Class="my-2">Examples</MudText>
+@foreach (var example in Examples)
+{
+    <CodeComponent Block="true">
+        @example
+    </CodeComponent>
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public IEnumerable<string> Examples { get; set; } = [];
+}

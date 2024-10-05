@@ -1,0 +1,36 @@
+﻿@using ActivityPaint.Client.Components.Shared.Components.Code
+<MudText Typo="Typo.h6" Class="my-2">Overview</MudText>
+<CodeComponent>@Command</CodeComponent>
+@if (Aliases.Any())
+{
+    <MudText Typo="Typo.body1" Class="mt-1 mb-2">
+        Aliases:
+        @{
+            var index = 0;
+            var count = Aliases.Count();
+            foreach (var alias in Aliases)
+            {
+                <CodeComponent>@(alias)</CodeComponent>
+                if (index < count - 1)
+                {
+                    <text>,</text>
+                }
+                index++;
+            }
+        }
+    </MudText>
+}
+<MudText Typo="Typo.body1">
+    @ChildContent
+</MudText>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Command { get; set; } = string.Empty;
+
+    [Parameter]
+    public IEnumerable<string> Aliases { get; set; } = [];
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}
