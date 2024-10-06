@@ -1,0 +1,22 @@
+﻿@if (Page is null)
+{
+    return;
+}
+
+<MudContainer>
+    <MudText Typo="Typo.h5">@Page.Title</MudText>
+    <DocumentationOverviewComponent Command="@Page.Command" Aliases="Page.Aliases">
+        @ChildContent
+    </DocumentationOverviewComponent>
+    <MudText Typo="Typo.h6" Class="my-2">Options</MudText>
+    <DocumentationOptionsTableComponent Options="Page.Options" />
+    <DocumentationExamplesComponent Examples="Page.Examples" />
+</MudContainer>
+
+@code {
+    [Parameter, EditorRequired]
+    public IDocumentationPage? Page { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}
