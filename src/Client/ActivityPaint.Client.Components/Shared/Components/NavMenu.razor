@@ -1,6 +1,20 @@
-﻿<MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Brush">Editor</MudNavLink>
-    <MudNavLink Href="gallery" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Collections">Gallery</MudNavLink>
-    <MudNavLink Href="documentation" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Article">Documentation</MudNavLink>
-    <MudNavLink Href="configuration" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">Configuration</MudNavLink>
-</MudNavMenu>
+﻿<div>
+    <MudNavMenu>
+        <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Brush">Editor</MudNavLink>
+        <MudNavLink Href="gallery" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Collections">Gallery</MudNavLink>
+        <MudNavGroup Icon="@Icons.Material.Filled.Article" Title="Documentation" Class="nav-group">
+            <MudNavGroup Title="Save">
+                <MudNavLink Href="/documentation/save/preset" Match="NavLinkMatch.Prefix">Preset</MudNavLink>
+            </MudNavGroup>
+            <MudNavGroup Title="Git">
+                <MudNavLink Href="/documentation/git/new" Match="NavLinkMatch.Prefix">New</MudNavLink>
+                <MudNavLink Href="/documentation/git/load" Match="NavLinkMatch.Prefix">Load</MudNavLink>
+            </MudNavGroup>
+            <MudNavGroup Title="Generate">
+                <MudNavLink Href="/documentation/generate/new" Match="NavLinkMatch.Prefix">New</MudNavLink>
+                <MudNavLink Href="/documentation/generate/load" Match="NavLinkMatch.Prefix">Load</MudNavLink>
+            </MudNavGroup>
+        </MudNavGroup>
+        <MudNavLink Href="configuration" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">Configuration</MudNavLink>
+    </MudNavMenu>
+</div>

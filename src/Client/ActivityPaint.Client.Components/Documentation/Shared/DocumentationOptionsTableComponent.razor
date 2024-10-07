@@ -8,15 +8,15 @@
         <MudTh>Description</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd><CodeComponent>@context.Name</CodeComponent></MudTd>
-        <MudTd><CodeComponent>@context.Type</CodeComponent></MudTd>
-        <MudTd>
+        <MudTd DataLabel="Name"><CodeComponent>@context.Name</CodeComponent></MudTd>
+        <MudTd DataLabel="Type"><CodeComponent>@context.Type</CodeComponent></MudTd>
+        <MudTd DataLabel="Default">
             @if (!string.IsNullOrEmpty(context.Default))
             {
                 <CodeComponent>@context.Default</CodeComponent>
             }
         </MudTd>
-        <MudTd>@context.Description</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
     </RowTemplate>
 </MudTable>
 
