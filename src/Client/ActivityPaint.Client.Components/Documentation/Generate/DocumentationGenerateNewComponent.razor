@@ -1,0 +1,35 @@
+﻿@using ActivityPaint.Client.Components.Documentation.Shared
+@using ActivityPaint.Client.Components.Shared.Components.Code
+@using Option = ActivityPaint.Client.Components.Documentation.Shared.DocumentationOptionsTableModel
+@implements IDocumentationPage
+
+<DocumentationPageComponent Page="this">
+    This command allows to generate a git repository with the commit history matching the canvas data. Depending on the options
+    used, it could be saved as a new repository inside of a <CodeComponent>.zip</CodeComponent> archive or could add commits to
+    an existing repo. The <CodeComponent>new</CodeComponent> variant has to have all data provided using the options.
+</DocumentationPageComponent>
+
+@code {
+    private static readonly DateOnly _yearStart = new DateOnly(DateTime.Now.Year, 1, 1);
+
+    private const string _title = "Generate repository from parameters";
+    private const string _command = "ap-cli.exe generate [OPTIONS] new [OPTIONS]";
+    private static readonly List<string> _aliases = ["new", "n"];
+    private static readonly List<Option> _options =
+    [
+        Option.Build<string>("-n|--name", "Preset name (default: first day of the current year)", _yearStart.ToString("yyyy-MM-dd")),
+        Option.Build<DateOnly>("-s|--start-date", "Start date of the canvas data in yyyy-MM-dd format (default: first day of the current year)", _yearStart, "{0:yyyy-MM-dd}"),
+        Option.Build<string>("-d|--data", "Canvas data in an encoded string form")
+    ];
+    private static readonly List<string> _examples =
+    [
+        "ap-cli.exe generate --output repo.zip --zip --force --author-name \"Activity Paint\" --author-email email@example.com --message \"'{name}' #{current_total}\" new --name Rainbow --start-date 2020-01-01 --data eAFiZmJkYGRiZmEepekQDgAAAAD//w==",
+        "ap-cli.exe g -o ./repo n -n \"Random shapes\" -s 2024-01-01 -d eAGUTkESACEIMsf/v3kJ0pymDutBRFE0axF/o+0+ymA/CLgONj2Ug3V5LpazVBLbFfCHV7Y1327lIwf9oIu5cmI91YtTtLhPjfkdBsKcGfIPAAD//w=="
+    ];
+
+    public string Title { get; } = _title;
+    public string Command { get; } = _command;
+    public IEnumerable<string> Aliases { get; } = _aliases;
+    public IEnumerable<DocumentationOptionsTableModel> Options { get; } = _options;
+    public IEnumerable<string> Examples { get; } = _examples;
+}

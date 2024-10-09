@@ -1,0 +1,33 @@
+﻿@using ActivityPaint.Client.Components.Documentation.Shared
+@using ActivityPaint.Client.Components.Shared.Components.Code
+@using Option = ActivityPaint.Client.Components.Documentation.Shared.DocumentationOptionsTableModel
+@implements IDocumentationPage
+
+<DocumentationPageComponent Page="this">
+    This command allows to generate a list of git commands that, when run, will create a repository with the
+    contribution history matching the canvas. The <CodeComponent>load</CodeComponent> variant uses settings
+    defined in the selected preset file.
+</DocumentationPageComponent>
+
+@code {
+    private static readonly DateOnly _yearStart = new DateOnly(DateTime.Now.Year, 1, 1);
+
+    private const string _title = "Git commands from preset";
+    private const string _command = "ap-cli.exe git [OPTIONS] load <FILE>";
+    private static readonly List<string> _aliases = ["load", "l"];
+    private static readonly List<Option> _options =
+    [
+        Option.Build<string>("<FILE>", "Path to the preset file"),
+    ];
+    private static readonly List<string> _examples =
+    [
+        "ap-cli.exe git --output commands.txt --force --message \"'{name}' #{current_total}\" load preset.json",
+        "ap-cli.exe git -o shapes.txt l C:\\temp\\shapes_preset.json"
+    ];
+
+    public string Title { get; } = _title;
+    public string Command { get; } = _command;
+    public IEnumerable<string> Aliases { get; } = _aliases;
+    public IEnumerable<DocumentationOptionsTableModel> Options { get; } = _options;
+    public IEnumerable<string> Examples { get; } = _examples;
+}
