@@ -1,0 +1,36 @@
+﻿@using ActivityPaint.Client.Components.Documentation.Shared
+@using ActivityPaint.Client.Components.Shared.Components.Code
+@using Option = ActivityPaint.Client.Components.Documentation.Shared.DocumentationOptionsTableModel
+@implements IDocumentationPage
+
+<DocumentationPageComponent Page="this">
+    This command allows to generate a git repository with the commit history matching the canvas data. Depending on the options
+    used, it could be saved as a new repository inside of a <CodeComponent>.zip</CodeComponent> archive or could add commits to
+    an existing repo.
+</DocumentationPageComponent>
+
+@code {
+    private const string _title = "Generate repository";
+    private const string _command = "ap-cli.exe generate [OPTIONS] <COMMAND>";
+    private static readonly List<string> _aliases = ["generate", "g"];
+    private static readonly List<Option> _options =
+    [
+        Option.Build<string>("-m|--message", "Commit message format (default: set in the appsettings.json file - Repo:MessageFormat)", "ActivityPaint - '{name}' - (Commit {current_total}/{total_count})"),
+        Option.Build<string>("--author-name", "Commits author name (default: set in the appsettings.json file - Repo:AuthorFullName)", "Activity Paint"),
+        Option.Build<string>("--author-email", "Commits author email (default: set in the appsettings.json file - Repo:AuthorEmail)", "email@example.com"),
+        Option.Build<string>("-o|--output", "Path to the output zip file or .git directory"),
+        Option.Build<bool>("--zip", "Save generated repository as a zip file instead of .git directory", false),
+        Option.Build<bool>("--force", "Overwrite the existing file (relevant only when --zip is used)", false)
+    ];
+    private static readonly List<string> _examples =
+    [
+        "ap-cli.exe generate --output repo.zip --zip --force --author-name \"Activity Paint\" --author-email email@example.com --message \"'{name}' #{current_total}\" new --name Rainbow --start-date 2020-01-01 --data eAFiZmJkYGRiZmEepekQDgAAAAD//w==",
+        "ap-cli.exe g -o ./repo l C:\\temp\\shapes_preset.json"
+    ];
+
+    public string Title { get; } = _title;
+    public string Command { get; } = _command;
+    public IEnumerable<string> Aliases { get; } = _aliases;
+    public IEnumerable<DocumentationOptionsTableModel> Options { get; } = _options;
+    public IEnumerable<string> Examples { get; } = _examples;
+}
