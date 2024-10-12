@@ -1,6 +1,7 @@
 ﻿@using ActivityPaint.Client.Components.Documentation.Shared
-@using ActivityPaint.Client.Components.Shared.Components.Code
-@using Option = ActivityPaint.Client.Components.Documentation.Shared.DocumentationOptionsTableModel
+@using ActivityPaint.Client.Components.Documentation.Shared.Overview
+@using Option = ActivityPaint.Client.Components.Documentation.Shared.OptionsTable.DocumentationOptionsTableModel
+@using Command = ActivityPaint.Client.Components.Documentation.Shared.CommandsTable.DocumentationCommandsTableModel
 @implements IDocumentationPage
 
 <DocumentationPageComponent Page="this">
@@ -10,13 +11,19 @@
 
 @code {
     private const string _title = "Git commands";
-    private const string _command = "ap-cli.exe git [OPTIONS] <COMMAND>";
+    private static readonly DocumentationOverviewCommandModel _command = new("ap-cli.exe", "git [OPTIONS] <COMMAND>");
+    private static readonly Command _parent = new("ap-cli.exe", "Activity Paint CLI", "/documentation");
     private static readonly List<string> _aliases = ["git"];
     private static readonly List<Option> _options =
     [
-        Option.Build<string>("-m|--message", "Commit message format (default: set in the appsettings.json file - Repo:MessageFormat)", "ActivityPaint - '{name}' - (Commit {current_total}/{total_count})"),
-        Option.Build<string>("-o|--output", "Path to the output txt file with all the commands"),
-        Option.Build<bool>("--force", "Overwrite the existing file (relevant only when --output is used)", false)
+        Option.Build<string>("-m|--message", true, "Commit message format (default: set in the appsettings.json file - Repo:MessageFormat)", "ActivityPaint - '{name}' - (Commit {current_total}/{total_count})"),
+        Option.Build<string>("-o|--output", false, "Path to the output txt file with all the commands"),
+        Option.Build<bool>("--force", false, "Overwrite the existing file (relevant only when --output is used)", false)
+    ];
+    private static readonly List<Command> _commands =
+    [
+        new ("new", "Generate git commands by providing all the details as arguments", "/documentation/git/new"),
+        new ("load", "Generate git commands using a preset file", "/documentation/git/load")
     ];
     private static readonly List<string> _examples =
     [
@@ -25,8 +32,11 @@
     ];
 
     public string Title { get; } = _title;
-    public string Command { get; } = _command;
+    public DocumentationOverviewCommandModel Command { get; } = _command;
+    public Command Parent { get; } = _parent;
     public IEnumerable<string> Aliases { get; } = _aliases;
-    public IEnumerable<DocumentationOptionsTableModel> Options { get; } = _options;
+    public IEnumerable<Option> Options { get; } = _options;
+    public IEnumerable<Option> Arguments { get; } = [];
+    public IEnumerable<Command> Commands { get; } = _commands;
     public IEnumerable<string> Examples { get; } = _examples;
 }

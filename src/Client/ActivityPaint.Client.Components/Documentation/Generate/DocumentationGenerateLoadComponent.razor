@@ -1,6 +1,8 @@
 ﻿@using ActivityPaint.Client.Components.Documentation.Shared
+@using ActivityPaint.Client.Components.Documentation.Shared.Overview
 @using ActivityPaint.Client.Components.Shared.Components.Code
-@using Option = ActivityPaint.Client.Components.Documentation.Shared.DocumentationOptionsTableModel
+@using Option = ActivityPaint.Client.Components.Documentation.Shared.OptionsTable.DocumentationOptionsTableModel
+@using Command = ActivityPaint.Client.Components.Documentation.Shared.CommandsTable.DocumentationCommandsTableModel
 @implements IDocumentationPage
 
 <DocumentationPageComponent Page="this">
@@ -13,11 +15,12 @@
     private static readonly DateOnly _yearStart = new DateOnly(DateTime.Now.Year, 1, 1);
 
     private const string _title = "Generate repository from preset";
-    private const string _command = "ap-cli.exe generate [OPTIONS] load <FILE>";
+    private static readonly DocumentationOverviewCommandModel _command = new("ap-cli.exe generate [OPTIONS]", "load <FILE>");
+    private static readonly Command _parent = new("generate", "Generate repository based on a preset file or arguments provided", "/documentation/generate");
     private static readonly List<string> _aliases = ["load", "l"];
-    private static readonly List<Option> _options =
+    private static readonly List<Option> _arguments =
     [
-        Option.Build<string>("<FILE>", "Path to the preset file"),
+        Option.Build<string>("<FILE>", true, "Path to the preset file"),
     ];
     private static readonly List<string> _examples =
     [
@@ -26,8 +29,11 @@
     ];
 
     public string Title { get; } = _title;
-    public string Command { get; } = _command;
+    public DocumentationOverviewCommandModel Command { get; } = _command;
+    public Command Parent { get; } = _parent;
     public IEnumerable<string> Aliases { get; } = _aliases;
-    public IEnumerable<DocumentationOptionsTableModel> Options { get; } = _options;
+    public IEnumerable<Option> Options { get; } = [];
+    public IEnumerable<Option> Arguments { get; } = _arguments;
+    public IEnumerable<Command> Commands { get; } = [];
     public IEnumerable<string> Examples { get; } = _examples;
 }

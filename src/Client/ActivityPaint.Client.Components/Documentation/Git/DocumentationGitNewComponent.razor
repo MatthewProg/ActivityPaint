@@ -1,6 +1,8 @@
 ﻿@using ActivityPaint.Client.Components.Documentation.Shared
+@using ActivityPaint.Client.Components.Documentation.Shared.Overview
 @using ActivityPaint.Client.Components.Shared.Components.Code
-@using Option = ActivityPaint.Client.Components.Documentation.Shared.DocumentationOptionsTableModel
+@using Option = ActivityPaint.Client.Components.Documentation.Shared.OptionsTable.DocumentationOptionsTableModel
+@using Command = ActivityPaint.Client.Components.Documentation.Shared.CommandsTable.DocumentationCommandsTableModel
 @implements IDocumentationPage
 
 <DocumentationPageComponent Page="this">
@@ -13,13 +15,14 @@
     private static readonly DateOnly _yearStart = new DateOnly(DateTime.Now.Year, 1, 1);
 
     private const string _title = "Git commands from parameters";
-    private const string _command = "ap-cli.exe git [OPTIONS] new [OPTIONS]";
+    private static readonly DocumentationOverviewCommandModel _command = new("ap-cli.exe git [OPTIONS]", "new [OPTIONS]");
+    private static readonly Command _parent = new("git", "Generate git commands to create the repository based on a preset file or arguments provided", "/documentation/git");
     private static readonly List<string> _aliases = ["new", "n"];
     private static readonly List<Option> _options =
     [
-        Option.Build<string>("-n|--name", "Preset name (default: first day of the current year)", _yearStart.ToString("yyyy-MM-dd")),
-        Option.Build<DateOnly>("-s|--start-date", "Start date of the canvas data in yyyy-MM-dd format (default: first day of the current year)", _yearStart, "{0:yyyy-MM-dd}"),
-        Option.Build<string>("-d|--data", "Canvas data in an encoded string form")
+        Option.Build<string>("-n|--name", true, "Preset name (default: first day of the current year)", _yearStart.ToString("yyyy-MM-dd")),
+        Option.Build<DateOnly>("-s|--start-date", true, "Start date of the canvas data in yyyy-MM-dd format (default: first day of the current year)", _yearStart, "{0:yyyy-MM-dd}"),
+        Option.Build<string>("-d|--data", true, "Canvas data in an encoded string form")
     ];
     private static readonly List<string> _examples =
     [
@@ -28,8 +31,11 @@
     ];
 
     public string Title { get; } = _title;
-    public string Command { get; } = _command;
+    public DocumentationOverviewCommandModel Command { get; } = _command;
+    public Command Parent { get; } = _parent;
     public IEnumerable<string> Aliases { get; } = _aliases;
-    public IEnumerable<DocumentationOptionsTableModel> Options { get; } = _options;
+    public IEnumerable<Option> Options { get; } = _options;
+    public IEnumerable<Option> Arguments { get; } = [];
+    public IEnumerable<Command> Commands { get; } = [];
     public IEnumerable<string> Examples { get; } = _examples;
 }

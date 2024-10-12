@@ -20,6 +20,10 @@
             width: auto;
         }
 
+        .code__container .code__text code ::deep a {
+            text-decoration: underline;
+        }
+
     .code__container ::deep .code__copy-button {
         display: none;
         position: absolute;

@@ -3,12 +3,14 @@
 <MudTable Items="Options">
     <HeaderContent>
         <MudTh>Name</MudTh>
+        <MudTh>Required</MudTh>
         <MudTh>Type</MudTh>
         <MudTh>Default</MudTh>
         <MudTh>Description</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Name"><CodeComponent>@context.Name</CodeComponent></MudTd>
+        <MudTd DataLabel="Required"><CodeComponent>@(context.Required ? "yes" : "no")</CodeComponent></MudTd>
         <MudTd DataLabel="Type"><CodeComponent>@context.Type</CodeComponent></MudTd>
         <MudTd DataLabel="Default">
             @if (!string.IsNullOrEmpty(context.Default))
