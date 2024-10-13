@@ -63,7 +63,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "E2E", "E2E", "{FF3E3054-BFF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Client.Web.E2ETests", "test\ActivityPaint.Client.Web.E2ETests\ActivityPaint.Client.Web.E2ETests.csproj", "{3FFCADA0-6E41-4478-94C2-ADF557D107CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActivityPaint.Client.Web.E2EServer", "test\ActivityPaint.Client.Web.E2EServer\ActivityPaint.Client.Web.E2EServer.csproj", "{A6973442-B4FB-47DC-8A81-B7B4154B1622}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityPaint.Client.Web.E2EServer", "test\ActivityPaint.Client.Web.E2EServer\ActivityPaint.Client.Web.E2EServer.csproj", "{A6973442-B4FB-47DC-8A81-B7B4154B1622}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

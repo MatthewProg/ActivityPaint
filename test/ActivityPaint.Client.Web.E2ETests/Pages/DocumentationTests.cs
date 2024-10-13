@@ -18,10 +18,10 @@ public class DocumentationTests(PlaywrightFixture playwright) : IAssemblyFixture
         await _playwright.Run(browser, url, async page =>
         {
             // Assert
-            (await GetTextHeader(page).TextContentAsync()).Should().Be("Documentation");
+            (await GetTextHeader(page).TextContentAsync()).Should().Be("Activity Paint CLI");
         });
     }
 
     // Text
-    private static ILocator GetTextHeader(IPage page) => page.Locator("h1");
+    private static ILocator GetTextHeader(IPage page) => page.GetByRole(AriaRole.Heading, new() { Name = "Activity Paint CLI" });
 }

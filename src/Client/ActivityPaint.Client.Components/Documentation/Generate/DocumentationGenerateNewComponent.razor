@@ -1,0 +1,41 @@
+﻿@using ActivityPaint.Client.Components.Documentation.Shared
+@using ActivityPaint.Client.Components.Documentation.Shared.Overview
+@using ActivityPaint.Client.Components.Shared.Components.Code
+@using Option = ActivityPaint.Client.Components.Documentation.Shared.OptionsTable.DocumentationOptionsTableModel
+@using Command = ActivityPaint.Client.Components.Documentation.Shared.CommandsTable.DocumentationCommandsTableModel
+@implements IDocumentationPage
+
+<DocumentationPageComponent Page="this">
+    This command allows to generate a git repository with the commit history matching the canvas data. Depending on the options
+    used, it could be saved as a new repository inside of a <CodeComponent>.zip</CodeComponent> archive or could add commits to
+    an existing repo. The <CodeComponent>new</CodeComponent> variant has to have all data provided using the options.
+</DocumentationPageComponent>
+
+@code {
+    private static readonly DateOnly _yearStart = new DateOnly(DateTime.Now.Year, 1, 1);
+
+    private const string _title = "Generate repository from parameters";
+    private static readonly DocumentationOverviewCommandModel _command = new("ap-cli.exe generate [OPTIONS]", "new [OPTIONS]");
+    private static readonly Command _parent = new("generate", "Generate repository based on a preset file or arguments provided", "/documentation/generate");
+    private static readonly List<string> _aliases = ["new", "n"];
+    private static readonly List<Option> _options =
+    [
+        Option.Build<string>("-n|--name", true, "Preset name (default: first day of the current year)", _yearStart.ToString("yyyy-MM-dd")),
+        Option.Build<DateOnly>("-s|--start-date", true, "Start date of the canvas data in yyyy-MM-dd format (default: first day of the current year)", _yearStart, "{0:yyyy-MM-dd}"),
+        Option.Build<string>("-d|--data", true, "Canvas data in an encoded string form")
+    ];
+    private static readonly List<string> _examples =
+    [
+        "ap-cli.exe generate --output repo.zip --zip --force --author-name \"Activity Paint\" --author-email email@example.com --message \"'{name}' #{current_total}\" new --name Rainbow --start-date 2020-01-01 --data eAFiZmJkYGRiZmEepekQDgAAAAD//w==",
+        "ap-cli.exe g -o ./repo n -n \"Random shapes\" -s 2024-01-01 -d eAGUTkESACEIMsf/v3kJ0pymDutBRFE0axF/o+0+ymA/CLgONj2Ug3V5LpazVBLbFfCHV7Y1327lIwf9oIu5cmI91YtTtLhPjfkdBsKcGfIPAAD//w=="
+    ];
+
+    public string Title { get; } = _title;
+    public DocumentationOverviewCommandModel Command { get; } = _command;
+    public Command? Parent { get; } = _parent;
+    public IEnumerable<string> Aliases { get; } = _aliases;
+    public IEnumerable<Option> Options { get; } = _options;
+    public IEnumerable<Option> Arguments { get; } = [];
+    public IEnumerable<Command> Commands { get; } = [];
+    public IEnumerable<string> Examples { get; } = _examples;
+}

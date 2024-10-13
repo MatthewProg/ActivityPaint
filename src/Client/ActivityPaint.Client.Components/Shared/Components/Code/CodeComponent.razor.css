@@ -1,0 +1,39 @@
+﻿.code__container {
+    position: relative;
+    background-color: var(--mud-palette-background-gray);
+    display: inline;
+    padding: .125rem .325rem;
+}
+    .code__container.block {
+        display: block;
+        padding: .5rem;
+        margin: .5rem .25rem;
+        border: 1px solid var(--mud-palette-gray-default)
+    }
+
+    .code__container .code__text {
+        display: inherit;
+        overflow-x: auto;
+    }
+
+        .code__container .code__text code {
+            width: auto;
+            font-size: var(--mud-typography-default-size);
+            font-weight: var(--mud-typography-default-weight);
+            line-height: var(--mud-typography-default-lineheight);
+        }
+
+        .code__container .code__text code ::deep a {
+            text-decoration: underline;
+        }
+
+    .code__container ::deep .code__copy-button {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .code__container:hover ::deep .code__copy-button {
+        display: block;
+    }

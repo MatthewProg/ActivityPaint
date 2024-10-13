@@ -1,0 +1,39 @@
+﻿@using ActivityPaint.Client.Components.Documentation.Shared
+@using ActivityPaint.Client.Components.Documentation.Shared.Overview
+@using ActivityPaint.Client.Components.Shared.Components.Code
+@using Option = ActivityPaint.Client.Components.Documentation.Shared.OptionsTable.DocumentationOptionsTableModel
+@using Command = ActivityPaint.Client.Components.Documentation.Shared.CommandsTable.DocumentationCommandsTableModel
+@implements IDocumentationPage
+
+<DocumentationPageComponent Page="this">
+    This command allows to generate a list of git commands that, when run, will create a repository with the
+    contribution history matching the canvas. The <CodeComponent>load</CodeComponent> variant uses settings
+    defined in the selected preset file.
+</DocumentationPageComponent>
+
+@code {
+    private static readonly DateOnly _yearStart = new DateOnly(DateTime.Now.Year, 1, 1);
+
+    private const string _title = "Git commands from preset";
+    private static readonly DocumentationOverviewCommandModel _command = new("ap-cli.exe git [OPTIONS]", "load <FILE>");
+    private static readonly Command _parent = new("git", "Generate git commands to create the repository based on a preset file or arguments provided", "/documentation/git");
+    private static readonly List<string> _aliases = ["load", "l"];
+    private static readonly List<Option> _arguments =
+    [
+        Option.Build<string>("<FILE>", true, "Path to the preset file"),
+    ];
+    private static readonly List<string> _examples =
+    [
+        "ap-cli.exe git --output commands.txt --force --message \"'{name}' #{current_total}\" load preset.json",
+        "ap-cli.exe git -o shapes.txt l C:\\temp\\shapes_preset.json"
+    ];
+
+    public string Title { get; } = _title;
+    public DocumentationOverviewCommandModel Command { get; } = _command;
+    public Command? Parent { get; } = _parent;
+    public IEnumerable<string> Aliases { get; } = _aliases;
+    public IEnumerable<Option> Options { get; } = [];
+    public IEnumerable<Option> Arguments { get; } = _arguments;
+    public IEnumerable<Command> Commands { get; } = [];
+    public IEnumerable<string> Examples { get; } = _examples;
+}

@@ -18,7 +18,7 @@
         }
 
     .generate-commands__container ::deep .generate-commands__textarea > div {
-        background-color: rgba(0, 0, 0, .09);
+        background-color: var(--mud-palette-background-gray);
         padding: .125rem .5rem;
     }
 

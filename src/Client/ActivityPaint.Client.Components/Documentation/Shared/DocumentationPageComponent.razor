@@ -1,0 +1,41 @@
+﻿@using ActivityPaint.Client.Components.Documentation.Shared.CommandsTable
+@using ActivityPaint.Client.Components.Documentation.Shared.OptionsTable
+@using ActivityPaint.Client.Components.Documentation.Shared.Overview
+@if (Page is null)
+{
+    return;
+}
+
+<MudContainer>
+    <MudText Typo="Typo.h5">@Page.Title</MudText>
+    <DocumentationOverviewComponent Command="@Page.Command" Aliases="Page.Aliases" Parent="Page.Parent">
+        @ChildContent
+    </DocumentationOverviewComponent>
+    @if (Page.Options.Any())
+    {
+        <MudText Typo="Typo.h6" Class="my-2">Options</MudText>
+        <DocumentationOptionsTableComponent Options="Page.Options" />
+    }
+    @if (Page.Arguments.Any())
+    {
+        <MudText Typo="Typo.h6" Class="my-2">Arguments</MudText>
+        <DocumentationOptionsTableComponent Options="Page.Arguments" />
+    }
+    @if (Page.Commands.Any())
+    {
+        <MudText Typo="Typo.h6" Class="my-2">Commands</MudText>
+        <DocumentationCommandsTableComponent Commands="Page.Commands" />
+    }
+    @if (Page.Examples.Any())
+    {
+        <DocumentationExamplesComponent Examples="Page.Examples" />
+    }
+</MudContainer>
+
+@code {
+    [Parameter, EditorRequired]
+    public IDocumentationPage? Page { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? ChildContent { get; set; }
+}

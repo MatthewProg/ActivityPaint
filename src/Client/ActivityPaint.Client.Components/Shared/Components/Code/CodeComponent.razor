@@ -1,0 +1,45 @@
+﻿@using ActivityPaint.Client.Components.Shared.Interops
+@using MudBlazor.Utilities
+@inject IUtilitiesInterop UtilitiesInterop
+
+<div class="@_containerClass">
+    <div class="code__text">
+        <code id="@(_guid.ToString("N"))">
+            @ChildContent
+        </code>
+    </div>
+    @if (Block)
+    {
+        <div class="code__copy-button">
+            <MudTooltip Delay="250" Text="@_tooltipText" @onpointerleave="ResetTooltip">
+                <MudIconButton Icon="@Icons.Material.Filled.CopyAll" Size="@Size.Small" OnClick="CopyClicked" />
+            </MudTooltip>
+        </div>
+    }
+</div>
+
+@code {
+    private readonly Guid _guid = Guid.NewGuid();
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Block { get; set; }
+
+    private string _tooltipText = "Copy all";
+    private string _containerClass => new CssBuilder("code__container")
+        .AddClass("block", Block)
+        .Build();
+
+    private void ResetTooltip() => _tooltipText = "Copy all";
+
+    private async Task CopyClicked()
+    {
+        var selector = $"#{_guid:N}";
+
+        await UtilitiesInterop.CopyElementTextToClipboard(selector);
+
+        _tooltipText = "Copied!";
+    }
+}
