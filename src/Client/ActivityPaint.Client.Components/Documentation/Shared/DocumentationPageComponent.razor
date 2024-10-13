@@ -26,7 +26,10 @@
         <MudText Typo="Typo.h6" Class="my-2">Commands</MudText>
         <DocumentationCommandsTableComponent Commands="Page.Commands" />
     }
-    <DocumentationExamplesComponent Examples="Page.Examples" />
+    @if (Page.Examples.Any())
+    {
+        <DocumentationExamplesComponent Examples="Page.Examples" />
+    }
 </MudContainer>
 
 @code {

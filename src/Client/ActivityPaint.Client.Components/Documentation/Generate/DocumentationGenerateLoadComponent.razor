@@ -30,7 +30,7 @@
 
     public string Title { get; } = _title;
     public DocumentationOverviewCommandModel Command { get; } = _command;
-    public Command Parent { get; } = _parent;
+    public Command? Parent { get; } = _parent;
     public IEnumerable<string> Aliases { get; } = _aliases;
     public IEnumerable<Option> Options { get; } = [];
     public IEnumerable<Option> Arguments { get; } = _arguments;

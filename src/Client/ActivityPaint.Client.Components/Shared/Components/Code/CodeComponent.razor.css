@@ -18,6 +18,9 @@
 
         .code__container .code__text code {
             width: auto;
+            font-size: var(--mud-typography-default-size);
+            font-weight: var(--mud-typography-default-weight);
+            line-height: var(--mud-typography-default-lineheight);
         }
 
         .code__container .code__text code ::deep a {

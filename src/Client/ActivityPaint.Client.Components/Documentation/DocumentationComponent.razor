@@ -1,0 +1,32 @@
+﻿@using ActivityPaint.Client.Components.Documentation.Shared
+@using ActivityPaint.Client.Components.Documentation.Shared.Overview
+@using ActivityPaint.Client.Components.Shared.Components.Code
+@using Option = ActivityPaint.Client.Components.Documentation.Shared.OptionsTable.DocumentationOptionsTableModel
+@using Command = ActivityPaint.Client.Components.Documentation.Shared.CommandsTable.DocumentationCommandsTableModel
+@implements IDocumentationPage
+
+<DocumentationPageComponent Page="this">
+    The CLI allows to generate git commands, repositories, and interact with the preset file without the need to
+    run the Web or Desktop application. The CLI is an easy way to use the application logic without the hustle of
+    interacting with the GUI.
+</DocumentationPageComponent>
+
+@code {
+    private const string _title = "Activity Paint CLI";
+    private static readonly DocumentationOverviewCommandModel _command = new("", "ap-cli.exe <COMMAND>");
+    private static readonly List<Command> _commands =
+    [
+        new ("save", "Saves canvas data as a preset file in the specified location", "/documentation/save/preset"),
+        new ("git", "Generate git commands to create the repository based on a preset file or arguments provided", "/documentation/git"),
+        new ("generate", "Generate repository based on a preset file or arguments provided", "/documentation/generate")
+    ];
+
+    public string Title { get; } = _title;
+    public DocumentationOverviewCommandModel Command { get; } = _command;
+    public Command? Parent { get; } = null;
+    public IEnumerable<string> Aliases { get; } = [];
+    public IEnumerable<Option> Options { get; } = [];
+    public IEnumerable<Option> Arguments { get; } = [];
+    public IEnumerable<Command> Commands { get; } = _commands;
+    public IEnumerable<string> Examples { get; } = [];
+}

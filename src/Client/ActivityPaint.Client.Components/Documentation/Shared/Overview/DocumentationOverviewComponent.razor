@@ -7,7 +7,7 @@
 </CodeComponent>
 @if (Aliases.Any())
 {
-    <MudText Typo="Typo.body1" Class="mt-1 mb-2">
+    <MudText Typo="Typo.body1" Class="my-1">
         Aliases:
         @{
             var index = 0;
@@ -26,7 +26,7 @@
 }
 @if (Parent is not null)
 {
-    <MudText Typo="Typo.body1" Class="mt-1 mb-2">
+    <MudText Typo="Typo.body1" Class="my-1">
         Parent:
         <CodeComponent>
             @if (string.IsNullOrEmpty(Parent.DocsUrl))
@@ -40,7 +40,7 @@
         </CodeComponent>
     </MudText>
 }
-<MudText Typo="Typo.body1">
+<MudText Typo="Typo.body1" Class="my-1">
     @ChildContent
 </MudText>
 

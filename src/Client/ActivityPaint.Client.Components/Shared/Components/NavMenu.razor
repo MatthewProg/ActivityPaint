@@ -1,16 +1,18 @@
-﻿<div>
+﻿@inject NavigationManager Nav
+
+<div>
     <MudNavMenu>
         <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Brush">Editor</MudNavLink>
         <MudNavLink Href="gallery" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Collections">Gallery</MudNavLink>
-        <MudNavGroup Icon="@Icons.Material.Filled.Article" Title="Documentation" Class="nav-group">
-            <MudNavGroup Title="Save">
+        <MudNavGroup Icon="@Icons.Material.Filled.Article" Title="Documentation" Class="nav-group" Expanded="@ShouldExpand("/documentation")">
+            <MudNavGroup Title="Save" Expanded="@ShouldExpand("/documentation/save")">
                 <MudNavLink Href="/documentation/save/preset" Match="NavLinkMatch.Prefix">Preset</MudNavLink>
             </MudNavGroup>
-            <MudNavGroup Title="Git">
+            <MudNavGroup Title="Git" Expanded="@ShouldExpand("/documentation/git")">
                 <MudNavLink Href="/documentation/git/new" Match="NavLinkMatch.Prefix">New</MudNavLink>
                 <MudNavLink Href="/documentation/git/load" Match="NavLinkMatch.Prefix">Load</MudNavLink>
             </MudNavGroup>
-            <MudNavGroup Title="Generate">
+            <MudNavGroup Title="Generate" Expanded="@ShouldExpand("/documentation/generate")">
                 <MudNavLink Href="/documentation/generate/new" Match="NavLinkMatch.Prefix">New</MudNavLink>
                 <MudNavLink Href="/documentation/generate/load" Match="NavLinkMatch.Prefix">Load</MudNavLink>
             </MudNavGroup>
@@ -18,3 +20,12 @@
         <MudNavLink Href="configuration" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">Configuration</MudNavLink>
     </MudNavMenu>
 </div>
+
+@code {
+    private bool ShouldExpand(string prefix)
+    {
+        var uri = new Uri(Nav.Uri);
+        var path = uri.AbsolutePath;
+        return path.StartsWith(prefix);
+    }
+}
