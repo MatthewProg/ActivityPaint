@@ -1,5 +1,6 @@
 ﻿using ActivityPaint.Application.Abstractions.Interactions;
 using ActivityPaint.Application.BusinessLogic.Generate.Services;
+using ActivityPaint.Application.BusinessLogic.Image.Services;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator.Pipelines;
 using ActivityPaint.Application.DTOs;
 using ActivityPaint.Core;
@@ -30,6 +31,7 @@ public static class DependencyInjection
     private static void AddServices(this IServiceCollection services)
     {
         services.AddScoped<ICommitsService, CommitsService>();
+        services.AddScoped<IPreviewImageService, PreviewImageService>();
     }
 
     private static void AddCQRS(this IServiceCollection services)
