@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
-    <PackageReference Include="Riok.Mapperly" Version="3.6.0" />
+    <PackageReference Include="Riok.Mapperly" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>

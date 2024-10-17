@@ -24,17 +24,17 @@
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "Direct",
-        "requested": "[8.0.1, )",
-        "resolved": "8.0.1",
-        "contentHash": "fGLiCRLMYd00JYpClraLjJTNKLmMJPnqxMaiRzEBIIvevlzxz33mXy39Lkd48hu1G+N21S7QpaO5ZzKsI6FRuA=="
+        "requested": "[8.0.2, )",
+        "resolved": "8.0.2",
+        "contentHash": "3iE7UF7MQkCv1cxzCahz+Y/guQbTqieyxyaWKhrRO91itI9cOKO76OHeQDahqG4MmW5umr3CcCvGmK92lWNlbg=="
       },
       "Microsoft.Extensions.Logging.Abstractions": {
         "type": "Direct",
-        "requested": "[8.0.1, )",
-        "resolved": "8.0.1",
-        "contentHash": "RIFgaqoaINxkM2KTOw72dmilDmTrYA0ns2KW4lDz4gZ2+o6IQ894CzmdL3StM2oh7QQq44nCWiqKqc4qUI9Jmg==",
+        "requested": "[8.0.2, )",
+        "resolved": "8.0.2",
+        "contentHash": "nroMDjS7hNBPtkZqVBbSiQaQjWRDxITI8Y7XnDs97rqG3EbzVTNLZQf7bIeUJcaHOV8bca47s1Uxq94+2oGdxA==",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.1"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2"
         }
       },
       "FluentValidation": {
@@ -62,8 +62,8 @@
       },
       "Riok.Mapperly": {
         "type": "Transitive",
-        "resolved": "3.6.0",
-        "contentHash": "eQkT3evicd5fdb8HgAJjJ+uvbhfA76ozZZsBtounFrOvk0mj+9tozv1hCYV0f0cTmXIZsxtU93FMWPzd76wSaw=="
+        "resolved": "4.0.0",
+        "contentHash": "p3usGhFauNWoNr5OS/XemjX0G7tNhhdxEDcPwOM6jPdfXiZQdwLFTwZN+/3xmT9QBTn+ba5HWHgm/9DDLZ3iBw=="
       },
       "System.Runtime.CompilerServices.Unsafe": {
         "type": "Transitive",
@@ -86,13 +86,13 @@
         "dependencies": {
           "ActivityPaint.Core": "[1.0.0, )",
           "FluentValidation.DependencyInjectionExtensions": "[11.10.0, )",
-          "Riok.Mapperly": "[3.6.0, )"
+          "Riok.Mapperly": "[4.0.0, )"
         }
       },
       "activitypaint.core": {
         "type": "Project",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "[8.0.1, )"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "[8.0.2, )"
         }
       }
     }

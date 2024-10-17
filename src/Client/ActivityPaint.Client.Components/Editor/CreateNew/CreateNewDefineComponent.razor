@@ -44,7 +44,7 @@
 
     private void ThemeUpdated(object? sender, ThemeEnum theme)
     {
-        DarkModeChanged(theme == ThemeEnum.Dark);
+        DarkModeChanged(EditorModel?.IsDarkModeDefault ?? theme == ThemeEnum.Dark);
     }
 
     private void DarkModeChanged(bool newValue)
