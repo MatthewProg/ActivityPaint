@@ -10,7 +10,7 @@ namespace ActivityPaint.Application.BusinessLogic.Image;
 public record GeneratePreviewImageCommand(
     PresetModel Preset,
     bool? DarkModeOverwrite = null
-) : IResultRequest<byte[]>;
+) : IResultRequest<MemoryStream>;
 
 internal class GeneratePreviewImageCommandValidator : AbstractValidator<GeneratePreviewImageCommand>
 {
@@ -22,11 +22,11 @@ internal class GeneratePreviewImageCommandValidator : AbstractValidator<Generate
     }
 }
 
-internal class GeneratePreviewImageCommandHandler(IPreviewImageService previewImageService) : IResultRequestHandler<GeneratePreviewImageCommand, byte[]>
+internal class GeneratePreviewImageCommandHandler(IPreviewImageService previewImageService) : IResultRequestHandler<GeneratePreviewImageCommand, MemoryStream>
 {
     private readonly IPreviewImageService _previewImageService = previewImageService;
 
-    public async ValueTask<Result<byte[]>> Handle(GeneratePreviewImageCommand request, CancellationToken cancellationToken)
+    public async ValueTask<Result<MemoryStream>> Handle(GeneratePreviewImageCommand request, CancellationToken cancellationToken)
     {
         return await _previewImageService.GeneratePreviewAsync(request.Preset, request.DarkModeOverwrite, cancellationToken);
     }

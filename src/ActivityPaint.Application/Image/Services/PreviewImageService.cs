@@ -7,65 +7,67 @@ namespace ActivityPaint.Application.BusinessLogic.Image.Services;
 
 internal interface IPreviewImageService
 {
-    Task<byte[]> GeneratePreviewAsync(PresetModel preset, bool? darkModeOverwrite = null, CancellationToken cancellationToken = default);
+    Task<MemoryStream> GeneratePreviewAsync(PresetModel preset, bool? darkModeOverwrite = null, CancellationToken cancellationToken = default);
 }
 
 internal class PreviewImageService : IPreviewImageService
 {
-    public async Task<byte[]> GeneratePreviewAsync(PresetModel preset, bool? darkModeOverwrite = null, CancellationToken cancellationToken = default)
+    public async Task<MemoryStream> GeneratePreviewAsync(PresetModel preset, bool? darkModeOverwrite = null, CancellationToken cancellationToken = default)
     {
         var canvas = preset.CanvasData;
         var weekdayOffset = (int)preset.StartDate.DayOfWeek;
         var darkMode = darkModeOverwrite ?? preset.IsDarkModeDefault;
 
         using var image = new Image<Rgba32>(705, 94);
-        image.ProcessPixelRows(pixels =>
-        {
-            for (var y = 0; y < pixels.Height; y++)
-            {
-                var row = pixels.GetRowSpan(y);
-                for (var x = 0; x < row.Length; x++)
-                {
-                    ref var pixel = ref row[x];
+        image.ProcessPixelRows(pixels => GenerateImage(pixels, canvas, weekdayOffset, darkMode));
 
-                    var xMod = x % 13;
-                    var yMod = y % 13;
-                    if (x >= row.Length - 3 // rightmost spacing
-                        || y >= pixels.Height - 3 // bottom spacing
-                        || xMod <= 2 // cell left spacing
-                        || yMod <= 2) // cell top spacing
-                    {
-                        pixel = GetBackgroundPixel(darkMode);
-                        continue;
-                    }
-
-                    if ((yMod is 3 or 12) && (xMod is 3 or 12)) // cell corner radius
-                    {
-                        pixel = GetBackgroundPixel(darkMode);
-                        continue;
-                    }
-
-                    var xPos = x / 13;
-                    var yPos = y / 13;
-                    var index = (xPos * 7) + yPos - weekdayOffset;
-
-                    if (index < 0 || index > canvas.Count - 1)
-                    {
-                        pixel = GetBackgroundPixel(darkMode);
-                    }
-                    else
-                    {
-                        var intensity = canvas[index];
-                        pixel = GetIntensityPixel(intensity, darkMode);
-                    }
-                }
-            }
-        });
-
-        using var memoryStream = new MemoryStream();
+        var memoryStream = new MemoryStream(4096);
         await image.SaveAsPngAsync(memoryStream, cancellationToken);
 
-        return memoryStream.ToArray();
+        return memoryStream;
+    }
+
+    private static void GenerateImage(PixelAccessor<Rgba32> pixels, List<IntensityEnum> canvas, int weekdayOffset, bool darkMode)
+    {
+        for (var y = 0; y < pixels.Height; y++)
+        {
+            var row = pixels.GetRowSpan(y);
+            for (var x = 0; x < row.Length; x++)
+            {
+                ref var pixel = ref row[x];
+
+                var xMod = x % 13;
+                var yMod = y % 13;
+                if (x >= row.Length - 3 // rightmost spacing
+                    || y >= pixels.Height - 3 // bottom spacing
+                    || xMod <= 2 // cell left spacing
+                    || yMod <= 2) // cell top spacing
+                {
+                    pixel = GetBackgroundPixel(darkMode);
+                    continue;
+                }
+
+                if ((yMod is 3 or 12) && (xMod is 3 or 12)) // cell corner radius
+                {
+                    pixel = GetBackgroundPixel(darkMode);
+                    continue;
+                }
+
+                var xPos = x / 13;
+                var yPos = y / 13;
+                var index = (xPos * 7) + yPos - weekdayOffset;
+
+                if (index < 0 || index > canvas.Count - 1)
+                {
+                    pixel = GetBackgroundPixel(darkMode);
+                }
+                else
+                {
+                    var intensity = canvas[index];
+                    pixel = GetIntensityPixel(intensity, darkMode);
+                }
+            }
+        }
     }
 
     private static Rgba32 GetIntensityPixel(IntensityEnum intensity, bool darkMode) => intensity switch
