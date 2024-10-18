@@ -23,6 +23,7 @@ internal class PreviewImageService : IPreviewImageService
 
         var memoryStream = new MemoryStream(4096);
         await image.SaveAsPngAsync(memoryStream, cancellationToken);
+        memoryStream.Seek(0, SeekOrigin.Begin);
 
         return memoryStream;
     }
