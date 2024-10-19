@@ -2,30 +2,23 @@
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Repository;
 using ActivityPaint.Core.Shared.Progress;
+using Riok.Mapperly.Abstractions;
 
 namespace ActivityPaint.Client.Console.Commands.Generate;
 
-public static class GenerateNewCommandSettingsMap
+[Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
+public static partial class GenerateNewCommandSettingsMap
 {
-    public static PresetModel ToPresetModel(this GenerateNewCommandSettings model) => new(
-        Name: model.Name,
-        StartDate: model.StartDate,
-        IsDarkModeDefault: false,
-        CanvasData: model.CanvasData
-    );
+    [MapValue(nameof(PresetModel.IsDarkModeDefault), false)]
+    public static partial PresetModel ToPresetModel(this GenerateNewCommandSettings model);
 
-    public static AuthorModel ToAuthorModel(this GenerateNewCommandSettings model) => new(
-        Email: model.AuthorEmail,
-        FullName: model.AuthorFullName
-    );
+    [MapProperty(nameof(GenerateLoadCommandSettings.AuthorEmail), nameof(AuthorModel.Email))]
+    [MapProperty(nameof(GenerateLoadCommandSettings.AuthorFullName), nameof(AuthorModel.FullName))]
+    public static partial AuthorModel ToAuthorModel(this GenerateNewCommandSettings model);
 
-    public static GenerateRepoCommand ToGenerateRepoCommand(this GenerateNewCommandSettings model, Progress? callback = null) => new(
-        Preset: model.ToPresetModel(),
-        Author: model.ToAuthorModel(),
-        Zip: model.ZipMode,
-        Path: model.OutputPath,
-        Overwrite: model.Overwrite,
-        MessageFormat: model.MessageFormat,
-        ProgressCallback: callback
-    );
+    [MapPropertyFromSource(nameof(GenerateRepoCommand.Preset), Use = nameof(ToPresetModel))]
+    [MapPropertyFromSource(nameof(GenerateRepoCommand.Author), Use = nameof(ToAuthorModel))]
+    [MapProperty(nameof(GenerateLoadCommandSettings.ZipMode), nameof(GenerateRepoCommand.Zip))]
+    [MapProperty(nameof(GenerateLoadCommandSettings.OutputPath), nameof(GenerateRepoCommand.Path))]
+    public static partial GenerateRepoCommand ToGenerateRepoCommand(this GenerateNewCommandSettings model, Progress? progressCallback = null);
 }

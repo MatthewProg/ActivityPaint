@@ -2,23 +2,19 @@
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Repository;
 using ActivityPaint.Core.Shared.Progress;
+using Riok.Mapperly.Abstractions;
 
 namespace ActivityPaint.Client.Console.Commands.Generate;
 
-public static class GenerateLoadCommandSettingsMap
+[Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
+public static partial class GenerateLoadCommandSettingsMap
 {
-    public static AuthorModel ToAuthorModel(this GenerateLoadCommandSettings model) => new(
-        Email: model.AuthorEmail,
-        FullName: model.AuthorFullName
-    );
+    [MapProperty(nameof(GenerateLoadCommandSettings.AuthorEmail), nameof(AuthorModel.Email))]
+    [MapProperty(nameof(GenerateLoadCommandSettings.AuthorFullName), nameof(AuthorModel.FullName))]
+    public static partial AuthorModel ToAuthorModel(this GenerateLoadCommandSettings model);
 
-    public static GenerateRepoCommand ToGenerateRepoCommand(this GenerateLoadCommandSettings model, PresetModel preset, Progress? callback = null) => new(
-        Preset: preset,
-        Author: model.ToAuthorModel(),
-        Zip: model.ZipMode,
-        Path: model.OutputPath,
-        Overwrite: model.Overwrite,
-        MessageFormat: model.MessageFormat,
-        ProgressCallback: callback
-    );
+    [MapPropertyFromSource(nameof(GenerateRepoCommand.Author), Use = nameof(ToAuthorModel))]
+    [MapProperty(nameof(GenerateLoadCommandSettings.ZipMode), nameof(GenerateRepoCommand.Zip))]
+    [MapProperty(nameof(GenerateLoadCommandSettings.OutputPath), nameof(GenerateRepoCommand.Path))]
+    public static partial GenerateRepoCommand ToGenerateRepoCommand(this GenerateLoadCommandSettings model, PresetModel preset, Progress? progressCallback = null);
 }

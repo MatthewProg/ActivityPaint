@@ -1,19 +1,15 @@
 ﻿using ActivityPaint.Application.BusinessLogic.Generate;
 using ActivityPaint.Application.DTOs.Preset;
+using Riok.Mapperly.Abstractions;
 
 namespace ActivityPaint.Client.Console.Commands.Git;
 
-public static class GitNewCommandSettingsMap
+[Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
+public static partial class GitNewCommandSettingsMap
 {
-    public static PresetModel ToPresetModel(this GitNewCommandSettings model) => new(
-        Name: model.Name,
-        StartDate: model.StartDate,
-        IsDarkModeDefault: false,
-        CanvasData: model.CanvasData
-    );
+    [MapValue(nameof(PresetModel.IsDarkModeDefault), false)]
+    public static partial PresetModel ToPresetModel(this GitNewCommandSettings model);
 
-    public static GenerateGitCmdCommand ToGenerateGitCmdCommand(this GitNewCommandSettings model) => new(
-        Preset: model.ToPresetModel(),
-        MessageFormat: model.MessageFormat
-    );
+    [MapPropertyFromSource(nameof(GenerateGitCmdCommand.Preset), Use = nameof(ToPresetModel))]
+    public static partial GenerateGitCmdCommand ToGenerateGitCmdCommand(this GitNewCommandSettings model);
 }

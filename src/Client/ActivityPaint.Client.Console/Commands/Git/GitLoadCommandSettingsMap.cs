@@ -1,12 +1,11 @@
 ﻿using ActivityPaint.Application.BusinessLogic.Generate;
 using ActivityPaint.Application.DTOs.Preset;
+using Riok.Mapperly.Abstractions;
 
 namespace ActivityPaint.Client.Console.Commands.Git;
 
-public static class GitLoadCommandSettingsMap
+[Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
+public static partial class GitLoadCommandSettingsMap
 {
-    public static GenerateGitCmdCommand ToGenerateGitCmdCommand(this GitLoadCommandSettings model, PresetModel preset) => new(
-        Preset: preset,
-        MessageFormat: model.MessageFormat
-    );
+    public static partial GenerateGitCmdCommand ToGenerateGitCmdCommand(this GitLoadCommandSettings model, PresetModel preset);
 }

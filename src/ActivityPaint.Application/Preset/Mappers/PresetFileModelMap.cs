@@ -4,11 +4,10 @@ using Riok.Mapperly.Abstractions;
 
 namespace ActivityPaint.Application.BusinessLogic.Preset.Mappers;
 
-[Mapper]
+[Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
 internal static partial class PresetFileModelMap
 {
     public static partial PresetModel ToPresetModel(this PresetFileModel presetModel);
 
-    [MapperIgnoreSource(nameof(PresetModel.CanvasDataString))]
     public static partial PresetFileModel ToPresetFileModel(this PresetModel preset);
 }
