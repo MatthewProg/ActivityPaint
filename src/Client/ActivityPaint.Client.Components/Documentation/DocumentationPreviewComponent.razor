@@ -1,0 +1,39 @@
+﻿@using ActivityPaint.Client.Components.Documentation.Shared
+@using ActivityPaint.Client.Components.Documentation.Shared.Overview
+@using ActivityPaint.Client.Components.Shared.Components.Code
+@using Option = ActivityPaint.Client.Components.Documentation.Shared.OptionsTable.DocumentationOptionsTableModel
+@using Command = ActivityPaint.Client.Components.Documentation.Shared.CommandsTable.DocumentationCommandsTableModel
+@implements IDocumentationPage
+
+<DocumentationPageComponent Page="this">
+    This group of commands allows to perform actions on the commit history canvas preview.
+</DocumentationPageComponent>
+
+@code {
+    private const string _title = "Canvas preview";
+    private static readonly DocumentationOverviewCommandModel _command = new("ap-cli.exe", "preview [OPTIONS]");
+    private static readonly Command _parent = new("ap-cli.exe", "Activity Paint CLI", "/documentation");
+    private static readonly List<string> _aliases = ["preview", "p"];
+    private static readonly List<Option> _options =
+    [
+        Option.Build<bool?>("--dark-mode-overwrite", false, "If specified, the light or dark mode will be used instead of the one set in the preset")
+    ];
+    private static readonly List<Command> _commands =
+    [
+        new ("save", "Save the generated canvas preview as image", "/documentation/preview/save"),
+    ];
+    private static readonly List<string> _examples =
+    [
+        "ap-cli.exe preview --dark-mode-overwrite true save ./preset.json C:\\tmp\\preview.png --force",
+        "ap-cli.exe p s preset.json preview.png"
+    ];
+
+    public string Title { get; } = _title;
+    public DocumentationOverviewCommandModel Command { get; } = _command;
+    public Command? Parent { get; } = _parent;
+    public IEnumerable<string> Aliases { get; } = _aliases;
+    public IEnumerable<Option> Options { get; } = _options;
+    public IEnumerable<Option> Arguments { get; } = [];
+    public IEnumerable<Command> Commands { get; } = _commands;
+    public IEnumerable<string> Examples { get; } = _examples;
+}

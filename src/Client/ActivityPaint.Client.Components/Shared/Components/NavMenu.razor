@@ -8,6 +8,9 @@
             <MudNavGroup Title="Save" Expanded="@ShouldExpand("/documentation/save")">
                 <MudNavLink Href="/documentation/save/preset" Match="NavLinkMatch.Prefix">Preset</MudNavLink>
             </MudNavGroup>
+            <MudNavGroup Title="Preview" Expanded="@ShouldExpand("/documentation/preview")">
+                <MudNavLink Href="/documentation/preview/save" Match="NavLinkMatch.Prefix">Save</MudNavLink>
+            </MudNavGroup>
             <MudNavGroup Title="Git" Expanded="@ShouldExpand("/documentation/git")">
                 <MudNavLink Href="/documentation/git/new" Match="NavLinkMatch.Prefix">New</MudNavLink>
                 <MudNavLink Href="/documentation/git/load" Match="NavLinkMatch.Prefix">Load</MudNavLink>

@@ -11,15 +11,15 @@
     <DocumentationOverviewComponent Command="@Page.Command" Aliases="Page.Aliases" Parent="Page.Parent">
         @ChildContent
     </DocumentationOverviewComponent>
-    @if (Page.Options.Any())
-    {
-        <MudText Typo="Typo.h6" Class="my-2">Options</MudText>
-        <DocumentationOptionsTableComponent Options="Page.Options" />
-    }
     @if (Page.Arguments.Any())
     {
         <MudText Typo="Typo.h6" Class="my-2">Arguments</MudText>
         <DocumentationOptionsTableComponent Options="Page.Arguments" />
+    }
+    @if (Page.Options.Any())
+    {
+        <MudText Typo="Typo.h6" Class="my-2">Options</MudText>
+        <DocumentationOptionsTableComponent Options="Page.Options" />
     }
     @if (Page.Commands.Any())
     {
