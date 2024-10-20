@@ -1,4 +1,5 @@
-﻿using ActivityPaint.Application.BusinessLogic.Image.Services;
+﻿using ActivityPaint.Application.BusinessLogic.Image.Models;
+using ActivityPaint.Application.BusinessLogic.Image.Services;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Shared.Extensions;
@@ -9,7 +10,7 @@ namespace ActivityPaint.Application.BusinessLogic.Image;
 
 public record GeneratePreviewImageCommand(
     PresetModel Preset,
-    bool? DarkModeOverwrite = null
+    ModeEnum? ModeOverwrite = null
 ) : IResultRequest<MemoryStream>;
 
 internal class GeneratePreviewImageCommandValidator : AbstractValidator<GeneratePreviewImageCommand>
@@ -19,6 +20,9 @@ internal class GeneratePreviewImageCommandValidator : AbstractValidator<Generate
         RuleFor(x => x.Preset)
             .NotNull()
             .SetDefaultValidator(presetValidators);
+
+        RuleFor(x => x.ModeOverwrite)
+            .IsInEnum();
     }
 }
 
@@ -28,6 +32,6 @@ internal class GeneratePreviewImageCommandHandler(IPreviewImageService previewIm
 
     public async ValueTask<Result<MemoryStream>> Handle(GeneratePreviewImageCommand request, CancellationToken cancellationToken)
     {
-        return await _previewImageService.GeneratePreviewAsync(request.Preset, request.DarkModeOverwrite, cancellationToken);
+        return await _previewImageService.GeneratePreviewAsync(request.Preset, request.ModeOverwrite, cancellationToken);
     }
 }

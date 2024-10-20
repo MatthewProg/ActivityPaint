@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Application.BusinessLogic.Image;
+using ActivityPaint.Application.BusinessLogic.Image.Models;
 using ActivityPaint.Application.BusinessLogic.Image.Services;
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Core.Enums;
@@ -11,9 +12,9 @@ public class GeneratePreviewImageCommandTests
 
     [Theory]
     [InlineData(null)]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task Handle_WhenAllCorrect_ShouldSucceed(bool? darkModeOverwrite)
+    [InlineData(ModeEnum.Light)]
+    [InlineData(ModeEnum.Dark)]
+    public async Task Handle_WhenAllCorrect_ShouldSucceed(ModeEnum? modeOverwrite)
     {
         // Arrange
         var cancellationToken = new CancellationToken();
@@ -32,10 +33,10 @@ public class GeneratePreviewImageCommandTests
             ]
         );
 
-        var command = new GeneratePreviewImageCommand(model, darkModeOverwrite);
+        var command = new GeneratePreviewImageCommand(model, modeOverwrite);
 
         _previewImageServiceMock.Setup(x => x.GeneratePreviewAsync(It.Is<PresetModel>(x => x == command.Preset),
-                                                                   It.Is<bool?>(x => x == command.DarkModeOverwrite),
+                                                                   It.Is<ModeEnum?>(x => x == command.ModeOverwrite),
                                                                    It.Is<CancellationToken>(x => x == cancellationToken)))
                                 .ReturnsAsync(dummyStream)
                                 .Verifiable(Times.Once);
@@ -73,7 +74,7 @@ public class GeneratePreviewImageCommandTests
         var command = new GeneratePreviewImageCommand(model);
 
         _previewImageServiceMock.Setup(x => x.GeneratePreviewAsync(It.IsAny<PresetModel>(),
-                                                                   It.IsAny<bool?>(),
+                                                                   It.IsAny<ModeEnum?>(),
                                                                    It.IsAny<CancellationToken>()))
                                 .ThrowsAsync(exception)
                                 .Verifiable(Times.Once);

@@ -40,6 +40,7 @@ public record DocumentationOptionsTableModel
         {
             _ when type == typeof(DateOnly) => "date",
             _ when type == typeof(bool) => "bool",
+            _ when type.IsEnum => "string",
             _ => type.Name.ToLower(),
         };
 

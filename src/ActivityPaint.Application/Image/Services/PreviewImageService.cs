@@ -1,4 +1,5 @@
-﻿using ActivityPaint.Application.DTOs.Preset;
+﻿using ActivityPaint.Application.BusinessLogic.Image.Models;
+using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Core.Enums;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -7,16 +8,16 @@ namespace ActivityPaint.Application.BusinessLogic.Image.Services;
 
 internal interface IPreviewImageService
 {
-    Task<MemoryStream> GeneratePreviewAsync(PresetModel preset, bool? darkModeOverwrite = null, CancellationToken cancellationToken = default);
+    Task<MemoryStream> GeneratePreviewAsync(PresetModel preset, ModeEnum? modeOverwrite = null, CancellationToken cancellationToken = default);
 }
 
 internal class PreviewImageService : IPreviewImageService
 {
-    public async Task<MemoryStream> GeneratePreviewAsync(PresetModel preset, bool? darkModeOverwrite = null, CancellationToken cancellationToken = default)
+    public async Task<MemoryStream> GeneratePreviewAsync(PresetModel preset, ModeEnum? modeOverwrite = null, CancellationToken cancellationToken = default)
     {
         var canvas = preset.CanvasData;
         var weekdayOffset = (int)preset.StartDate.DayOfWeek;
-        var darkMode = darkModeOverwrite ?? preset.IsDarkModeDefault;
+        var darkMode = modeOverwrite is null ? preset.IsDarkModeDefault : modeOverwrite == ModeEnum.Dark;
 
         using var image = new Image<Rgba32>(705, 94);
         image.ProcessPixelRows(pixels => GenerateImage(pixels, canvas, weekdayOffset, darkMode));

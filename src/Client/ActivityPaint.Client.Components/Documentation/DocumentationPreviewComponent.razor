@@ -1,4 +1,5 @@
-﻿@using ActivityPaint.Client.Components.Documentation.Shared
+﻿@using ActivityPaint.Application.BusinessLogic.Image.Models
+@using ActivityPaint.Client.Components.Documentation.Shared
 @using ActivityPaint.Client.Components.Documentation.Shared.Overview
 @using ActivityPaint.Client.Components.Shared.Components.Code
 @using Option = ActivityPaint.Client.Components.Documentation.Shared.OptionsTable.DocumentationOptionsTableModel
@@ -6,7 +7,7 @@
 @implements IDocumentationPage
 
 <DocumentationPageComponent Page="this">
-    This group of commands allows to perform actions on the commit history canvas preview.
+    This group of commands allows to perform actions on the commits history canvas preview.
 </DocumentationPageComponent>
 
 @code {
@@ -16,7 +17,7 @@
     private static readonly List<string> _aliases = ["preview", "p"];
     private static readonly List<Option> _options =
     [
-        Option.Build<bool?>("--dark-mode-overwrite", false, "If specified, the light or dark mode will be used instead of the one set in the preset")
+        Option.Build<ModeEnum?>("--mode-overwrite", false, "If specified, the given mode will be used instead of the one set in the preset. Possible values: light, dark")
     ];
     private static readonly List<Command> _commands =
     [
@@ -24,7 +25,7 @@
     ];
     private static readonly List<string> _examples =
     [
-        "ap-cli.exe preview --dark-mode-overwrite true save ./preset.json C:\\tmp\\preview.png --force",
+        "ap-cli.exe preview --mode-overwrite light save ./preset.json C:\\tmp\\preview.png --force",
         "ap-cli.exe p s preset.json preview.png"
     ];
 

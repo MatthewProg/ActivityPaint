@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Application.BusinessLogic.Files;
+using ActivityPaint.Application.BusinessLogic.Image.Models;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Shared.Extensions;
@@ -10,7 +11,7 @@ namespace ActivityPaint.Application.BusinessLogic.Image;
 
 public record SavePreviewImageCommand(
     PresetModel Preset,
-    bool? DarkModeOverwrite = null,
+    ModeEnum? ModeOverwrite = null,
     string? Path = null,
     bool Overwrite = false
 ) : IResultRequest;
@@ -23,6 +24,9 @@ internal class SavePreviewImageCommandValidator : AbstractValidator<SavePreviewI
             .NotNull()
             .SetDefaultValidator(presetValidators);
 
+        RuleFor(x => x.ModeOverwrite)
+            .IsInEnum();
+
         RuleFor(x => x.Path)
             .Path();
     }
@@ -34,7 +38,7 @@ internal class SavePreviewImageCommandHandler(IMediator mediator) : IResultReque
 
     public async ValueTask<Result> Handle(SavePreviewImageCommand request, CancellationToken cancellationToken)
     {
-        var generateCommand = new GeneratePreviewImageCommand(request.Preset, request.DarkModeOverwrite);
+        var generateCommand = new GeneratePreviewImageCommand(request.Preset, request.ModeOverwrite);
         var generateResult = await _mediator.Send(generateCommand, cancellationToken);
 
         if (generateResult.IsFailure)

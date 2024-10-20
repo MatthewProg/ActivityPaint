@@ -1,5 +1,6 @@
 ﻿using ActivityPaint.Application.BusinessLogic.Files;
 using ActivityPaint.Application.BusinessLogic.Image;
+using ActivityPaint.Application.BusinessLogic.Image.Models;
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Core.Enums;
 using ActivityPaint.Core.Shared.Result;
@@ -20,7 +21,7 @@ public class SavePreviewImageCommandTests
         var cancellationToken = new CancellationToken();
         using var dummyStream = new MemoryStream();
         var path = @"C:\tmp\test.png";
-        var darkModeOverwrite = true;
+        var modeOverwrite = ModeEnum.Dark;
         var model = new PresetModel(
             Name: "Test",
             StartDate: new(2020, 1, 1),
@@ -34,10 +35,10 @@ public class SavePreviewImageCommandTests
                 IntensityEnum.Level4
             ]
         );
-        var command = new SavePreviewImageCommand(model, darkModeOverwrite, path, overwrite);
+        var command = new SavePreviewImageCommand(model, modeOverwrite, path, overwrite);
 
         _mediatorMock.Setup(x => x.Send(It.Is<GeneratePreviewImageCommand>(x => x.Preset == command.Preset
-                                                                                && x.DarkModeOverwrite == command.DarkModeOverwrite),
+                                                                                && x.ModeOverwrite == command.ModeOverwrite),
                                         It.Is<CancellationToken>(x => x.Equals(cancellationToken))))
                      .ReturnsAsync(dummyStream)
                      .Verifiable(Times.Once);

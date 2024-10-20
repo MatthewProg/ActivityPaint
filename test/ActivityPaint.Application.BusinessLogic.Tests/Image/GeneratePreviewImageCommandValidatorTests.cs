@@ -1,5 +1,5 @@
-﻿
-using ActivityPaint.Application.BusinessLogic.Image;
+﻿using ActivityPaint.Application.BusinessLogic.Image;
+using ActivityPaint.Application.BusinessLogic.Image.Models;
 using ActivityPaint.Application.BusinessLogic.Tests.Mock;
 using ActivityPaint.Application.DTOs.Preset;
 
@@ -40,12 +40,12 @@ public class GeneratePreviewImageCommandValidatorTests
     }
 
     [Fact]
-    public void WhenDarkModeOverwriteIsNull_ShouldBeValid()
+    public void WhenModeOverwriteIsNull_ShouldBeValid()
     {
         // Arrange
         var presetMock = ValidatorMockFactory.CreateValid<PresetModel>(Times.AtLeastOnce());
         var validator = new GeneratePreviewImageCommandValidator([presetMock.Object]);
-        var model = GetValidModel() with { DarkModeOverwrite = null };
+        var model = GetValidModel() with { ModeOverwrite = null };
 
         // Act
         var result = validator.TestValidate(model);
@@ -55,8 +55,24 @@ public class GeneratePreviewImageCommandValidatorTests
         result.ShouldNotHaveAnyValidationErrors();
     }
 
+    [Fact]
+    public void WhenModeOverwriteIsInvalidEnum_ShouldBeInvalid()
+    {
+        // Arrange
+        var presetMock = ValidatorMockFactory.CreateValid<PresetModel>(Times.AtLeastOnce());
+        var validator = new GeneratePreviewImageCommandValidator([presetMock.Object]);
+        var model = GetValidModel() with { ModeOverwrite = (ModeEnum)99 };
+
+        // Act
+        var result = validator.TestValidate(model);
+
+        // Assert
+        presetMock.VerifyAll();
+        result.ShouldHaveValidationErrorFor(x => x.ModeOverwrite);
+    }
+
     private static GeneratePreviewImageCommand GetValidModel() => new(
         Preset: new("Test", DateTime.Now, true, []),
-        DarkModeOverwrite: false
+        ModeOverwrite: ModeEnum.Light
     );
 }
