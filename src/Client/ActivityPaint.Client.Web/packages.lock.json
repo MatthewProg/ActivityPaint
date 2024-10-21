@@ -353,8 +353,8 @@
       },
       "MudBlazor": {
         "type": "Transitive",
-        "resolved": "7.11.0",
-        "contentHash": "xY3ocFJ9dmw3Usd8a3LWrlsTM0yLAvw2Pl08fWBMJj16kyhDzW1NLUvcxD8IDIQXRNgxsAlX0lQrvMoHqfzejQ==",
+        "resolved": "7.13.0",
+        "contentHash": "FapnlYCCN84ah+5vwMjcLAvdwFUXhsNxroi7y1sRI0vqYtUR6IZu0CaTbI9zcFAjDHQ4acHVNN71rcRbOfX+Rg==",
         "dependencies": {
           "Microsoft.AspNetCore.Components": "8.0.8",
           "Microsoft.AspNetCore.Components.Web": "8.0.8",
@@ -460,7 +460,7 @@
           "ActivityPaint.Application.BusinessLogic": "[1.0.0, )",
           "CommunityToolkit.Mvvm": "[8.3.2, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.10, )",
-          "MudBlazor": "[7.11.0, )"
+          "MudBlazor": "[7.13.0, )"
         }
       },
       "activitypaint.core": {

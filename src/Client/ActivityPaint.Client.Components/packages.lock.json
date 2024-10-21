@@ -24,9 +24,9 @@
       },
       "MudBlazor": {
         "type": "Direct",
-        "requested": "[7.11.0, )",
-        "resolved": "7.11.0",
-        "contentHash": "xY3ocFJ9dmw3Usd8a3LWrlsTM0yLAvw2Pl08fWBMJj16kyhDzW1NLUvcxD8IDIQXRNgxsAlX0lQrvMoHqfzejQ==",
+        "requested": "[7.13.0, )",
+        "resolved": "7.13.0",
+        "contentHash": "FapnlYCCN84ah+5vwMjcLAvdwFUXhsNxroi7y1sRI0vqYtUR6IZu0CaTbI9zcFAjDHQ4acHVNN71rcRbOfX+Rg==",
         "dependencies": {
           "Microsoft.AspNetCore.Components": "8.0.8",
           "Microsoft.AspNetCore.Components.Web": "8.0.8",
