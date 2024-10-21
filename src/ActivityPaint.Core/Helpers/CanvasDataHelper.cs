@@ -1,4 +1,5 @@
 ﻿using ActivityPaint.Core.Enums;
+using ActivityPaint.Core.Extensions;
 using System.IO.Compression;
 
 namespace ActivityPaint.Core.Helpers;
@@ -23,8 +24,7 @@ public static class CanvasDataHelper
         compressionStream.Write(bytes);
         compressionStream.Flush();
 
-        var compressedBytes = outputStream.ToArray();
-        var output = Convert.ToBase64String(compressedBytes);
+        var output = outputStream.ToBase64String();
 
         return output;
     }
@@ -47,7 +47,8 @@ public static class CanvasDataHelper
         compressionStream.CopyTo(outputStream);
         compressionStream.Flush();
 
-        var decompressedBytes = outputStream.ToArray();
+        var decompressedBytes = outputStream.AsArraySegment();
+
         var output = decompressedBytes.Select(x => (IntensityEnum)x)
                                       .ToList();
 

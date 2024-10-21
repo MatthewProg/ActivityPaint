@@ -19,11 +19,7 @@ public record DocumentationOptionsTableModel
 
     public static DocumentationOptionsTableModel Build<T>(string name, bool required, string description, object? defaultValue = null, string? format = null)
     {
-        var typeString = defaultValue switch
-        {
-            DateOnly => "date",
-            _ => typeof(T).Name.ToLower(),
-        };
+        var typeString = GetTypeName<T>();
 
         var defaultString = defaultValue switch
         {
@@ -33,5 +29,23 @@ public record DocumentationOptionsTableModel
         };
 
         return new(name, required, typeString, defaultString, description);
+    }
+
+    private static string GetTypeName<T>()
+    {
+        var underlyingType = Nullable.GetUnderlyingType(typeof(T));
+        var type = underlyingType ?? typeof(T);
+
+        var typeString = typeof(T) switch
+        {
+            _ when type == typeof(DateOnly) => "date",
+            _ when type == typeof(bool) => "bool",
+            _ when type.IsEnum => "string",
+            _ => type.Name.ToLower(),
+        };
+
+        return underlyingType is null
+            ? typeString
+            : $"{typeString}?";
     }
 }

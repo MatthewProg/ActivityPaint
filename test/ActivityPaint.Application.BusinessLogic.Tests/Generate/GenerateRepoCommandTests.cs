@@ -158,7 +158,7 @@ public class GenerateRepoCommandTests
 
         _mediatorMock.Setup(x => x.Send(It.Is<SaveToFileCommand>(x => x.Overwrite == command.Overwrite
                                                                       && x.Path == command.Path
-                                                                      && x.SuggestedFileName == "Name_.zip"
+                                                                      && x.SuggestedFileName == "Name?.zip"
                                                                       && x.DataStream.Equals(dummyStream)),
                                         It.Is<CancellationToken>(x => x.Equals(cancellationToken))))
                      .ReturnsAsync(Result.Success())

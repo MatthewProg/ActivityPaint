@@ -41,17 +41,8 @@ internal class SavePresetCommandHandler(IMediator mediator) : IResultRequestHand
         await JsonSerializer.SerializeAsync(data, model, cancellationToken: cancellationToken);
         data.Seek(0, SeekOrigin.Begin);
 
-        var fileName = GetFileName(model.Name);
-        var saveCommand = new SaveToFileCommand(data, fileName, command.Path, command.Overwrite);
+        var saveCommand = new SaveToFileCommand(data, $"{model.Name}.json", command.Path, command.Overwrite);
 
         return await _mediator.Send(saveCommand, cancellationToken);
-    }
-
-    private static string GetFileName(string name)
-    {
-        var invalidChars = Path.GetInvalidFileNameChars();
-        var sanitizedName = string.Join('_', name.Split(invalidChars));
-
-        return $"{sanitizedName}.json";
     }
 }

@@ -72,15 +72,9 @@ internal class GenerateRepoCommandHandler(
             return streamResult.Error;
         }
 
-        var saveCommand = new SaveToFileCommand(streamResult.Value!, GetFileName(request.Preset.Name), request.Path, request.Overwrite);
+        using var stream = streamResult.Value!;
+        var saveCommand = new SaveToFileCommand(stream, $"{request.Preset.Name}.zip", request.Path, request.Overwrite);
+
         return await _mediator.Send(saveCommand, cancellationToken);
-    }
-
-    private static string GetFileName(string name)
-    {
-        var invalidChars = Path.GetInvalidFileNameChars();
-        var sanitizedName = string.Join('_', name.Split(invalidChars));
-
-        return $"{sanitizedName}.zip";
     }
 }

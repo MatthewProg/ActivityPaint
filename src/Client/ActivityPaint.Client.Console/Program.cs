@@ -1,5 +1,6 @@
 ﻿using ActivityPaint.Client.Console.Commands.Generate;
 using ActivityPaint.Client.Console.Commands.Git;
+using ActivityPaint.Client.Console.Commands.Preview;
 using ActivityPaint.Client.Console.Commands.Save;
 using ActivityPaint.Client.Console.Config;
 using Spectre.Console.Cli;
@@ -42,6 +43,15 @@ app.Configure(config =>
            .WithAlias("l")
            .WithDescription("Generate git commands using a preset file.");
     });
+
+    config.AddBranch<PreviewBranchSettings>("preview", preview =>
+    {
+        preview.SetDescription("Create canvas preview image.");
+
+        preview.AddCommand<PreviewSaveCommand>("save")
+            .WithAlias("s")
+            .WithDescription("Save the generated canvas preview image to a file.");
+    }).WithAlias("p");
 });
 
 return await app.RunAsync(args);
