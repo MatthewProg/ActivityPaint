@@ -1,0 +1,40 @@
+﻿@using ActivityPaint.Application.BusinessLogic.Gallery
+@using ActivityPaint.Application.DTOs.Preset
+@using ActivityPaint.Client.Components.Shared.Services
+@using Mediator
+@inject IFeedbackService FeedbackService
+@inject IMediator Mediator
+
+<button @onclick="LoadMore">Load</button>
+@foreach (var item in _items)
+{
+    <GalleryItemComponent Item="item" />
+}
+
+@code {
+    private const int _pageSize = 18;
+    private IEnumerable<PresetModel> _items = [];
+    private int _page = 0;
+
+    private async Task LoadMore()
+    {
+        _page++;
+
+        var command = new LoadGalleryItemsCommand(_page, _pageSize);
+        var result = await Mediator.Send(command);
+
+        if (result.IsFailure || result.Value is null)
+        {
+            FeedbackService.ShowError(result.Error);
+            return;
+        }
+
+        _items = _items.Concat(result.Value);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadMore();
+        await base.OnInitializedAsync();
+    }
+}

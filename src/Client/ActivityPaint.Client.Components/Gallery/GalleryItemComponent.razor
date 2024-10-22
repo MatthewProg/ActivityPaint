@@ -1,0 +1,22 @@
+﻿@using ActivityPaint.Application.DTOs.Preset
+<MudCard>
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">@Item.Name</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+    <MudCardMedia Image="" Height="200" />
+    <MudCardContent>
+
+    </MudCardContent>
+    <MudCardActions>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Share</MudButton>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Load</MudButton>
+        <MudButton Variant="Variant.Text" Color="Color.Primary">Save</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Parameter, EditorRequired]
+    public required PresetModel Item { get; set; }
+}
