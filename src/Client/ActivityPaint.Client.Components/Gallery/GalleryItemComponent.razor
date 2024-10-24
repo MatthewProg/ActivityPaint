@@ -1,11 +1,26 @@
-﻿@using ActivityPaint.Application.DTOs.Preset
+﻿@using ActivityPaint.Application.BusinessLogic.Image
+@using ActivityPaint.Application.DTOs.Preset
+@using ActivityPaint.Core.Extensions
+@using Mediator
+@using Microsoft.Extensions.Logging
+@implements IDisposable
+@inject IMediator Mediator
+@inject ILogger<GalleryItemComponent> Logger
+
 <MudCard>
     <MudCardHeader>
         <CardHeaderContent>
-            <MudText Typo="Typo.h6">@Item.Name</MudText>
+            <MudText Typo="Typo.h6" Inline="true">@Item.Name</MudText>
         </CardHeaderContent>
     </MudCardHeader>
-    <MudCardMedia Image="" Height="200" />
+    @if(string.IsNullOrEmpty(_image))
+    {
+        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="68px" />
+    }
+    else
+    {
+        <MudImage Src="@_image" ObjectFit="ObjectFit.Contain" />
+    }
     <MudCardContent>
 
     </MudCardContent>
@@ -17,6 +32,39 @@
 </MudCard>
 
 @code {
+    private CancellationTokenSource _cts = new();
+    private volatile string? _image;
+
     [Parameter, EditorRequired]
     public required PresetModel Item { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Factory.StartNew(LoadImage, _cts.Token);
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LoadImage()
+    {
+        var command = new GeneratePreviewImageCommand(Item);
+        var result = await Mediator.Send(command, _cts.Token);
+
+        if (result.IsFailure || result.Value is null)
+        {
+            Logger.LogError(result.Error.Message);
+            return;
+        }
+
+        var base64 = result.Value.ToBase64String();
+        _image = $"data:image/png;base64,{base64}";
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        _cts.Cancel();
+        _cts.Dispose();
+    }
 }

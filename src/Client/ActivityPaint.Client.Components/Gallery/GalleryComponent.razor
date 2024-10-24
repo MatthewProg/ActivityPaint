@@ -6,10 +6,18 @@
 @inject IMediator Mediator
 
 <button @onclick="LoadMore">Load</button>
-@foreach (var item in _items)
-{
-    <GalleryItemComponent Item="item" />
-}
+<MudGrid Justify="Justify.Center">
+    @foreach (var item in _items)
+    {
+        <MudItem xs="12" sm="6" lg="4">
+            <GalleryItemComponent Item="item" />
+        </MudItem>
+    }
+    @if (!_items.Any())
+    {
+        <h1>Loading...</h1>
+    }
+</MudGrid>
 
 @code {
     private const int _pageSize = 18;
@@ -34,7 +42,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadMore();
+        await Task.Factory.StartNew(LoadMore);
         await base.OnInitializedAsync();
     }
 }
