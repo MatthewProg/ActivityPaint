@@ -8,29 +8,37 @@
 @inject IMediator Mediator
 @inject ILogger<GalleryItemComponent> Logger
 
-<MudCard>
-    <MudCardHeader>
-        <CardHeaderContent>
-            <MudText Typo="Typo.h6" Inline="true">@Item.Name</MudText>
-        </CardHeaderContent>
-    </MudCardHeader>
-    @if(string.IsNullOrEmpty(_image))
-    {
-        <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="68px" />
-    }
-    else
-    {
-        <MudImage Src="@_image" ObjectFit="ObjectFit.Contain" />
-    }
-    <MudCardContent>
-
-    </MudCardContent>
-    <MudCardActions>
-        <MudButton Variant="Variant.Text" Color="Color.Primary">Share</MudButton>
-        <MudButton Variant="Variant.Text" Color="Color.Primary">Load</MudButton>
-        <MudButton Variant="Variant.Text" Color="Color.Primary">Save</MudButton>
-    </MudCardActions>
-</MudCard>
+<div class="item-container">
+    <MudCard>
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6" Class="text-ellipsis nowrap">@Item.Name</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+            </CardHeaderActions>
+        </MudCardHeader>
+        @if(string.IsNullOrEmpty(_image))
+        {
+            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="68px" />
+        }
+        else
+        {
+            <MudImage Src="@_image" ObjectFit="ObjectFit.Contain" />
+        }
+        <MudCardContent>
+            <div class="d-flex flex-wrap justify-space-between">
+                <MudText Typo="Typo.body2" Class="nowrap px-1"><b>Start date: </b>@Item.StartDate.ToString("yyyy-MM-dd")</MudText>
+                <MudText Typo="Typo.body2" Class="nowrap px-1"><b>Default theme: </b>@(Item.IsDarkModeDefault ? "Dark" : "Light")</MudText>
+            </div>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="Variant.Text" Color="Color.Primary">Share</MudButton>
+            <MudButton Variant="Variant.Text" Color="Color.Primary">Load</MudButton>
+            <MudButton Variant="Variant.Text" Color="Color.Primary">Save</MudButton>
+        </MudCardActions>
+    </MudCard>
+</div>
 
 @code {
     private IDisposable? _listenerRegistration;
@@ -51,6 +59,11 @@
 
     private async Task LoadImage(CancellationToken cancellationToken)
     {
+        if (!string.IsNullOrEmpty(_image))
+        {
+            return;
+        }
+
         var command = new GeneratePreviewImageCommand(Item);
         var result = await Mediator.Send(command, cancellationToken);
 
@@ -65,7 +78,7 @@
 
         await InvokeAsync(async () => {
             StateHasChanged();
-            await Task.Delay(1);
+            await Task.Delay(1, cancellationToken);
         });
     }
 
