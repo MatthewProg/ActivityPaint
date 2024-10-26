@@ -1,6 +1,7 @@
 ﻿@using ActivityPaint.Application.BusinessLogic.Gallery
 @using ActivityPaint.Application.DTOs.Preset
 @using ActivityPaint.Client.Components.Shared.Services
+@using ActivityPaint.Client.Components.Shared.Utilities
 @using Mediator
 @inject IFeedbackService FeedbackService
 @inject IMediator Mediator
@@ -10,7 +11,7 @@
     @foreach (var item in _items)
     {
         <MudItem xs="12" sm="6" lg="4">
-            <GalleryItemComponent Item="item" />
+            <GalleryItemComponent Item="item" ParentReadyListener="_itemsReadyTrigger" />
         </MudItem>
     }
     @if (!_items.Any())
@@ -23,6 +24,7 @@
     private const int _pageSize = 18;
     private IEnumerable<PresetModel> _items = [];
     private int _page = 0;
+    private AsyncTrigger _itemsReadyTrigger = new();
 
     private async Task LoadMore()
     {
@@ -38,6 +40,8 @@
         }
 
         _items = _items.Concat(result.Value);
+        await Task.Delay(1);
+        await _itemsReadyTrigger.Notify();
     }
 
     protected override async Task OnInitializedAsync()
