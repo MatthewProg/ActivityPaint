@@ -6,6 +6,7 @@
 @using Microsoft.Extensions.Logging
 @implements IDisposable
 @inject IMediator Mediator
+@inject NavigationManager Navigation
 @inject ILogger<GalleryItemComponent> Logger
 
 <div class="item-container">
@@ -33,15 +34,22 @@
             </div>
         </MudCardContent>
         <MudCardActions>
-            <MudButton Variant="Variant.Text" Color="Color.Primary">Share</MudButton>
-            <MudButton Variant="Variant.Text" Color="Color.Primary">Load</MudButton>
-            <MudButton Variant="Variant.Text" Color="Color.Primary">Save</MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="() => _shareOpened = !_shareOpened">
+                Share
+                <MudPopover AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.BottomLeft" Open="_shareOpened">
+                    <GalleryItemShareComponent @ref="_shareComponent" Item="Item" />
+                </MudPopover>
+            </MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Edit">Edit</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
         </MudCardActions>
     </MudCard>
 </div>
 
 @code {
+    private GalleryItemShareComponent? _shareComponent;
     private IDisposable? _listenerRegistration;
+    private bool _shareOpened = false;
     private volatile string? _image;
 
     [Parameter, EditorRequired]
@@ -80,6 +88,17 @@
             StateHasChanged();
             await Task.Delay(1, cancellationToken);
         });
+    }
+
+    private void Edit()
+    {
+        var redirect = _shareComponent?.ShareUrl;
+        if (string.IsNullOrEmpty(redirect))
+        {
+            return;
+        }
+
+        Navigation.NavigateTo(redirect, false);
     }
 
     public void Dispose()

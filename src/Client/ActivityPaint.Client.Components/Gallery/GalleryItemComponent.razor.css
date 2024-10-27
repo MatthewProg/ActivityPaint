@@ -10,3 +10,7 @@
 .item-container:hover ::deep .mud-card-header-actions {
     display: block;
 }
+
+.item-container ::deep .mud-card-actions {
+    justify-content: space-between;
+}
