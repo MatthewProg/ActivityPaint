@@ -1,0 +1,67 @@
+﻿@using ActivityPaint.Application.BusinessLogic.Image
+@using ActivityPaint.Application.DTOs.Preset
+@using ActivityPaint.Client.Components.Shared.Utilities
+@using ActivityPaint.Core.Extensions
+@using Mediator
+@using Microsoft.Extensions.Logging
+@implements IDisposable
+@inject IMediator Mediator
+@inject ILogger<GalleryItemImageComponent> Logger
+
+@if (string.IsNullOrEmpty(_image))
+{
+    <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="68px" />
+}
+else
+{
+    <MudImage Src="@_image" ObjectFit="ObjectFit.Contain" />
+}
+
+@code {
+    private IDisposable? _listenerRegistration;
+    private volatile string? _image;
+
+    [Parameter, EditorRequired]
+    public required PresetModel Item { get; set; }
+
+    [Parameter, EditorRequired]
+    public required IListener ParentReadyListener { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _listenerRegistration = ParentReadyListener.Listen(ct => Task.Factory.StartNew(async () => await LoadImage(ct), ct));
+
+        base.OnInitialized();
+    }
+
+    private async Task LoadImage(CancellationToken cancellationToken)
+    {
+        if (!string.IsNullOrEmpty(_image))
+        {
+            return;
+        }
+
+        var command = new GeneratePreviewImageCommand(Item);
+        var result = await Mediator.Send(command, cancellationToken);
+
+        if (result.IsFailure || result.Value is null)
+        {
+            Logger.LogError(result.Error.Message);
+            return;
+        }
+
+        var base64 = result.Value.ToBase64String();
+        _image = $"data:image/png;base64,{base64}";
+
+        await InvokeAsync(async () =>
+        {
+            StateHasChanged();
+            await Task.Delay(1, cancellationToken);
+        });
+    }
+
+    public void Dispose()
+    {
+        _listenerRegistration?.Dispose();
+    }
+}

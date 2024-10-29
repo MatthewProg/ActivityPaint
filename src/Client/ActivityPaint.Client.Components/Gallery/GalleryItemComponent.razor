@@ -1,32 +1,18 @@
-﻿@using ActivityPaint.Application.BusinessLogic.Image
-@using ActivityPaint.Application.DTOs.Preset
+﻿@using ActivityPaint.Application.DTOs.Preset
 @using ActivityPaint.Client.Components.Shared.Utilities
-@using ActivityPaint.Core.Extensions
-@using Mediator
-@using Microsoft.Extensions.Logging
-@implements IDisposable
-@inject IMediator Mediator
 @inject NavigationManager Navigation
-@inject ILogger<GalleryItemComponent> Logger
 
-<div class="item-container">
+<div class="item-container" @onpointerleave="MouseLeave">
     <MudCard>
         <MudCardHeader>
             <CardHeaderContent>
-                <MudText Typo="Typo.h6" Class="text-ellipsis nowrap">@Item.Name</MudText>
+                <MudText Typo="Typo.h6" Class="text-ellipsis nowrap" title="@Item.Name">@Item.Name</MudText>
             </CardHeaderContent>
             <CardHeaderActions>
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" />
+                <GalleryItemDeleteComponent @ref="_deleteComponent" DeleteCallback="Delete" />
             </CardHeaderActions>
         </MudCardHeader>
-        @if(string.IsNullOrEmpty(_image))
-        {
-            <MudSkeleton SkeletonType="SkeletonType.Rectangle" Height="68px" />
-        }
-        else
-        {
-            <MudImage Src="@_image" ObjectFit="ObjectFit.Contain" />
-        }
+            <GalleryItemImageComponent Item="Item" ParentReadyListener="ParentReadyListener" />
         <MudCardContent>
             <div class="d-flex flex-wrap justify-space-between">
                 <MudText Typo="Typo.body2" Class="nowrap px-1"><b>Start date: </b>@Item.StartDate.ToString("yyyy-MM-dd")</MudText>
@@ -37,7 +23,7 @@
             <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="() => _shareOpened = !_shareOpened">
                 Share
                 <MudPopover AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.BottomLeft" Open="_shareOpened">
-                    <GalleryItemShareComponent @ref="_shareComponent" Item="Item" />
+                    <GalleryItemShareComponent ShareUrl="@_editorUrl" />
                 </MudPopover>
             </MudButton>
             <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Edit">Edit</MudButton>
@@ -47,10 +33,9 @@
 </div>
 
 @code {
-    private GalleryItemShareComponent? _shareComponent;
-    private IDisposable? _listenerRegistration;
+    private GalleryItemDeleteComponent? _deleteComponent;
     private bool _shareOpened = false;
-    private volatile string? _image;
+    private string _editorUrl = string.Empty;
 
     [Parameter, EditorRequired]
     public required PresetModel Item { get; set; }
@@ -58,51 +43,39 @@
     [Parameter, EditorRequired]
     public required IListener ParentReadyListener { get; set; }
 
+    [Parameter, EditorRequired]
+    public EventCallback<PresetModel> DeleteCallback { get; set; }
+
     protected override void OnInitialized()
     {
-        _listenerRegistration = ParentReadyListener.Listen(ct => Task.Factory.StartNew(async () => await LoadImage(ct), ct));
+        _editorUrl = GetEditorUrl();
 
         base.OnInitialized();
     }
 
-    private async Task LoadImage(CancellationToken cancellationToken)
+    private string GetEditorUrl()
     {
-        if (!string.IsNullOrEmpty(_image))
+        var url = Navigation.GetUriWithQueryParameters("/editor", GetEditorParams(Item));
+
+        if (OperatingSystem.IsBrowser())
         {
-            return;
+            return $"{Navigation.BaseUri}{url[1..]}";
         }
 
-        var command = new GeneratePreviewImageCommand(Item);
-        var result = await Mediator.Send(command, cancellationToken);
-
-        if (result.IsFailure || result.Value is null)
-        {
-            Logger.LogError(result.Error.Message);
-            return;
-        }
-
-        var base64 = result.Value.ToBase64String();
-        _image = $"data:image/png;base64,{base64}";
-
-        await InvokeAsync(async () => {
-            StateHasChanged();
-            await Task.Delay(1, cancellationToken);
-        });
+        return url;
     }
 
-    private void Edit()
+    private void MouseLeave() => _deleteComponent?.Reset();
+
+    private void Edit() => Navigation.NavigateTo(_editorUrl, false);
+
+    private async Task Delete() => await DeleteCallback.InvokeAsync(Item);
+
+    private static Dictionary<string, object?> GetEditorParams(PresetModel model) => new()
     {
-        var redirect = _shareComponent?.ShareUrl;
-        if (string.IsNullOrEmpty(redirect))
-        {
-            return;
-        }
-
-        Navigation.NavigateTo(redirect, false);
-    }
-
-    public void Dispose()
-    {
-        _listenerRegistration?.Dispose();
-    }
+        ["name"] = model.Name,
+        ["startDate"] = model.StartDate.ToString("yyyy-MM-dd"),
+        ["data"] = model.CanvasDataString,
+        ["darkMode"] = model.IsDarkModeDefault.ToString()
+    };
 }

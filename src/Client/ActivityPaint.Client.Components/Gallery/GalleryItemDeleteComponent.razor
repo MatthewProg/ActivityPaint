@@ -1,0 +1,27 @@
+﻿@if (!_confirm)
+{
+    <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="Confirm" />
+}
+else
+{
+    <MudIconButton Icon="@Icons.Material.Filled.Check" Color="Color.Success" Size="Size.Small" OnClick="Delete" />
+    <MudIconButton Icon="@Icons.Material.Filled.Clear" Color="Color.Error" Size="Size.Small" OnClick="Reset" />
+}
+
+@code {
+    private bool _confirm = false;
+
+    [Parameter, EditorRequired]
+    public EventCallback DeleteCallback { get; set; }
+
+    public void Reset() =>_confirm = false;
+
+    private void Confirm() => _confirm = true;
+
+    private async Task Delete()
+    {
+        Reset();
+
+        await DeleteCallback.InvokeAsync();
+    }
+}

@@ -1,5 +1,6 @@
 ﻿@using ActivityPaint.Application.DTOs.Preset
 @using ActivityPaint.Client.Components.Shared.Interops
+@using System.Runtime.InteropServices
 @inject NavigationManager Navigation
 @inject IUtilitiesInterop UtilitiesInterop
 
@@ -15,17 +16,8 @@
     private MudInput<string>? _inputComponent;
     private string _tooltipText = "Copy all";
 
-    public string ShareUrl { get; private set; } = string.Empty;
-
     [Parameter, EditorRequired]
-    public required PresetModel Item { get; set; }
-
-    protected override void OnInitialized()
-    {
-        ShareUrl = Navigation.GetUriWithQueryParameters("/editor", GetEditorParams(Item));
-
-        base.OnInitialized();
-    }
+    public required string ShareUrl { get; set; }
 
     private async Task CopyAll()
     {
@@ -37,12 +29,4 @@
     }
 
     private void ResetTooltip() => _tooltipText = "Copy all";
-
-    private static Dictionary<string, object?> GetEditorParams(PresetModel model) => new()
-    {
-        ["name"] = model.Name,
-        ["startDate"] = model.StartDate.ToString("yyyy-MM-dd"),
-        ["data"] = model.CanvasDataString,
-        ["darkMode"] = model.IsDarkModeDefault.ToString()
-    };
 }
