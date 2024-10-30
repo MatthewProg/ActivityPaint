@@ -19,4 +19,13 @@ internal class PresetRepository(ActivityPaintContext context) : GenericRepositor
 
         return result;
     }
+
+    public async ValueTask<int> GetCount(CancellationToken cancellationToken = default)
+    {
+        var result = await _context.Presets
+                                   .AsNoTracking()
+                                   .CountAsync(cancellationToken);
+
+        return result;
+    }
 }

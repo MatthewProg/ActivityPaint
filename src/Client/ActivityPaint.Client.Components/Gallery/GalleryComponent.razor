@@ -6,7 +6,6 @@
 @inject IFeedbackService FeedbackService
 @inject IMediator Mediator
 
-<button @onclick="LoadMore">Load</button>
 <MudGrid Justify="Justify.Center">
     @foreach (var item in _items)
     {
@@ -14,28 +13,50 @@
             <GalleryItemComponent Item="item" ParentReadyListener="_itemsReadyTrigger" DeleteCallback="Delete" />
         </MudItem>
     }
-    @if (!_items.Any())
-    {
-        <h1>Loading...</h1>
-    }
+    <MudFlexBreak />
+    <MudPagination @bind-Selected:get="_page" @bind-Selected:set="PageChange" Count="_pageCount" Class="mt-2" />
 </MudGrid>
 
 @code {
     private const int _pageSize = 18;
+    private int _itemsCount = 0;
+    private int _pageCount => (int)Math.Ceiling(Decimal.Divide(_itemsCount, _pageSize));
+    private int _page = 1;
     private IEnumerable<PresetModel> _items = [];
-    private int _page = 0;
     private AsyncTrigger _itemsReadyTrigger = new();
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Factory.StartNew(LoadMore);
+        await Task.Factory.StartNew(async () => {
+            await UpdateItemsCount();
+            await LoadPage();
+        });
+
         await base.OnInitializedAsync();
     }
 
-    private async Task LoadMore()
+    private async Task UpdateItemsCount()
     {
-        _page++;
+        var command = new GetGalleryItemsCountCommand();
+        var result = await Mediator.Send(command);
 
+        if (result.IsFailure)
+        {
+            FeedbackService.ShowError(result.Error);
+            return;
+        }
+
+        _itemsCount = result.Value;
+    }
+
+    private async Task PageChange(int newPage)
+    {
+        _page = newPage;
+        await LoadPage();
+    }
+
+    private async Task LoadPage()
+    {
         var command = new LoadGalleryItemsCommand(_page, _pageSize);
         var result = await Mediator.Send(command);
 
@@ -45,7 +66,7 @@
             return;
         }
 
-        _items = _items.Concat(result.Value);
+        _items = result.Value;
         await Task.Delay(1);
         await _itemsReadyTrigger.Notify();
     }
