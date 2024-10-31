@@ -1,20 +1,36 @@
 ﻿@using ActivityPaint.Application.BusinessLogic.Gallery
-@using ActivityPaint.Application.DTOs.Preset
+@using ActivityPaint.Application.DTOs.Gallery
+@using ActivityPaint.Client.Components.Shared.Interops
 @using ActivityPaint.Client.Components.Shared.Services
 @using ActivityPaint.Client.Components.Shared.Utilities
 @using Mediator
+@inject IUtilitiesInterop UtilitiesInterop
 @inject IFeedbackService FeedbackService
 @inject IMediator Mediator
 
 <MudGrid Justify="Justify.Center">
-    @foreach (var item in _items)
+    @if (_items is null)
     {
-        <MudItem xs="12" sm="6" lg="4">
-            <GalleryItemComponent Item="item" ParentReadyListener="_itemsReadyTrigger" DeleteCallback="Delete" />
-        </MudItem>
+        <MudText Typo="Typo.h6">Loading...</MudText>
     }
-    <MudFlexBreak />
-    <MudPagination @bind-Selected:get="_page" @bind-Selected:set="PageChange" Count="_pageCount" Class="mt-2" />
+    else
+    {
+        if (_itemsCount != 0)
+        {
+            @foreach (var item in _items)
+            {
+                <MudItem xs="12" sm="6" lg="4">
+                    <GalleryItemComponent @key="item.Id" Item="item" ParentReadyListener="_itemsReadyTrigger" DeleteCallback="Delete" />
+                </MudItem>
+            }
+            <MudFlexBreak />
+            <MudPagination @bind-Selected:get="_page" @bind-Selected:set="PageChange" Count="_pageCount" Class="mt-2" />
+        }
+        else
+        {
+            <MudText Typo="Typo.h6">No saved presets yet</MudText>
+        }
+    }
 </MudGrid>
 
 @code {
@@ -22,14 +38,16 @@
     private int _itemsCount = 0;
     private int _pageCount => (int)Math.Ceiling(Decimal.Divide(_itemsCount, _pageSize));
     private int _page = 1;
-    private IEnumerable<PresetModel> _items = [];
+    private IEnumerable<GalleryModel>? _items = null;
     private AsyncTrigger _itemsReadyTrigger = new();
 
     protected override async Task OnInitializedAsync()
     {
         await Task.Factory.StartNew(async () => {
             await UpdateItemsCount();
-            await LoadPage();
+
+            if (_itemsCount != 0)
+                await LoadPage();
         });
 
         await base.OnInitializedAsync();
@@ -67,11 +85,11 @@
         }
 
         _items = result.Value;
-        await Task.Delay(1);
+        await UtilitiesInterop.ScrollToTop();
         await _itemsReadyTrigger.Notify();
     }
 
-    private async Task Delete(PresetModel item)
+    private async Task Delete(GalleryModel item)
     {
         throw new NotImplementedException();
     }

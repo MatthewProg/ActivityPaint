@@ -6,6 +6,7 @@ public interface IUtilitiesInterop : IAsyncDisposable
 {
     ValueTask CopyToClipboard(string text, CancellationToken cancellationToken = default);
     ValueTask CopyElementTextToClipboard(string selector, CancellationToken cancellationToken = default);
+    ValueTask ScrollToTop(CancellationToken cancellationToken = default);
 }
 
 public sealed class UtilitiesInterop(IJSRuntime jsRuntime) : IUtilitiesInterop
@@ -20,12 +21,18 @@ public sealed class UtilitiesInterop(IJSRuntime jsRuntime) : IUtilitiesInterop
         await module.InvokeVoidAsync("copyToClipboard", cancellationToken, text);
     }
 
-
     public async ValueTask CopyElementTextToClipboard(string selector, CancellationToken cancellationToken)
     {
         var module = await _moduleTask.Value;
 
         await module.InvokeVoidAsync("copyElementTextToClipboard", cancellationToken, selector);
+    }
+
+    public async ValueTask ScrollToTop(CancellationToken cancellationToken)
+    {
+        var module = await _moduleTask.Value;
+
+        await module.InvokeVoidAsync("scrollToTop", cancellationToken);
     }
 
     public async ValueTask DisposeAsync()

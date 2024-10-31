@@ -1,5 +1,5 @@
 ﻿@using ActivityPaint.Application.BusinessLogic.Image
-@using ActivityPaint.Application.DTOs.Preset
+@using ActivityPaint.Application.DTOs.Gallery
 @using ActivityPaint.Client.Components.Shared.Utilities
 @using ActivityPaint.Core.Extensions
 @using Mediator
@@ -22,7 +22,7 @@ else
     private volatile string? _image;
 
     [Parameter, EditorRequired]
-    public required PresetModel Item { get; set; }
+    public required GalleryModel Item { get; set; }
 
     [Parameter, EditorRequired]
     public required IListener ParentReadyListener { get; set; }

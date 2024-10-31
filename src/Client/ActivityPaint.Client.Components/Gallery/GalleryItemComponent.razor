@@ -1,4 +1,4 @@
-﻿@using ActivityPaint.Application.DTOs.Preset
+﻿@using ActivityPaint.Application.DTOs.Gallery
 @using ActivityPaint.Client.Components.Shared.Utilities
 @inject NavigationManager Navigation
 
@@ -38,13 +38,13 @@
     private string _editorUrl = string.Empty;
 
     [Parameter, EditorRequired]
-    public required PresetModel Item { get; set; }
+    public required GalleryModel Item { get; set; }
 
     [Parameter, EditorRequired]
     public required IListener ParentReadyListener { get; set; }
 
     [Parameter, EditorRequired]
-    public EventCallback<PresetModel> DeleteCallback { get; set; }
+    public EventCallback<GalleryModel> DeleteCallback { get; set; }
 
     protected override void OnInitialized()
     {
@@ -71,7 +71,7 @@
 
     private async Task Delete() => await DeleteCallback.InvokeAsync(Item);
 
-    private static Dictionary<string, object?> GetEditorParams(PresetModel model) => new()
+    private static Dictionary<string, object?> GetEditorParams(GalleryModel model) => new()
     {
         ["name"] = model.Name,
         ["startDate"] = model.StartDate.ToString("yyyy-MM-dd"),

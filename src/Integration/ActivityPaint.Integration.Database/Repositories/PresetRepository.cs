@@ -12,7 +12,7 @@ internal class PresetRepository(ActivityPaintContext context) : GenericRepositor
 
         var result = await _context.Presets
                                    .AsNoTracking()
-                                   .OrderBy(p => p.Id)
+                                   .OrderByDescending(p => p.LastUpdated)
                                    .Skip(normalizedPage * pageSize)
                                    .Take(pageSize)
                                    .ToListAsync(cancellationToken);

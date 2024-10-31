@@ -3,6 +3,7 @@ using System;
 using ActivityPaint.Integration.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ActivityPaint.Integration.Database.Migrations
 {
     [DbContext(typeof(ActivityPaintContext))]
-    partial class ActivityPaintContextModelSnapshot : ModelSnapshot
+    [Migration("20241101134222_AddPresetLastUpdatedDate")]
+    partial class AddPresetLastUpdatedDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.10");

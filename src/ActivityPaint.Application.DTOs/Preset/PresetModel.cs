@@ -3,7 +3,7 @@ using ActivityPaint.Core.Helpers;
 
 namespace ActivityPaint.Application.DTOs.Preset;
 
-public sealed record PresetModel(
+public record PresetModel(
     string Name,
     DateTime StartDate,
     bool IsDarkModeDefault,
