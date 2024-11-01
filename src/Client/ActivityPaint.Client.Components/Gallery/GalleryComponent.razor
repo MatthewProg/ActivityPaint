@@ -8,30 +8,31 @@
 @inject IFeedbackService FeedbackService
 @inject IMediator Mediator
 
-<MudGrid Justify="Justify.Center">
+@if (_items is not null)
+{
+    <MudGrid Justify="Justify.FlexStart">
+        @foreach (var item in _items)
+        {
+            <MudItem @key="item.Id" xs="12" sm="6" lg="4">
+                <GalleryItemComponent Item="item" ParentReadyListener="_itemsReadyTrigger" DeleteCallback="Delete" />
+            </MudItem>
+        }
+    </MudGrid>
+}
+<div class="d-flex justify-center">
     @if (_items is null)
     {
         <MudText Typo="Typo.h6">Loading...</MudText>
     }
+    else if (_itemsCount == 0)
+    {
+        <MudText Typo="Typo.h6">No saved presets yet</MudText>
+    }
     else
     {
-        if (_itemsCount != 0)
-        {
-            @foreach (var item in _items)
-            {
-                <MudItem xs="12" sm="6" lg="4">
-                    <GalleryItemComponent @key="item.Id" Item="item" ParentReadyListener="_itemsReadyTrigger" DeleteCallback="Delete" />
-                </MudItem>
-            }
-            <MudFlexBreak />
-            <MudPagination @bind-Selected:get="_page" @bind-Selected:set="PageChange" Count="_pageCount" Class="mt-2" />
-        }
-        else
-        {
-            <MudText Typo="Typo.h6">No saved presets yet</MudText>
-        }
+        <MudPagination @bind-Selected:get="_page" @bind-Selected:set="PageChange" Count="_pageCount" Class="mt-2" />
     }
-</MudGrid>
+</div>
 
 @code {
     private const int _pageSize = 18;
@@ -70,10 +71,10 @@
     private async Task PageChange(int newPage)
     {
         _page = newPage;
-        await LoadPage();
+        await LoadPage(true);
     }
 
-    private async Task LoadPage()
+    private async Task LoadPage(bool pageChanged = false)
     {
         var command = new LoadGalleryItemsCommand(_page, _pageSize);
         var result = await Mediator.Send(command);
@@ -85,12 +86,39 @@
         }
 
         _items = result.Value;
-        await UtilitiesInterop.ScrollToTop();
+
+        if (pageChanged)
+        {
+            await UtilitiesInterop.ScrollToTop();
+        }
+        else
+        {
+            await Task.Delay(1);
+        }
+
         await _itemsReadyTrigger.Notify();
     }
 
     private async Task Delete(GalleryModel item)
     {
-        throw new NotImplementedException();
+        _items = _items?.Where(x => x != item);
+
+        var command = new DeleteGalleryItemCommand(item.Id);
+        var result = await Mediator.Send(command);
+        if (result.IsFailure)
+        {
+            FeedbackService.ShowError(result.Error);
+        }
+
+        _itemsCount--;
+        if (_page > _pageCount)
+        {
+            _page--;
+            await InvokeAsync(StateHasChanged);
+        }
+        else
+        {
+            await LoadPage();
+        }
     }
 }
