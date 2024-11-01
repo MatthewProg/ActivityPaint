@@ -16,7 +16,7 @@
                 </MudItem>
                 <MudDivider Vertical="true" FlexItem="true" Class="mud-grid-spacing-sm-1 pl-2" />
                 <MudItem xs="12" sm="6" lg="7" Class="mud-height-full pl-2 pt-4">
-                    <MudTabs @bind-ActivePanelIndex="_activePanelIndex" Centered="true" Class="mud-height-full" PanelClass="d-flex justify-center align-center mud-height-full pt-1 pb-2">
+                    <MudTabs @bind-ActivePanelIndex="_activePanelIndex" KeepPanelsAlive="true" Centered="true" Class="mud-height-full" PanelClass="d-flex justify-center align-center mud-height-full pt-1 pb-2">
                         <MudTabPanel Icon="@Icons.Material.Filled.WebAsset" Text="App">
                             <GenerateAppMethodsComponent SelectedMethod="_selectedMethod" />
                         </MudTabPanel>

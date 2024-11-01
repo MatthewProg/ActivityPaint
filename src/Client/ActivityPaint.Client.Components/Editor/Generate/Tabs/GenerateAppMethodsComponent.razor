@@ -1,4 +1,5 @@
-﻿@using ActivityPaint.Application.BusinessLogic.Generate
+﻿@using ActivityPaint.Application.BusinessLogic.Gallery
+@using ActivityPaint.Application.BusinessLogic.Generate
 @using ActivityPaint.Application.BusinessLogic.Preset
 @using ActivityPaint.Application.BusinessLogic.Repository
 @using ActivityPaint.Application.DTOs.Repository
@@ -11,6 +12,10 @@
 @if (SelectedMethod is null)
 {
     <MudText Typo="@Typo.h6" Align="@Align.Center" Style="opacity:0.5;user-select:none">Please select the method first</MudText>
+}
+else if (SelectedMethod == GenerationMethodEnum.SaveInGallery)
+{
+    <MudButton Variant="@Variant.Filled" OnClick="SaveInGallery" Disabled="_saved">Save in gallery</MudButton>
 }
 else if (SelectedMethod == GenerationMethodEnum.SaveToFile)
 {
@@ -37,11 +42,35 @@ else
 }
 
 @code {
+    private bool _saved = false;
+
     [CascadingParameter(Name = "EditorModel")]
     protected EditorModel? EditorModel { get; set; }
 
     [Parameter, EditorRequired]
     public GenerationMethodEnum? SelectedMethod { get; set; }
+
+    private async Task SaveInGallery()
+    {
+        if (EditorModel is null) return;
+
+        _saved = true;
+        await Task.Delay(1);
+
+        var preset = EditorModel.ToPresetModel();
+        var command = new SaveGalleryItemCommand(preset);
+
+        var result = await Mediator.Send(command);
+        if (result.IsFailure)
+        {
+            FeedbackService.ShowError(result.Error);
+            _saved = false;
+        }
+        else
+        {
+            FeedbackService.Show("Saved!", Severity.Success);
+        }
+    }
 
     private async Task SavePreset()
     {

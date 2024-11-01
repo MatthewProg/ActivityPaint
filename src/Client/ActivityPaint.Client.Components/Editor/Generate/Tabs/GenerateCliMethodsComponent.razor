@@ -2,6 +2,10 @@
 {
     <MudText Typo="@Typo.h6" Align="@Align.Center" Class="my-4" Style="opacity:0.5;user-select:none">Please select the method first</MudText>
 }
+else if (SelectedMethod == GenerationMethodEnum.SaveInGallery)
+{
+    <MudText Typo="@Typo.h6" Align="@Align.Center" Style="user-select:none">Saving presets in the gallery is only supported in the desktop and web app.</MudText>
+}
 else
 {
     <GenerateCommandsComponent SelectedMethod="SelectedMethod" IsCli="true" />

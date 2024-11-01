@@ -2,6 +2,7 @@
 
 public enum GenerationMethodEnum
 {
+    SaveInGallery,
     SaveToFile,
     GenerateRepo,
     GenerateGitCommands

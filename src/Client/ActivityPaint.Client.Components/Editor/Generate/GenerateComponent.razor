@@ -9,7 +9,7 @@
     </MudItem>
     <MudItem xs="12" sm="7" lg="6">
         <MudPaper Elevation="3" Class="mud-height-full">
-            <MudTabs @bind-ActivePanelIndex="_activePanelIndex" Centered="true" Class="mud-height-full" PanelClass="d-flex justify-center align-center mud-height-full px-4 pt-1 pb-2">
+            <MudTabs @bind-ActivePanelIndex="_activePanelIndex" KeepPanelsAlive="true" Centered="true" Class="mud-height-full" PanelClass="d-flex justify-center align-center mud-height-full px-4 pt-1 pb-2">
                 <MudTabPanel Icon="@Icons.Material.Filled.WebAsset" Text="App">
                     <GenerateAppMethodsComponent SelectedMethod="_selectedMethod" />
                 </MudTabPanel>
@@ -28,9 +28,10 @@
 
     private static Dictionary<GenerationMethodEnum, string> _items = new()
     {
-        { GenerationMethodEnum.SaveToFile, "Save preset to file" },
-        { GenerationMethodEnum.GenerateRepo, "Generate and download repository" },
-        { GenerationMethodEnum.GenerateGitCommands, "Generate git commands" }
+        [GenerationMethodEnum.SaveInGallery] = "Save in gallery",
+        [GenerationMethodEnum.SaveToFile] = "Save preset to file",
+        [GenerationMethodEnum.GenerateRepo] = "Generate and download repository",
+        [GenerationMethodEnum.GenerateGitCommands] = "Generate git commands"
     };
 
     private KeyValuePair<GenerationMethodEnum, string>? _selectedItem;
