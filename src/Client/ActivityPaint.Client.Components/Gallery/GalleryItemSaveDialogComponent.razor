@@ -1,0 +1,58 @@
+﻿@using ActivityPaint.Application.DTOs.Gallery
+@using ActivityPaint.Client.Components.Editor
+@using ActivityPaint.Client.Components.Editor.Generate
+@using ActivityPaint.Client.Components.Editor.Generate.Tabs
+@using ActivityPaint.Client.Components.Shared.Components.Radio
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h6">Save preset</MudText>
+    </TitleContent>
+    <DialogContent>
+        <CascadingValue Value="_editorModel" Name="EditorModel">
+            <MudGrid Justify="Justify.Center" Class="align-stretch" style="min-height: 250px;">
+                <MudItem xs="12" sm="5" lg="4" Class="d-flex align-center mud-width-full mud-height-full pl-4 pt-6">
+                    <BigButtonRadioComponent Items="_items" @bind-SelectedItem="_selectedItem" ItemClass="py-3" class="gap-4" />
+                </MudItem>
+                <MudDivider Vertical="true" FlexItem="true" Class="mud-grid-spacing-sm-1 pl-2" />
+                <MudItem xs="12" sm="6" lg="7" Class="mud-height-full pl-2 pt-4">
+                    <MudTabs @bind-ActivePanelIndex="_activePanelIndex" Centered="true" Class="mud-height-full" PanelClass="d-flex justify-center align-center mud-height-full pt-1 pb-2">
+                        <MudTabPanel Icon="@Icons.Material.Filled.WebAsset" Text="App">
+                            <GenerateAppMethodsComponent SelectedMethod="_selectedMethod" />
+                        </MudTabPanel>
+                        <MudTabPanel Icon="@Icons.Material.Filled.Terminal" Text="CLI">
+                            <GenerateCliMethodsComponent SelectedMethod="_selectedMethod" />
+                        </MudTabPanel>
+                    </MudTabs>
+                </MudItem>
+            </MudGrid>
+        </CascadingValue>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    private static Dictionary<GenerationMethodEnum, string> _items = new()
+    {
+        [GenerationMethodEnum.SaveToFile] = "Save preset to file",
+        [GenerationMethodEnum.GenerateRepo] = "Generate and download repository",
+        [GenerationMethodEnum.GenerateGitCommands] = "Generate git commands"
+    };
+
+    private KeyValuePair<GenerationMethodEnum, string>? _selectedItem;
+    private GenerationMethodEnum? _selectedMethod => _selectedItem?.Key;
+    private int _activePanelIndex = 0;
+    private EditorModel? _editorModel;
+
+    [CascadingParameter]
+    private MudDialogInstance? MudDialog { get; set; }
+
+    [Parameter]
+    public required GalleryModel Item { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _editorModel = Item.ToEditorModel();
+
+        base.OnInitialized();
+    }
+}

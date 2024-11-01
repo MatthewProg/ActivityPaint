@@ -1,6 +1,7 @@
 ﻿@using ActivityPaint.Application.DTOs.Gallery
 @using ActivityPaint.Client.Components.Shared.Utilities
 @inject NavigationManager Navigation
+@inject IDialogService DialogService
 
 <div class="item-container" @onpointerleave="MouseLeave">
     <MudCard>
@@ -27,12 +28,17 @@
                 </MudPopover>
             </MudButton>
             <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Edit">Edit</MudButton>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary">Save</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Save">Save</MudButton>
         </MudCardActions>
     </MudCard>
 </div>
 
 @code {
+    private static readonly DialogOptions _defaultDialogOptions = new()
+    {
+        CloseButton = true,
+        MaxWidth = MaxWidth.Large
+    };
     private GalleryItemDeleteComponent? _deleteComponent;
     private bool _shareOpened = false;
     private string _editorUrl = string.Empty;
@@ -66,6 +72,16 @@
     }
 
     private void MouseLeave() => _deleteComponent?.Reset();
+
+    private async Task Save()
+    {
+        var parameters = new DialogParameters<GalleryItemSaveDialogComponent>
+        {
+            { x => x.Item, Item }
+        };
+
+        var dialog = await DialogService.ShowAsync<GalleryItemSaveDialogComponent>("Save preset", parameters, _defaultDialogOptions);
+    }
 
     private void Edit() => Navigation.NavigateTo(_editorUrl, false);
 
