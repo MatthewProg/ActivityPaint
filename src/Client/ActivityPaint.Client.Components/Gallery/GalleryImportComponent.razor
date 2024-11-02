@@ -1,0 +1,89 @@
+﻿@using ActivityPaint.Application.BusinessLogic.Gallery
+@using ActivityPaint.Application.BusinessLogic.Preset
+@using ActivityPaint.Application.DTOs.Preset
+@using ActivityPaint.Client.Components.Editor
+@using ActivityPaint.Client.Components.Shared.Mappers
+@using ActivityPaint.Client.Components.Shared.Services
+@using Mediator
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Web
+@inject IFeedbackService FeedbackService
+@inject IMediator Mediator
+
+<div class="d-flex align-center gap-2 my-2">
+    <MudFileUpload T="IBrowserFile" Accept=".json" AppendMultipleFiles="false" OnFilesChanged="OnInputFileChanged">
+        <ActivatorContent>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.CloudUpload">
+                Upload preset
+            </MudButton>
+        </ActivatorContent>
+    </MudFileUpload>
+    <p>or</p>
+    <div class="d-flex flex-nowrap mud-elevation-3 rounded pa-2">
+        <MudInput @bind-Value="_input" Placeholder="Share URL" />
+        <MudButton Variant="Variant.Filled" OnClick="Add">Add</MudButton>
+    </div>
+</div>
+
+@code {
+    private string _input = string.Empty;
+
+    [Parameter, EditorRequired]
+    public EventCallback ItemAddedCallback { get; set; }
+
+    private async Task OnInputFileChanged(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+
+        using var stream = file.OpenReadStream();
+        var command = new ParsePresetCommand(stream);
+        var result = await Mediator.Send(command);
+
+        if (result.IsFailure)
+        {
+            FeedbackService.ShowError(result.Error);
+            return;
+        }
+
+        var preset = result.Value;
+        if (preset is null)
+        {
+            FeedbackService.Show("Something went wrong.", Severity.Error);
+            return;
+        }
+
+        await SavePreset(preset);
+    }
+
+    private async Task Add()
+    {
+        var queryString = _input.Split('?').ElementAtOrDefault(1);
+        if (string.IsNullOrWhiteSpace(queryString))
+        {
+            FeedbackService.Show("URL is empty or incorrect", Severity.Error);
+            return;
+        }
+
+        var query = HttpUtility.ParseQueryString(queryString);
+        var editorModel = EditorQueryMap.QueryToEditor(query);
+        var presetModel = editorModel.ToPresetModel();
+
+        _input = string.Empty;
+        await SavePreset(presetModel);
+    }
+
+    private async Task SavePreset(PresetModel preset)
+    {
+        var command = new SaveGalleryItemCommand(preset);
+        var result = await Mediator.Send(command);
+
+        if (result.IsFailure)
+        {
+            FeedbackService.ShowError(result.Error);
+            return;
+        }
+
+        FeedbackService.Show("Item saved!", Severity.Success);
+        await ItemAddedCallback.InvokeAsync();
+    }
+}

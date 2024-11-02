@@ -1,4 +1,5 @@
 ﻿@using ActivityPaint.Application.DTOs.Gallery
+@using ActivityPaint.Client.Components.Shared.Mappers
 @using ActivityPaint.Client.Components.Shared.Utilities
 @inject NavigationManager Navigation
 @inject IDialogService DialogService
@@ -61,7 +62,7 @@
 
     private string GetEditorUrl()
     {
-        var url = Navigation.GetUriWithQueryParameters("/editor", GetEditorParams(Item));
+        var url = Navigation.GetUriWithQueryParameters("/editor", EditorQueryMap.PresetToQuery(Item));
 
         if (OperatingSystem.IsBrowser())
         {
@@ -86,12 +87,4 @@
     private void Edit() => Navigation.NavigateTo(_editorUrl, false);
 
     private async Task Delete() => await DeleteCallback.InvokeAsync(Item);
-
-    private static Dictionary<string, object?> GetEditorParams(GalleryModel model) => new()
-    {
-        ["name"] = model.Name,
-        ["startDate"] = model.StartDate.ToString("yyyy-MM-dd"),
-        ["data"] = model.CanvasDataString,
-        ["darkMode"] = model.IsDarkModeDefault.ToString()
-    };
 }

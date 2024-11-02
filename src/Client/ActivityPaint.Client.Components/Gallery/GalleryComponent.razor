@@ -1,5 +1,6 @@
 ﻿@using ActivityPaint.Application.BusinessLogic.Gallery
 @using ActivityPaint.Application.DTOs.Gallery
+@using ActivityPaint.Client.Components.Gallery.Item
 @using ActivityPaint.Client.Components.Shared.Interops
 @using ActivityPaint.Client.Components.Shared.Services
 @using ActivityPaint.Client.Components.Shared.Utilities
@@ -8,6 +9,7 @@
 @inject IFeedbackService FeedbackService
 @inject IMediator Mediator
 
+<GalleryImportComponent ItemAddedCallback="ItemAdded" />
 @if (_items is not null)
 {
     <MudGrid Justify="Justify.FlexStart">
@@ -72,6 +74,12 @@
         }
 
         _itemsCount = result.Value;
+    }
+
+    private async Task ItemAdded()
+    {
+        _itemsCount++;
+        await LoadPage();
     }
 
     private async Task PageChange(int newPage)

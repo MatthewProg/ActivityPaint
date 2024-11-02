@@ -6,6 +6,7 @@
 @using System.Web
 @using System.Collections.Specialized
 @using System.Globalization
+@using ActivityPaint.Client.Components.Shared.Mappers
 @using ActivityPaint.Core.Helpers
 @inject NavigationManager Nav
 
@@ -35,25 +36,9 @@
         if (queryString is not null)
         {
             var query = HttpUtility.ParseQueryString(queryString);
-            _editorModel = QueryToModel(query);
+            _editorModel = EditorQueryMap.QueryToEditor(query);
         }
         base.OnInitialized();
-    }
-
-    private static EditorModel QueryToModel(NameValueCollection query)
-    {
-        var name = query.Get("name");
-        var dateString = query.Get("startDate");
-        var dataString = query.Get("data");
-        var darkModeString = query.Get("darkMode");
-
-        return new()
-        {
-            Name = name,
-            StartDate = DateTime.TryParseExact(dateString, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date) ? date : null,
-            CanvasData = dataString is null ? null : CanvasDataHelper.ConvertToList(dataString),
-            IsDarkModeDefault = bool.TryParse(darkModeString, out var darkMode) ? darkMode : null
-         };
     }
 
     private async Task NextStage()
