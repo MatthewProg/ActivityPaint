@@ -103,8 +103,19 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
             await GetButtonGenerateCommands(page).ClickAsync();
             (await GetTextCliCommands(page).InputValueAsync()).Should().Be("ap-cli.exe save --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w== --dark-mode --output \"Test.json\"");
 
-            // Assert - APP save preset to file
+            // Assert - CLI save in gallery
+            await GetButtonSaveInGallery(page).ClickAsync();
+            (await page.GetByRole(AriaRole.Heading, new() { Name = "Saving presets in the gallery is only supported in the desktop and web app." }).IsVisibleAsync()).Should().BeTrue();
+
+            // Assert - APP save in gallery
             await GetAppTab(page).ClickAsync();
+            (await GetButtonSave(page).IsDisabledAsync()).Should().BeFalse();
+            await GetButtonSave(page).ClickAsync();
+            await Task.Delay(500);
+            (await GetButtonSave(page).IsDisabledAsync()).Should().BeTrue();
+
+            // Assert - APP save preset to file
+            await GetButtonSavePreset(page).ClickAsync();
             var presetDownload = await page.RunAndWaitForDownloadAsync(async () =>
             {
                 await page.GetByRole(AriaRole.Button, new() { Name = "Save preset" }).ClickAsync();
@@ -214,10 +225,12 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
     private static ILocator GetButtonToolEraser(IPage page) => GetButtonTool(page, 1);
     private static ILocator GetButtonToolFill(IPage page) => GetButtonTool(page, 2);
     private static ILocator GetButtonTool(IPage page, int index) => page.Locator($"div[role=toolbar] .mud-toggle-group:first-child > button:nth-child({index + 1})");
+    private static ILocator GetButtonSaveInGallery(IPage page) => page.GetByRole(AriaRole.Radio, new() { Name = "Save in gallery" });
     private static ILocator GetButtonSavePreset(IPage page) => page.GetByRole(AriaRole.Radio, new() { Name = "Save preset to file" });
     private static ILocator GetButtonGenerateRepo(IPage page) => page.GetByRole(AriaRole.Radio, new() { Name = "Generate and download repository" });
     private static ILocator GetButtonGitCommands(IPage page) => page.GetByRole(AriaRole.Radio, new() { Name = "Generate git commands" });
     private static ILocator GetButtonGenerateCommands(IPage page) => page.GetByRole(AriaRole.Button, new() { Name = "Generate commands" });
+    private static ILocator GetButtonSave(IPage page) => page.GetByRole(AriaRole.Button, new() { Name = "Save in gallery" });
 
     // Canvas
     private static ILocator GetCanvasCell(IPage page, int x, int y) => page.Locator($"#cell-{x}-{y} div");
