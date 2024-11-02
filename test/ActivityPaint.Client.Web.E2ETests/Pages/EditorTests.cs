@@ -85,7 +85,7 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
             // Assert - CLI generate git commands
             await GetButtonGitCommands(page).ClickAsync();
             await GetButtonGenerateCommands(page).ClickAsync();
-            (await GetTextCommands(page).InputValueAsync()).Should().Be("ap-cli.exe git --output \"Test.txt\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
+            (await GetTextCliCommands(page).InputValueAsync()).Should().Be("ap-cli.exe git --output \"Test.txt\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
             var commandText = await page.RunAndWaitForDownloadAsync(async () =>
             {
                 await page.GetByRole(AriaRole.Button, new() { Name = "Save as file" }).ClickAsync();
@@ -96,12 +96,12 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
             // Assert - CLI generate and download repo
             await GetButtonGenerateRepo(page).ClickAsync();
             await GetButtonGenerateCommands(page).ClickAsync();
-            (await GetTextCommands(page).InputValueAsync()).Should().Be("ap-cli.exe generate --author-name \"Activity Paint\" --author-email \"email@example.com\" --zip --output \"Test.zip\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
+            (await GetTextCliCommands(page).InputValueAsync()).Should().Be("ap-cli.exe generate --author-name \"Activity Paint\" --author-email \"email@example.com\" --zip --output \"Test.zip\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
 
             // Assert - CLI save preset to file
             await GetButtonSavePreset(page).ClickAsync();
             await GetButtonGenerateCommands(page).ClickAsync();
-            (await GetTextCommands(page).InputValueAsync()).Should().Be("ap-cli.exe save --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w== --dark-mode --output \"Test.json\"");
+            (await GetTextCliCommands(page).InputValueAsync()).Should().Be("ap-cli.exe save --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w== --dark-mode --output \"Test.json\"");
 
             // Assert - APP save preset to file
             await GetAppTab(page).ClickAsync();
@@ -119,7 +119,7 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
             // Assert - APP generate git commands
             await GetButtonGitCommands(page).ClickAsync();
             await GetButtonGenerateCommands(page).ClickAsync();
-            (await GetTextCommands(page).InputValueAsync()).Should().StartWith("git commit --allow-empty --no-verify --date=2020-01-01T12:00:00.0000000+00:00 -m \"ActivityPaint - 'Test' - (Commit 1/223)\";");
+            (await GetTextAppCommands(page).InputValueAsync()).Should().StartWith("git commit --allow-empty --no-verify --date=2020-01-01T12:00:00.0000000+00:00 -m \"ActivityPaint - 'Test' - (Commit 1/223)\";");
         });
     }
 
@@ -230,5 +230,6 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
     // Text
     private static ILocator GetTextHeader(IPage page) => page.Locator("h1");
     private static ILocator GetTextMethodNotSelected(IPage page) => page.GetByRole(AriaRole.Heading, new() { Name = "Please select the method first" });
-    private static ILocator GetTextCommands(IPage page) => page.Locator(".generate-commands__textarea textarea");
+    private static ILocator GetTextAppCommands(IPage page) => page.Locator(".mud-tabs-panels > div:nth-child(1) .generate-commands__textarea textarea");
+    private static ILocator GetTextCliCommands(IPage page) => page.Locator(".mud-tabs-panels > div:nth-child(2) .generate-commands__textarea textarea");
 }

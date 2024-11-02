@@ -48,7 +48,13 @@
             await UpdateItemsCount();
 
             if (_itemsCount != 0)
+            {
                 await LoadPage();
+            }
+            else
+            {
+                _items = [];
+            }
         });
 
         await base.OnInitializedAsync();
