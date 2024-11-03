@@ -22,13 +22,15 @@ internal class SaveGalleryItemCommandValidator : AbstractValidator<SaveGalleryIt
     }
 }
 
-internal class SaveGalleryItemCommandHandler(IPresetRepository presetRepository) : IResultRequestHandler<SaveGalleryItemCommand>
+internal class SaveGalleryItemCommandHandler(IPresetRepository presetRepository, TimeProvider timeProvider) : IResultRequestHandler<SaveGalleryItemCommand>
 {
     private readonly IPresetRepository _presetRepository = presetRepository;
+    private readonly TimeProvider _timeProvider = timeProvider;
 
     public async ValueTask<Result> Handle(SaveGalleryItemCommand request, CancellationToken cancellationToken)
     {
         var preset = request.Preset.ToPreset();
+        preset.LastUpdated = _timeProvider.GetUtcNow();
 
         await _presetRepository.InsertAsync(preset, cancellationToken);
 
