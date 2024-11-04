@@ -1,5 +1,6 @@
 ﻿using ActivityPaint.Application.Abstractions.Database.Repositories;
 using ActivityPaint.Application.BusinessLogic.Gallery;
+using ActivityPaint.Application.DTOs.Gallery;
 using ActivityPaint.Core.Enums;
 using PresetEntity = ActivityPaint.Core.Entities.Preset;
 
@@ -16,8 +17,7 @@ public class LoadGalleryItemsCommandTests
         var page = 2;
         var itemsCount = 10;
         var cancellationToken = new CancellationToken();
-
-        var expected = new List<PresetEntity>
+        var repoData = new List<PresetEntity>
         {
             new()
             {
@@ -30,10 +30,22 @@ public class LoadGalleryItemsCommandTests
             }
         };
 
+        var expected = new List<GalleryModel>
+        {
+            new(
+                Id: repoData[0].Id,
+                LastUpdated: repoData[0].LastUpdated,
+                Name: repoData[0].Name,
+                StartDate: repoData[0].StartDate,
+                IsDarkModeDefault: repoData[0].IsDarkModeDefault,
+                CanvasData: repoData[0].CanvasData
+            )
+        };
+
         _repositoryMock.Setup(x => x.GetPageAsync(It.Is<int>(x => x == page),
                                                   It.Is<int>(x => x == itemsCount),
                                                   It.Is<CancellationToken>(x => x.Equals(cancellationToken))))
-                       .ReturnsAsync(expected)
+                       .ReturnsAsync(repoData)
                        .Verifiable(Times.Once);
 
         var command = new LoadGalleryItemsCommand(page, itemsCount);
@@ -45,6 +57,6 @@ public class LoadGalleryItemsCommandTests
         // Assert
         _repositoryMock.VerifyAll();
         result.IsSuccess.Should().BeTrue();
-        result.Value.Should().BeEquivalentTo(expected);
+        result.Value.Should().Equal(expected);
     }
 }

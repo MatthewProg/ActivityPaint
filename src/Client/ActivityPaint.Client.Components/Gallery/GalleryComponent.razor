@@ -9,7 +9,12 @@
 @inject IFeedbackService FeedbackService
 @inject IMediator Mediator
 
-<GalleryImportComponent ItemAddedCallback="ItemAdded" />
+<div class="d-flex flex-column align-center flex-sm-row justify-sm-space-between my-2">
+    <GalleryImportComponent ItemAddedCallback="ItemAdded" />
+    <MudTooltip Text="Refresh page">
+        <MudIconButton Icon="@Icons.Material.Filled.Refresh" OnClick="Refresh" />
+    </MudTooltip>
+</div>
 @if (_items is not null)
 {
     <MudGrid Justify="Justify.FlexStart">
@@ -80,6 +85,11 @@
     {
         _itemsCount++;
         await LoadPage();
+    }
+
+    private async Task Refresh()
+    {
+        await LoadPage(true);
     }
 
     private async Task PageChange(int newPage)
