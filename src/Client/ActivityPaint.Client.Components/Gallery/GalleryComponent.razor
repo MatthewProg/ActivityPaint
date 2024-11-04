@@ -1,0 +1,148 @@
+﻿@using ActivityPaint.Application.BusinessLogic.Gallery
+@using ActivityPaint.Application.DTOs.Gallery
+@using ActivityPaint.Client.Components.Gallery.Item
+@using ActivityPaint.Client.Components.Shared.Interops
+@using ActivityPaint.Client.Components.Shared.Services
+@using ActivityPaint.Client.Components.Shared.Utilities
+@using Mediator
+@inject IUtilitiesInterop UtilitiesInterop
+@inject IFeedbackService FeedbackService
+@inject IMediator Mediator
+
+<div class="d-flex flex-column align-center flex-sm-row justify-sm-space-between my-2">
+    <GalleryImportComponent ItemAddedCallback="ItemAdded" />
+    <MudTooltip Text="Refresh page">
+        <MudIconButton Icon="@Icons.Material.Filled.Refresh" OnClick="Refresh" />
+    </MudTooltip>
+</div>
+@if (_items is not null)
+{
+    <MudGrid Justify="Justify.FlexStart">
+        @foreach (var item in _items)
+        {
+            <MudItem @key="item.Id" xs="12" sm="6" lg="4">
+                <GalleryItemComponent Item="item" ParentReadyListener="_itemsReadyTrigger" DeleteCallback="Delete" />
+            </MudItem>
+        }
+    </MudGrid>
+}
+<div class="d-flex justify-center mt-4">
+    @if (_items is null)
+    {
+        <MudText Typo="Typo.h6">Loading...</MudText>
+    }
+    else if (_itemsCount == 0)
+    {
+        <MudText Typo="Typo.h6">No saved presets yet</MudText>
+    }
+    else
+    {
+        <MudPagination @bind-Selected:get="_page" @bind-Selected:set="PageChange" Count="_pageCount" Class="mt-2" />
+    }
+</div>
+
+@code {
+    private const int _pageSize = 18;
+    private int _itemsCount = 0;
+    private int _pageCount => (int)Math.Ceiling(Decimal.Divide(_itemsCount, _pageSize));
+    private int _page = 1;
+    private IEnumerable<GalleryModel>? _items = null;
+    private AsyncTrigger _itemsReadyTrigger = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Factory.StartNew(async () => {
+            await UpdateItemsCount();
+
+            if (_itemsCount != 0)
+            {
+                await LoadPage();
+            }
+            else
+            {
+                _items = [];
+            }
+        });
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task UpdateItemsCount()
+    {
+        var command = new GetGalleryItemsCountCommand();
+        var result = await Mediator.Send(command);
+
+        if (result.IsFailure)
+        {
+            FeedbackService.ShowError(result.Error);
+            return;
+        }
+
+        _itemsCount = result.Value;
+    }
+
+    private async Task ItemAdded()
+    {
+        _itemsCount++;
+        await LoadPage();
+    }
+
+    private async Task Refresh()
+    {
+        await LoadPage(true);
+    }
+
+    private async Task PageChange(int newPage)
+    {
+        _page = newPage;
+        await LoadPage(true);
+    }
+
+    private async Task LoadPage(bool pageChanged = false)
+    {
+        var command = new LoadGalleryItemsCommand(_page, _pageSize);
+        var result = await Mediator.Send(command);
+
+        if (result.IsFailure || result.Value is null)
+        {
+            FeedbackService.ShowError(result.Error);
+            return;
+        }
+
+        _items = result.Value;
+
+        if (pageChanged)
+        {
+            await UtilitiesInterop.ScrollToTop();
+        }
+        else
+        {
+            await Task.Delay(1);
+        }
+
+        await _itemsReadyTrigger.Notify();
+    }
+
+    private async Task Delete(GalleryModel item)
+    {
+        _items = _items?.Where(x => x != item);
+
+        var command = new DeleteGalleryItemCommand(item.Id);
+        var result = await Mediator.Send(command);
+        if (result.IsFailure)
+        {
+            FeedbackService.ShowError(result.Error);
+        }
+
+        _itemsCount--;
+        if (_page > _pageCount)
+        {
+            _page--;
+            await InvokeAsync(StateHasChanged);
+        }
+        else
+        {
+            await LoadPage();
+        }
+    }
+}

@@ -85,7 +85,7 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
             // Assert - CLI generate git commands
             await GetButtonGitCommands(page).ClickAsync();
             await GetButtonGenerateCommands(page).ClickAsync();
-            (await GetTextCommands(page).InputValueAsync()).Should().Be("ap-cli.exe git --output \"Test.txt\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
+            (await GetTextCliCommands(page).InputValueAsync()).Should().Be("ap-cli.exe git --output \"Test.txt\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
             var commandText = await page.RunAndWaitForDownloadAsync(async () =>
             {
                 await page.GetByRole(AriaRole.Button, new() { Name = "Save as file" }).ClickAsync();
@@ -96,15 +96,26 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
             // Assert - CLI generate and download repo
             await GetButtonGenerateRepo(page).ClickAsync();
             await GetButtonGenerateCommands(page).ClickAsync();
-            (await GetTextCommands(page).InputValueAsync()).Should().Be("ap-cli.exe generate --author-name \"Activity Paint\" --author-email \"email@example.com\" --zip --output \"Test.zip\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
+            (await GetTextCliCommands(page).InputValueAsync()).Should().Be("ap-cli.exe generate --author-name \"Activity Paint\" --author-email \"email@example.com\" --zip --output \"Test.zip\" new --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w==");
 
             // Assert - CLI save preset to file
             await GetButtonSavePreset(page).ClickAsync();
             await GetButtonGenerateCommands(page).ClickAsync();
-            (await GetTextCommands(page).InputValueAsync()).Should().Be("ap-cli.exe save --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w== --dark-mode --output \"Test.json\"");
+            (await GetTextCliCommands(page).InputValueAsync()).Should().Be("ap-cli.exe save --name \"Test\" --start-date 2020-01-01 --data eAFiZEQAFjBgRKUg0sxgwIhKwXQygQEjKgWThNEMMAYjI8OIBQAAAAD//w== --dark-mode --output \"Test.json\"");
+
+            // Assert - CLI save in gallery
+            await GetButtonSaveInGallery(page).ClickAsync();
+            (await page.GetByRole(AriaRole.Heading, new() { Name = "Saving presets in the gallery is only supported in the desktop and web app." }).IsVisibleAsync()).Should().BeTrue();
+
+            // Assert - APP save in gallery
+            await GetAppTab(page).ClickAsync();
+            (await GetButtonSave(page).IsDisabledAsync()).Should().BeFalse();
+            await GetButtonSave(page).ClickAsync();
+            await Task.Delay(500);
+            (await GetButtonSave(page).IsDisabledAsync()).Should().BeTrue();
 
             // Assert - APP save preset to file
-            await GetAppTab(page).ClickAsync();
+            await GetButtonSavePreset(page).ClickAsync();
             var presetDownload = await page.RunAndWaitForDownloadAsync(async () =>
             {
                 await page.GetByRole(AriaRole.Button, new() { Name = "Save preset" }).ClickAsync();
@@ -119,7 +130,7 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
             // Assert - APP generate git commands
             await GetButtonGitCommands(page).ClickAsync();
             await GetButtonGenerateCommands(page).ClickAsync();
-            (await GetTextCommands(page).InputValueAsync()).Should().StartWith("git commit --allow-empty --no-verify --date=2020-01-01T12:00:00.0000000+00:00 -m \"ActivityPaint - 'Test' - (Commit 1/223)\";");
+            (await GetTextAppCommands(page).InputValueAsync()).Should().StartWith("git commit --allow-empty --no-verify --date=2020-01-01T12:00:00.0000000+00:00 -m \"ActivityPaint - 'Test' - (Commit 1/223)\";");
         });
     }
 
@@ -214,10 +225,12 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
     private static ILocator GetButtonToolEraser(IPage page) => GetButtonTool(page, 1);
     private static ILocator GetButtonToolFill(IPage page) => GetButtonTool(page, 2);
     private static ILocator GetButtonTool(IPage page, int index) => page.Locator($"div[role=toolbar] .mud-toggle-group:first-child > button:nth-child({index + 1})");
+    private static ILocator GetButtonSaveInGallery(IPage page) => page.GetByRole(AriaRole.Radio, new() { Name = "Save in gallery" });
     private static ILocator GetButtonSavePreset(IPage page) => page.GetByRole(AriaRole.Radio, new() { Name = "Save preset to file" });
     private static ILocator GetButtonGenerateRepo(IPage page) => page.GetByRole(AriaRole.Radio, new() { Name = "Generate and download repository" });
     private static ILocator GetButtonGitCommands(IPage page) => page.GetByRole(AriaRole.Radio, new() { Name = "Generate git commands" });
     private static ILocator GetButtonGenerateCommands(IPage page) => page.GetByRole(AriaRole.Button, new() { Name = "Generate commands" });
+    private static ILocator GetButtonSave(IPage page) => page.GetByRole(AriaRole.Button, new() { Name = "Save in gallery" });
 
     // Canvas
     private static ILocator GetCanvasCell(IPage page, int x, int y) => page.Locator($"#cell-{x}-{y} div");
@@ -230,5 +243,6 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
     // Text
     private static ILocator GetTextHeader(IPage page) => page.Locator("h1");
     private static ILocator GetTextMethodNotSelected(IPage page) => page.GetByRole(AriaRole.Heading, new() { Name = "Please select the method first" });
-    private static ILocator GetTextCommands(IPage page) => page.Locator(".generate-commands__textarea textarea");
+    private static ILocator GetTextAppCommands(IPage page) => page.Locator(".mud-tabs-panels > div:nth-child(1) .generate-commands__textarea textarea");
+    private static ILocator GetTextCliCommands(IPage page) => page.Locator(".mud-tabs-panels > div:nth-child(2) .generate-commands__textarea textarea");
 }

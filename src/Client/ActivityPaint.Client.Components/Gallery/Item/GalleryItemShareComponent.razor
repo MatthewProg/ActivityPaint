@@ -1,0 +1,31 @@
+﻿@using ActivityPaint.Client.Components.Shared.Interops
+@using System.Runtime.InteropServices
+@inject NavigationManager Navigation
+@inject IUtilitiesInterop UtilitiesInterop
+
+<MudPaper Elevation="4" Outlined="true" Square="false" Class="d-flex p-2 border-4 align-center">
+    <MudTooltip Delay="250" Text="@_tooltipText" @onpointerleave="ResetTooltip">
+        <MudIconButton Icon="@Icons.Material.Filled.CopyAll" Size="Size.Small" OnClick="CopyAll" />
+    </MudTooltip>
+    <MudDivider Vertical="true" FlexItem="true" />
+    <MudInput @ref="_inputComponent" T="string" ReadOnly="true" Value="@ShareUrl" Class="px-1" />
+</MudPaper>
+
+@code {
+    private MudInput<string>? _inputComponent;
+    private string _tooltipText = "Copy all";
+
+    [Parameter, EditorRequired]
+    public required string ShareUrl { get; set; }
+
+    private async Task CopyAll()
+    {
+        if (_inputComponent is not null)
+            await _inputComponent.SelectAsync();
+
+        await UtilitiesInterop.CopyToClipboard(ShareUrl);
+        _tooltipText = "Copied!";
+    }
+
+    private void ResetTooltip() => _tooltipText = "Copy all";
+}

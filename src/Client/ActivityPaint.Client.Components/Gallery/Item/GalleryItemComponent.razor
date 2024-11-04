@@ -1,0 +1,90 @@
+﻿@using ActivityPaint.Application.DTOs.Gallery
+@using ActivityPaint.Client.Components.Shared.Mappers
+@using ActivityPaint.Client.Components.Shared.Utilities
+@inject NavigationManager Navigation
+@inject IDialogService DialogService
+
+<div class="item-container" @onpointerleave="MouseLeave">
+    <MudCard>
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6" Class="text-ellipsis nowrap" title="@Item.Name">@Item.Name</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <GalleryItemDeleteComponent @ref="_deleteComponent" DeleteCallback="Delete" />
+            </CardHeaderActions>
+        </MudCardHeader>
+            <GalleryItemImageComponent Item="Item" ParentReadyListener="ParentReadyListener" />
+        <MudCardContent>
+            <div class="d-flex flex-wrap justify-space-between">
+                <MudText Typo="Typo.body2" Class="nowrap px-1"><b>Start date: </b>@Item.StartDate.ToString("yyyy-MM-dd")</MudText>
+                <MudText Typo="Typo.body2" Class="nowrap px-1"><b>Default theme: </b>@(Item.IsDarkModeDefault ? "Dark" : "Light")</MudText>
+            </div>
+        </MudCardContent>
+        <MudCardActions>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="() => _shareOpened = !_shareOpened">
+                Share
+                <MudPopover AnchorOrigin="Origin.TopLeft" TransformOrigin="Origin.BottomLeft" Open="_shareOpened">
+                    <GalleryItemShareComponent ShareUrl="@_editorUrl" />
+                </MudPopover>
+            </MudButton>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="Edit">Edit</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Save">Save</MudButton>
+        </MudCardActions>
+    </MudCard>
+</div>
+
+@code {
+    private static readonly DialogOptions _defaultDialogOptions = new()
+    {
+        CloseButton = true,
+        MaxWidth = MaxWidth.Large
+    };
+    private GalleryItemDeleteComponent? _deleteComponent;
+    private bool _shareOpened = false;
+    private string _editorUrl = string.Empty;
+
+    [Parameter, EditorRequired]
+    public required GalleryModel Item { get; set; }
+
+    [Parameter, EditorRequired]
+    public required IListener ParentReadyListener { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<GalleryModel> DeleteCallback { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _editorUrl = GetEditorUrl();
+
+        base.OnInitialized();
+    }
+
+    private string GetEditorUrl()
+    {
+        var url = Navigation.GetUriWithQueryParameters("/editor", EditorQueryMap.PresetToQuery(Item));
+
+        if (OperatingSystem.IsBrowser())
+        {
+            return $"{Navigation.BaseUri}{url[1..]}";
+        }
+
+        return url;
+    }
+
+    private void MouseLeave() => _deleteComponent?.Reset();
+
+    private async Task Save()
+    {
+        var parameters = new DialogParameters<GalleryItemSaveDialogComponent>
+        {
+            { x => x.Item, Item }
+        };
+
+        var dialog = await DialogService.ShowAsync<GalleryItemSaveDialogComponent>("Save preset", parameters, _defaultDialogOptions);
+    }
+
+    private void Edit() => Navigation.NavigateTo(_editorUrl, false);
+
+    private async Task Delete() => await DeleteCallback.InvokeAsync(Item);
+}

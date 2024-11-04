@@ -11,4 +11,6 @@ public sealed class Preset : BaseEntity
     public bool IsDarkModeDefault { get; set; }
 
     public List<IntensityEnum> CanvasData { get; set; } = [];
+
+    public DateTimeOffset LastUpdated { get; set; } = DateTimeOffset.UtcNow;
 }
