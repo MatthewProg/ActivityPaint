@@ -610,8 +610,8 @@
       },
       "MudBlazor": {
         "type": "Transitive",
-        "resolved": "7.13.0",
-        "contentHash": "FapnlYCCN84ah+5vwMjcLAvdwFUXhsNxroi7y1sRI0vqYtUR6IZu0CaTbI9zcFAjDHQ4acHVNN71rcRbOfX+Rg==",
+        "resolved": "7.15.0",
+        "contentHash": "b2+hO7ZTGwsGhu9SoowuNe2ETeF1GzExpg/hIYR++rSh+vy4v/QD0iOsrATWv3LdFJXSgk3d1+XIr5srW3jBiA==",
         "dependencies": {
           "Microsoft.AspNetCore.Components": "8.0.8",
           "Microsoft.AspNetCore.Components.Web": "8.0.8",
@@ -625,8 +625,8 @@
       },
       "Riok.Mapperly": {
         "type": "Transitive",
-        "resolved": "4.0.0",
-        "contentHash": "p3usGhFauNWoNr5OS/XemjX0G7tNhhdxEDcPwOM6jPdfXiZQdwLFTwZN+/3xmT9QBTn+ba5HWHgm/9DDLZ3iBw=="
+        "resolved": "4.1.0",
+        "contentHash": "Px/qQh977qubJhuVXp+uQrZ0DU/X7HimKnXnvW3BISsM/6CwpxxgVe853MVvdvF5zbogP314s44qXiGNghtVgQ=="
       },
       "SixLabors.Fonts": {
         "type": "Transitive",
@@ -803,7 +803,7 @@
         "dependencies": {
           "ActivityPaint.Core": "[1.0.0, )",
           "FluentValidation.DependencyInjectionExtensions": "[11.10.0, )",
-          "Riok.Mapperly": "[4.0.0, )"
+          "Riok.Mapperly": "[4.1.0, )"
         }
       },
       "activitypaint.client.components": {
@@ -812,7 +812,7 @@
           "ActivityPaint.Application.BusinessLogic": "[1.0.0, )",
           "CommunityToolkit.Mvvm": "[8.3.2, )",
           "Microsoft.AspNetCore.Components.Web": "[8.0.10, )",
-          "MudBlazor": "[7.13.0, )"
+          "MudBlazor": "[7.15.0, )"
         }
       },
       "activitypaint.client.web": {
