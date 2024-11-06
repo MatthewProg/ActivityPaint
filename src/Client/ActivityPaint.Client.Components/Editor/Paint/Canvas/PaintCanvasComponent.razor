@@ -4,10 +4,10 @@
 @implements IAsyncDisposable
 
 <table id="paint-canvas">
-    @for (int r = 0; r < 7; r++)
+    @for (var r = 0; r < 7; r++)
     {
         <tr>
-            @for (int c = 0; c < 54; c++)
+            @for (var c = 0; c < 54; c++)
             {
                 var doy = GetDayOfYear(r, c, StartDate, EndDate);
                 if (doy.HasValue)

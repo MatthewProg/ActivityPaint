@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.Abstractions.FileSystem;
+using ActivityPaint.Application.Abstractions.FileSystem;
 using ActivityPaint.Application.Abstractions.Interactions;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Shared.Extensions;
@@ -27,7 +27,7 @@ internal class SaveToFileCommandValidator : AbstractValidator<SaveToFileCommand>
             .NotEmpty();
 
         RuleFor(x => x.Path)
-        .Path();
+            .Path();
     }
 }
 

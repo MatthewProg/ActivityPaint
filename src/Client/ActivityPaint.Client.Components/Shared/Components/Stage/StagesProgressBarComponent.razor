@@ -5,7 +5,7 @@
         {
             <div class="stage-indicator">
                 <MudAvatar Color="@(IsStageActive(stage, CurrentStage) ? Color.Primary : Color.Dark)" Size="Size.Medium">
-                    @if(string.IsNullOrEmpty(stage.Icon))
+                    @if (string.IsNullOrEmpty(stage.Icon))
                     {
                         @((stage.StageId ?? 0) + 1)
                     }
@@ -14,7 +14,7 @@
                         <MudIcon Icon="@stage.Icon" />
                     }
                 </MudAvatar>
-                @if(!string.IsNullOrEmpty(stage.Caption))
+                @if (!string.IsNullOrEmpty(stage.Caption))
                 {
                     <span>@(stage.Caption)</span>
                 }

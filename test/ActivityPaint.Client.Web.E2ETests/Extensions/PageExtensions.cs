@@ -1,4 +1,4 @@
-﻿using Microsoft.Playwright;
+using Microsoft.Playwright;
 using System.Numerics;
 
 namespace ActivityPaint.Client.Web.E2ETests.Extensions;
@@ -29,7 +29,7 @@ public static class PageExtensions
             var pointsDiff = targetCentre.Value - sourceCentre.Value;
             var currentPos = sourceCentre;
             var step = new Vector2(pointsDiff.X / (steps + 1), pointsDiff.Y / (steps + 1));
-            for (int i = 0; i < steps; i++)
+            for (var i = 0; i < steps; i++)
             {
                 currentPos += step;
                 await page.Mouse.MoveAsync(currentPos.Value.X, currentPos.Value.Y);

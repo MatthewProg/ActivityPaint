@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.BusinessLogic.Files;
+using ActivityPaint.Application.BusinessLogic.Files;
 using ActivityPaint.Client.Console.Commands.Shared;
 using ActivityPaint.Client.Console.Services;
 using ActivityPaint.Client.Console.Validators;
@@ -16,7 +16,7 @@ public class GitNewCommandSettings : GitBranchSettings
 {
     [CommandOption("-n|--name")]
     [Description("Set preset default name.")]
-    [CurrentYearDefaultValue()]
+    [CurrentYearDefaultValue]
     public required string Name { get; set; }
 
     [CommandOption("-d|--data")]
@@ -28,7 +28,7 @@ public class GitNewCommandSettings : GitBranchSettings
 
     [CommandOption("-s|--start-date")]
     [Description("Start date of the canvas data in yyyy-MM-dd format.")]
-    [CurrentYearDefaultValue()]
+    [CurrentYearDefaultValue]
     public required string StartDateString { get; set; }
 
     public DateTime StartDate

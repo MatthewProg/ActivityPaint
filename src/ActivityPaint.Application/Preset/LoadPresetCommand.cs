@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.BusinessLogic.Files;
+using ActivityPaint.Application.BusinessLogic.Files;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Shared.Extensions;

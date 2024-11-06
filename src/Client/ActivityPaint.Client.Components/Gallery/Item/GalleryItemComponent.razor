@@ -17,8 +17,12 @@
             <GalleryItemImageComponent Item="Item" ParentReadyListener="ParentReadyListener" />
         <MudCardContent>
             <div class="d-flex flex-wrap justify-space-between">
-                <MudText Typo="Typo.body2" Class="nowrap px-1"><b>Start date: </b>@Item.StartDate.ToString("yyyy-MM-dd")</MudText>
-                <MudText Typo="Typo.body2" Class="nowrap px-1"><b>Default theme: </b>@(Item.IsDarkModeDefault ? "Dark" : "Light")</MudText>
+                <MudText Typo="Typo.body2" Class="nowrap px-1">
+                    <b>Start date: </b>@Item.StartDate.ToString("yyyy-MM-dd")
+                </MudText>
+                <MudText Typo="Typo.body2" Class="nowrap px-1">
+                    <b>Default theme: </b>@(Item.IsDarkModeDefault ? "Dark" : "Light")
+                </MudText>
             </div>
         </MudCardContent>
         <MudCardActions>

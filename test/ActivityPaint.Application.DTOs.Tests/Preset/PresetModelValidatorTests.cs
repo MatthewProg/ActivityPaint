@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.DTOs.Preset;
+using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Core.Enums;
 
 namespace ActivityPaint.Application.DTOs.Tests.Preset;
@@ -28,7 +28,7 @@ public class PresetModelValidatorTests
         var validator = new PresetModelValidator();
         var model = GetValidModel() with
         {
-            Name = name!,
+            Name = name!
         };
 
         // Act
@@ -45,7 +45,7 @@ public class PresetModelValidatorTests
         var validator = new PresetModelValidator();
         var model = GetValidModel() with
         {
-            CanvasData = null!,
+            CanvasData = null!
         };
 
         // Act
@@ -62,7 +62,7 @@ public class PresetModelValidatorTests
         var validator = new PresetModelValidator();
         var model = GetValidModel() with
         {
-            CanvasData = [(IntensityEnum)9],
+            CanvasData = [(IntensityEnum)9]
         };
 
         // Act

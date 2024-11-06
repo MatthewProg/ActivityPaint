@@ -14,12 +14,12 @@
 
 @code {
     private PaintCanvasComponent? _canvas;
-    private PaintCanvasModel _settings = new PaintCanvasModel
+    private PaintCanvasModel _settings = new()
     {
         IsDarkMode = false,
         BrushSize = 1,
         SelectedIntensity = IntensityEnum.Level0,
-        SelectedTool = PaintToolEnum.Brush,
+        SelectedTool = PaintToolEnum.Brush
     };
 
     [CascadingParameter(Name = "EditorModel")]

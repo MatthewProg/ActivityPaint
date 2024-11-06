@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Client.Web.E2ETests.Extensions;
+using ActivityPaint.Client.Web.E2ETests.Extensions;
 using ActivityPaint.Client.Web.E2ETests.Setup;
 using ActivityPaint.Core.Enums;
 using Microsoft.Playwright;
@@ -182,11 +182,11 @@ public class EditorTests(PlaywrightFixture playwright) : IAssemblyFixture<WebApp
         var bomBytes = Encoding.UTF8.GetPreamble();
         var contentBytes = memoryStream.ToArray();
 
-        bool hasBom = false;
+        var hasBom = false;
         if (contentBytes.Length >= bomBytes.Length)
         {
             hasBom = true;
-            for (int i = 0; i < bomBytes.Length; i++)
+            for (var i = 0; i < bomBytes.Length; i++)
             {
                 if (bomBytes[i] != contentBytes[i])
                 {

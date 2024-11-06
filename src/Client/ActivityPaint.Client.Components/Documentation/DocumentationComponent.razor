@@ -1,6 +1,5 @@
 ﻿@using ActivityPaint.Client.Components.Documentation.Shared
 @using ActivityPaint.Client.Components.Documentation.Shared.Overview
-@using ActivityPaint.Client.Components.Shared.Components.Code
 @using Option = ActivityPaint.Client.Components.Documentation.Shared.OptionsTable.DocumentationOptionsTableModel
 @using Command = ActivityPaint.Client.Components.Documentation.Shared.CommandsTable.DocumentationCommandsTableModel
 @implements IDocumentationPage
@@ -14,11 +13,12 @@
 @code {
     private const string _title = "Activity Paint CLI";
     private static readonly DocumentationOverviewCommandModel _command = new("", "ap-cli.exe <COMMAND>");
+
     private static readonly List<Command> _commands =
     [
-        new ("save", "Saves canvas data as a preset file in the specified location", "/documentation/save/preset"),
-        new ("git", "Generate git commands to create the repository based on a preset file or arguments provided", "/documentation/git"),
-        new ("generate", "Generate repository based on a preset file or arguments provided", "/documentation/generate")
+        new("save", "Saves canvas data as a preset file in the specified location", "/documentation/save/preset"),
+        new("git", "Generate git commands to create the repository based on a preset file or arguments provided", "/documentation/git"),
+        new("generate", "Generate repository based on a preset file or arguments provided", "/documentation/generate")
     ];
 
     public string Title { get; } = _title;

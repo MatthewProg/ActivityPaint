@@ -14,7 +14,7 @@
     <div class="generate-commands__text-container">
         <MudTextField @ref="_commandsField" T="string" ReadOnly="true" Lines="6" Text="@_commands" Class="@_textFieldClass" />
         <MudButton Variant="@Variant.Filled" Class="generate-commands__gen-button" OnClick="GenerateCommands" Disabled="_isBusy" hidden="@(!string.IsNullOrEmpty(_commands))">
-            @if(!_isBusy)
+            @if (!_isBusy)
             {
                 <MudText Typo="Typo.button">Generate commands</MudText>
             }

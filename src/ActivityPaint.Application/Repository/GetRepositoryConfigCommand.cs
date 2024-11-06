@@ -1,11 +1,11 @@
-﻿using ActivityPaint.Application.Abstractions.Database.Repositories;
+using ActivityPaint.Application.Abstractions.Database.Repositories;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Repository;
 using ActivityPaint.Core.Shared.Result;
 
 namespace ActivityPaint.Application.BusinessLogic.Repository;
 
-public record GetRepositoryConfigCommand() : IResultRequest<RepositoryConfigModel>;
+public record GetRepositoryConfigCommand : IResultRequest<RepositoryConfigModel>;
 
 internal class GetRepositoryConfigCommandHandler(IRepositoryConfigRepository repositoryConfigRepository) : IResultRequestHandler<GetRepositoryConfigCommand, RepositoryConfigModel>
 {

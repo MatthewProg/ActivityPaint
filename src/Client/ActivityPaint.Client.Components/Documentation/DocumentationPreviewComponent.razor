@@ -1,7 +1,6 @@
 ﻿@using ActivityPaint.Application.BusinessLogic.Image.Models
 @using ActivityPaint.Client.Components.Documentation.Shared
 @using ActivityPaint.Client.Components.Documentation.Shared.Overview
-@using ActivityPaint.Client.Components.Shared.Components.Code
 @using Option = ActivityPaint.Client.Components.Documentation.Shared.OptionsTable.DocumentationOptionsTableModel
 @using Command = ActivityPaint.Client.Components.Documentation.Shared.CommandsTable.DocumentationCommandsTableModel
 @implements IDocumentationPage
@@ -21,7 +20,7 @@
     ];
     private static readonly List<Command> _commands =
     [
-        new ("save", "Save the generated canvas preview as image", "/documentation/preview/save"),
+        new("save", "Save the generated canvas preview as image", "/documentation/preview/save")
     ];
     private static readonly List<string> _examples =
     [

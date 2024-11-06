@@ -12,7 +12,7 @@
 </DocumentationPageComponent>
 
 @code {
-    private static readonly DateOnly _yearStart = new DateOnly(DateTime.Now.Year, 1, 1);
+    private static readonly DateOnly _yearStart = new(DateTime.Now.Year, 1, 1);
 
     private const string _title = "Generate repository from preset";
     private static readonly DocumentationOverviewCommandModel _command = new("ap-cli.exe generate [OPTIONS]", "load <FILE>");
@@ -20,7 +20,7 @@
     private static readonly List<string> _aliases = ["load", "l"];
     private static readonly List<Option> _arguments =
     [
-        Option.Build<string>("<FILE>", true, "Path to the preset file"),
+        Option.Build<string>("<FILE>", true, "Path to the preset file")
     ];
     private static readonly List<string> _examples =
     [

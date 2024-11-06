@@ -12,7 +12,7 @@ public interface IUtilitiesInterop : IAsyncDisposable
 public sealed class UtilitiesInterop(IJSRuntime jsRuntime) : IUtilitiesInterop
 {
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", "./_content/ActivityPaint.Client.Components/js/utilities.js").AsTask());
+        "import", "./_content/ActivityPaint.Client.Components/js/utilities.js").AsTask());
 
     public async ValueTask CopyToClipboard(string text, CancellationToken cancellationToken)
     {

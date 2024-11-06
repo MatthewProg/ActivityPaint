@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.BusinessLogic.Preset;
+using ActivityPaint.Application.BusinessLogic.Preset;
 using ActivityPaint.Client.Console.Services;
 using ActivityPaint.Client.Console.Validators;
 using Mediator;

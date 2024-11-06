@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Core.Entities;
+using ActivityPaint.Core.Entities;
 using ActivityPaint.Integration.Database.Repositories;
 using Microsoft.EntityFrameworkCore;
 
@@ -71,21 +71,21 @@ public sealed class RepositoryConfigRepositoryTests : IClassFixture<DatabaseFixt
         var data = GetDummyData();
         await InsertData(data);
 
-        var update = new RepositoryConfig()
+        var update = new RepositoryConfig
         {
             Id = 2,
             AuthorEmail = "dummy@example.com",
             AuthorFullName = "Jane Smith",
             MessageFormat = null
         };
-        var expected = new List<RepositoryConfig>()
+        var expected = new List<RepositoryConfig>
         {
             new()
             {
                 Id = 1,
                 AuthorEmail = update.AuthorEmail,
                 AuthorFullName = update.AuthorFullName,
-                MessageFormat = update.MessageFormat,
+                MessageFormat = update.MessageFormat
             },
             data[1]
         };

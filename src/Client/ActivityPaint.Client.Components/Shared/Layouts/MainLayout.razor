@@ -1,6 +1,5 @@
 ﻿@using ActivityPaint.Application.Abstractions.Database
 @using ActivityPaint.Client.Components.Shared.Components
-@using ActivityPaint.Client.Components.Shared.Interops
 @using ActivityPaint.Client.Components.Shared.Theming
 @inherits LayoutComponentBase
 
@@ -28,7 +27,7 @@
 </CascadingValue>
 
 @code {
-    private ThemeModel _defaultTheme = new ThemeModel();
+    private readonly ThemeModel _defaultTheme = new();
     private MudThemeProvider? _mudThemeProvider;
     private bool _drawerOpen = true;
 

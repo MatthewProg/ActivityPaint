@@ -51,7 +51,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Factory.StartNew(async () => {
+        await Task.Factory.StartNew(async () =>
+        {
             await UpdateItemsCount();
 
             if (_itemsCount != 0)

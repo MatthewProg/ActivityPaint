@@ -2,5 +2,7 @@
 
 public enum ThemeEnum
 {
-    System, Light, Dark
+    System,
+    Light,
+    Dark
 }

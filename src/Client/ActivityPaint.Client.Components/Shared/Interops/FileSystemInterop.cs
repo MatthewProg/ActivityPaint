@@ -10,7 +10,7 @@ public interface IFileSystemInterop : IAsyncDisposable
 public sealed class FileSystemInterop(IJSRuntime jsRuntime) : IFileSystemInterop
 {
     private readonly Lazy<Task<IJSObjectReference>> _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>(
-            "import", "./_content/ActivityPaint.Client.Components/js/file-system.js").AsTask());
+        "import", "./_content/ActivityPaint.Client.Components/js/file-system.js").AsTask());
 
     public async ValueTask DownloadFile(string fileName, Stream data, CancellationToken cancellationToken)
     {

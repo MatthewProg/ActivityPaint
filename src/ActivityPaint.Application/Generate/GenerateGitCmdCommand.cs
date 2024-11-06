@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.BusinessLogic.Generate.Services;
+using ActivityPaint.Application.BusinessLogic.Generate.Services;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Shared.Extensions;
@@ -40,7 +40,7 @@ internal class GenerateGitCmdCommandHandler(ICommitsService commitsService) : IR
         var sizeApprox = GetCommand(firstCommit.DateTime, firstCommit.Message).Length * commits.Count;
         var builder = new StringBuilder(sizeApprox);
 
-        for (int i = 0; i < commits.Count; i++)
+        for (var i = 0; i < commits.Count; i++)
         {
             var commit = commits[i];
             var message = GetCommand(commit.DateTime, commit.Message);
@@ -59,4 +59,3 @@ internal class GenerateGitCmdCommandHandler(ICommitsService commitsService) : IR
     private static string GetCommand(DateTimeOffset date, string message)
         => $"git commit --allow-empty --no-verify --date={date:O} -m \"{message}\";\n";
 }
-

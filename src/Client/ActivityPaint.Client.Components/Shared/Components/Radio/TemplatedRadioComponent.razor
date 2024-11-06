@@ -1,12 +1,12 @@
 ﻿@typeparam T where T : struct
 
 <div @attributes="UserAttributes" class="@_classes" role="radiogroup">
-    @if(ItemTemplate is not null)
+    @if (ItemTemplate is not null)
     {
-        foreach(var item in Items ?? Enumerable.Empty<T>())
+        foreach (var item in Items ?? Enumerable.Empty<T>())
         {
             <div @key="item"
-                 class="@("templated-radio__item") @(item.Equals(SelectedItem) == true ? "active" : "") @ItemClass"
+                 class="@("templated-radio__item") @(item.Equals(SelectedItem) ? "active" : "") @ItemClass"
                  style="@ItemStyle"
                  role="radio"
                  @onclick="async () => await ChangeActiveItem(item)">

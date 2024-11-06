@@ -12,7 +12,7 @@
 </DocumentationPageComponent>
 
 @code {
-    private static readonly DateOnly _yearStart = new DateOnly(DateTime.Now.Year, 1, 1);
+    private static readonly DateOnly _yearStart = new(DateTime.Now.Year, 1, 1);
 
     private const string _title = "Generate repository from parameters";
     private static readonly DocumentationOverviewCommandModel _command = new("ap-cli.exe generate [OPTIONS]", "new [OPTIONS]");
