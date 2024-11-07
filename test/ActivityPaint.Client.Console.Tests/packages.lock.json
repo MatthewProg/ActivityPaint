@@ -369,21 +369,6 @@
           "Riok.Mapperly": "[4.1.0, )"
         }
       },
-      "activitypaint.client.console": {
-        "type": "Project",
-        "dependencies": {
-          "ActivityPaint.Application.BusinessLogic": "[1.0.0, )",
-          "ActivityPaint.Integration.FileSystem": "[1.0.0, )",
-          "ActivityPaint.Integration.Repository": "[1.0.0, )",
-          "Microsoft.Extensions.Configuration.Binder": "[8.0.2, )",
-          "Microsoft.Extensions.Configuration.Json": "[8.0.1, )",
-          "Microsoft.Extensions.DependencyInjection": "[8.0.1, )",
-          "Microsoft.Extensions.Logging": "[8.0.1, )",
-          "Serilog.Extensions.Logging": "[8.0.0, )",
-          "Serilog.Sinks.File": "[6.0.0, )",
-          "Spectre.Console.Cli": "[0.49.1, )"
-        }
-      },
       "activitypaint.core": {
         "type": "Project",
         "dependencies": {
@@ -401,6 +386,21 @@
         "dependencies": {
           "ActivityPaint.Application.Abstractions": "[1.0.0, )",
           "LibGit2Sharp": "[0.30.0, )"
+        }
+      },
+      "ap-cli": {
+        "type": "Project",
+        "dependencies": {
+          "ActivityPaint.Application.BusinessLogic": "[1.0.0, )",
+          "ActivityPaint.Integration.FileSystem": "[1.0.0, )",
+          "ActivityPaint.Integration.Repository": "[1.0.0, )",
+          "Microsoft.Extensions.Configuration.Binder": "[8.0.2, )",
+          "Microsoft.Extensions.Configuration.Json": "[8.0.1, )",
+          "Microsoft.Extensions.DependencyInjection": "[8.0.1, )",
+          "Microsoft.Extensions.Logging": "[8.0.1, )",
+          "Serilog.Extensions.Logging": "[8.0.0, )",
+          "Serilog.Sinks.File": "[6.0.0, )",
+          "Spectre.Console.Cli": "[0.49.1, )"
         }
       }
     }
