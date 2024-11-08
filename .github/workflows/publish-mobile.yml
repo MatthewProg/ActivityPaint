@@ -1,0 +1,35 @@
+name: '[Publish] Mobile'
+
+on:
+  workflow_call:
+
+env:
+  NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
+
+jobs:
+  publish-mobile:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: './global.json'
+          cache: true
+          cache-dependency-path: './src/Client/ActivityPaint.Client.Mobile/packages.lock.json'
+
+      - name: Restore NuGets
+        run: dotnet restore ./src/Client/ActivityPaint.Client.Mobile/ActivityPaint.Client.Mobile.csproj --locked-mode
+
+      - name: Publish
+        run: dotnet publish ./src/Client/ActivityPaint.Client.Mobile/ActivityPaint.Client.Mobile.csproj --no-restore -c Release -f net8.0-windows10.0.19041.0 -p:RuntimeIdentifierOverride=win10-x64 -p:WindowsPackageType=None -o ./publish/mobile/win64/
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: activity-paint-mobile_win64
+          path: |
+            ./publish/mobile/win64/
+            !./publish/mobile/win64/*.pdb
