@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.BusinessLogic.Image.Models;
+using ActivityPaint.Application.BusinessLogic.Image.Models;
 using ActivityPaint.Application.BusinessLogic.Image.Services;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Preset;

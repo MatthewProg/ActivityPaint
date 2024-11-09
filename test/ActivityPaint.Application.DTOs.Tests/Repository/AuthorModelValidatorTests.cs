@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.DTOs.Repository;
+using ActivityPaint.Application.DTOs.Repository;
 
 namespace ActivityPaint.Application.DTOs.Tests.Repository;
 
@@ -27,7 +27,7 @@ public class AuthorModelValidatorTests
         var validator = new AuthorModelValidator();
         var model = GetValidModel() with
         {
-            FullName = name!,
+            FullName = name!
         };
 
         // Act
@@ -46,7 +46,7 @@ public class AuthorModelValidatorTests
         var validator = new AuthorModelValidator();
         var model = GetValidModel() with
         {
-            Email = email!,
+            Email = email!
         };
 
         // Act
@@ -66,7 +66,7 @@ public class AuthorModelValidatorTests
         var validator = new AuthorModelValidator();
         var model = GetValidModel() with
         {
-            Email = email,
+            Email = email
         };
 
         // Act

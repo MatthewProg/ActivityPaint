@@ -8,6 +8,7 @@
         <RuntimeIdentifiers Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers>
 
         <WindowsSdkPackageVersion>10.0.19041.41</WindowsSdkPackageVersion>
+        <WindowsPackageType>None</WindowsPackageType>
 
         <OutputType>Exe</OutputType>
         <RootNamespace>ActivityPaint.Client.Mobile</RootNamespace>
@@ -32,18 +33,23 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
+        <DefaultLanguage>en</DefaultLanguage>
+        <PackageCertificateThumbprint>EA4B041BF3EC54C55CBD80C2861ECCA0A598C6E0</PackageCertificateThumbprint>
+        <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+        <ApplicationTitle>Activity Paint</ApplicationTitle>
+        <ApplicationId>com.mateuszciaglo.activitypaint.mobile</ApplicationId>
+        <ApplicationIdGuid>e0e2dda2-13d5-4c0f-bf26-8e1770f54fd7</ApplicationIdGuid>
     </PropertyGroup>
 
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+        <MauiIcon Include="Resources\AppIcon\icon.svg" />
 
         <!-- Splash Screen -->
         <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
-        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
         <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
@@ -74,6 +80,10 @@
       <ProjectReference Include="..\..\Integration\ActivityPaint.Integration.FileSystem\ActivityPaint.Integration.FileSystem.csproj" />
       <ProjectReference Include="..\..\Integration\ActivityPaint.Integration.Repository\ActivityPaint.Integration.Repository.csproj" />
       <ProjectReference Include="..\ActivityPaint.Client.Components\ActivityPaint.Client.Components.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\Images\" />
     </ItemGroup>
 
 </Project>

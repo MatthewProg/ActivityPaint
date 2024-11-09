@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.DTOs.Preset;
+using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Repository;
 using System.Text.RegularExpressions;
 
@@ -30,7 +30,7 @@ internal partial class CommitsService : ICommitsService
                 metadata.CurrentTotalCommit++;
                 metadata.CurrentDayCommit++;
 
-                var message = TokenRegex().Replace(messageFormat, (match) => GetTokenValue(metadata, match.Value));
+                var message = TokenRegex().Replace(messageFormat, match => GetTokenValue(metadata, match.Value));
                 var date = metadata.StartDay.AddDays(metadata.CurrentDay - 1);
 
                 output.Add(new(message, date));

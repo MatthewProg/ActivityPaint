@@ -8,11 +8,6 @@ jobs:
     name: Publish Console
     uses: ./.github/workflows/publish-console.yml
 
-#   publish-web:
-#     name: Publish Web
-#     uses: ./.github/workflows/publish-web.yml
-
-#   publish-mobile:
-#     name: Publish Mobile
-#     uses: ./.github/workflows/publish-mobile.yml
-
+  publish-mobile:
+    name: Publish Mobile
+    uses: ./.github/workflows/publish-mobile.yml

@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
+using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Shared.Extensions;
 using ActivityPaint.Core.Shared.Result;
@@ -41,4 +41,3 @@ internal class CliCmdGenerateGitCommandHandler : IResultRequestHandler<CliCmdGen
         return ValueTask.FromResult<Result<string>>(output);
     }
 }
-

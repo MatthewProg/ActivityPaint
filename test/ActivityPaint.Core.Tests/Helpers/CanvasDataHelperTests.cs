@@ -8,7 +8,7 @@ public class CanvasDataHelperTests
     [Fact]
     public void ConvertToString_WhenNullArray_ShouldThrowArgumentNullException()
     {
-        // Arrage
+        // Arrange
         var action = () => CanvasDataHelper.ConvertToString(null!);
 
         // Act & Assert
@@ -32,7 +32,7 @@ public class CanvasDataHelperTests
     public void ConvertToString_WhenValidArray_ShouldBeValidString()
     {
         // Arrange
-        var input = new IntensityEnum[]
+        var input = new[]
         {
             IntensityEnum.Level0,
             IntensityEnum.Level2,
@@ -53,7 +53,7 @@ public class CanvasDataHelperTests
     [Fact]
     public void ConvertToList_WhenNullString_ShouldThrowArgumentNullException()
     {
-        // Arrage
+        // Arrange
         var action = () => CanvasDataHelper.ConvertToList(null!);
 
         // Act & Assert
@@ -78,13 +78,13 @@ public class CanvasDataHelperTests
     {
         // Arrange
         var input = "eAFiYGRiZgEAAAD//w==";
-        var expected = new IntensityEnum[]
+        var expected = new[]
         {
             IntensityEnum.Level0,
             IntensityEnum.Level1,
             IntensityEnum.Level2,
             IntensityEnum.Level3,
-            IntensityEnum.Level4,
+            IntensityEnum.Level4
         };
 
         // Act

@@ -23,8 +23,8 @@
       },
       "Riok.Mapperly": {
         "type": "Transitive",
-        "resolved": "4.0.0",
-        "contentHash": "p3usGhFauNWoNr5OS/XemjX0G7tNhhdxEDcPwOM6jPdfXiZQdwLFTwZN+/3xmT9QBTn+ba5HWHgm/9DDLZ3iBw=="
+        "resolved": "4.1.0",
+        "contentHash": "Px/qQh977qubJhuVXp+uQrZ0DU/X7HimKnXnvW3BISsM/6CwpxxgVe853MVvdvF5zbogP314s44qXiGNghtVgQ=="
       },
       "activitypaint.application.abstractions": {
         "type": "Project",
@@ -37,7 +37,7 @@
         "dependencies": {
           "ActivityPaint.Core": "[1.0.0, )",
           "FluentValidation.DependencyInjectionExtensions": "[11.10.0, )",
-          "Riok.Mapperly": "[4.0.0, )"
+          "Riok.Mapperly": "[4.1.0, )"
         }
       },
       "activitypaint.core": {

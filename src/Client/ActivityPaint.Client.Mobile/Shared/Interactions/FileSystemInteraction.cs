@@ -3,35 +3,34 @@ using ActivityPaint.Core.Shared.Result;
 using ActivityPaint.Core.Shared.Result.Errors;
 using CommunityToolkit.Maui.Storage;
 
-namespace ActivityPaint.Client.Mobile.Shared.Interactions
+namespace ActivityPaint.Client.Mobile.Shared.Interactions;
+
+public class FileSystemInteraction(IFileSaver fileSaver, IFilePicker filePicker) : IFileSystemInteraction
 {
-    public class FileSystemInteraction(IFileSaver fileSaver, IFilePicker filePicker) : IFileSystemInteraction
+    private readonly IFilePicker _filePicker = filePicker;
+    private readonly IFileSaver _fileSaver = fileSaver;
+
+    public async Task<Result> PromptFileSaveAsync(string fileName, Stream data, CancellationToken cancellationToken = default)
     {
-        private readonly IFileSaver _fileSaver = fileSaver;
-        private readonly IFilePicker _filePicker = filePicker;
+        var saveResult = await _fileSaver.SaveAsync(fileName, data, cancellationToken);
 
-        public async Task<Result> PromptFileSaveAsync(string fileName, Stream data, CancellationToken cancellationToken = default)
+        if (saveResult.IsSuccessful)
         {
-            var saveResult = await _fileSaver.SaveAsync(fileName, data, cancellationToken);
-
-            if (saveResult.IsSuccessful)
-            {
-                return Result.Success();
-            }
-
-            return new ExceptionError(saveResult.Exception);
+            return Result.Success();
         }
 
-        public async Task<Result<Stream>> PromptFileLoadAsync(CancellationToken cancellationToken = default)
+        return new ExceptionError(saveResult.Exception);
+    }
+
+    public async Task<Result<Stream>> PromptFileLoadAsync(CancellationToken cancellationToken = default)
+    {
+        var fileResult = await _filePicker.PickAsync();
+
+        if (fileResult is null)
         {
-            var fileResult = await _filePicker.PickAsync();
-
-            if (fileResult is null)
-            {
-                return new Error("Error.OperationCancelled", "Operation has been cancelled by user.");
-            }
-
-            return await fileResult.OpenReadAsync();
+            return new Error("Error.OperationCancelled", "Operation has been cancelled by user.");
         }
+
+        return await fileResult.OpenReadAsync();
     }
 }

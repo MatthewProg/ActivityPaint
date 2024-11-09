@@ -225,8 +225,8 @@
       },
       "Riok.Mapperly": {
         "type": "Transitive",
-        "resolved": "4.0.0",
-        "contentHash": "p3usGhFauNWoNr5OS/XemjX0G7tNhhdxEDcPwOM6jPdfXiZQdwLFTwZN+/3xmT9QBTn+ba5HWHgm/9DDLZ3iBw=="
+        "resolved": "4.1.0",
+        "contentHash": "Px/qQh977qubJhuVXp+uQrZ0DU/X7HimKnXnvW3BISsM/6CwpxxgVe853MVvdvF5zbogP314s44qXiGNghtVgQ=="
       },
       "Serilog": {
         "type": "Transitive",
@@ -366,22 +366,7 @@
         "dependencies": {
           "ActivityPaint.Core": "[1.0.0, )",
           "FluentValidation.DependencyInjectionExtensions": "[11.10.0, )",
-          "Riok.Mapperly": "[4.0.0, )"
-        }
-      },
-      "activitypaint.client.console": {
-        "type": "Project",
-        "dependencies": {
-          "ActivityPaint.Application.BusinessLogic": "[1.0.0, )",
-          "ActivityPaint.Integration.FileSystem": "[1.0.0, )",
-          "ActivityPaint.Integration.Repository": "[1.0.0, )",
-          "Microsoft.Extensions.Configuration.Binder": "[8.0.2, )",
-          "Microsoft.Extensions.Configuration.Json": "[8.0.1, )",
-          "Microsoft.Extensions.DependencyInjection": "[8.0.1, )",
-          "Microsoft.Extensions.Logging": "[8.0.1, )",
-          "Serilog.Extensions.Logging": "[8.0.0, )",
-          "Serilog.Sinks.File": "[6.0.0, )",
-          "Spectre.Console.Cli": "[0.49.1, )"
+          "Riok.Mapperly": "[4.1.0, )"
         }
       },
       "activitypaint.core": {
@@ -401,6 +386,21 @@
         "dependencies": {
           "ActivityPaint.Application.Abstractions": "[1.0.0, )",
           "LibGit2Sharp": "[0.30.0, )"
+        }
+      },
+      "ap-cli": {
+        "type": "Project",
+        "dependencies": {
+          "ActivityPaint.Application.BusinessLogic": "[1.0.0, )",
+          "ActivityPaint.Integration.FileSystem": "[1.0.0, )",
+          "ActivityPaint.Integration.Repository": "[1.0.0, )",
+          "Microsoft.Extensions.Configuration.Binder": "[8.0.2, )",
+          "Microsoft.Extensions.Configuration.Json": "[8.0.1, )",
+          "Microsoft.Extensions.DependencyInjection": "[8.0.1, )",
+          "Microsoft.Extensions.Logging": "[8.0.1, )",
+          "Serilog.Extensions.Logging": "[8.0.0, )",
+          "Serilog.Sinks.File": "[6.0.0, )",
+          "Spectre.Console.Cli": "[0.49.1, )"
         }
       }
     }

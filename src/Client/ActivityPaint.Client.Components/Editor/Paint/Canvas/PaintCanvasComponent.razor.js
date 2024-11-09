@@ -221,15 +221,15 @@ function getCellsInRange(x, y) {
     const minY = Math.max(0, clampedTop);
     const maxY = Math.min(7, clampedBottom);
 
-    const cellsInFoucs = [];
+    const cellsInFocus = [];
     for (let centerX = Math.round(minX) + 0.5; centerX < maxX; centerX++) {
         for (let centerY = Math.round(minY) + 0.5; centerY < maxY; centerY++) {
             const indexX = Math.floor(centerX);
             const indexY = Math.floor(centerY);
-            cellsInFoucs.push({ indexX, indexY });
+            cellsInFocus.push({ indexX, indexY });
         }
     }
-    return cellsInFoucs;
+    return cellsInFocus;
 }
 
 function rectsOverlap(rect1, rect2) {

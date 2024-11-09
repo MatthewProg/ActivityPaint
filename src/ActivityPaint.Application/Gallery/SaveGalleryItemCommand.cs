@@ -1,6 +1,5 @@
-﻿using ActivityPaint.Application.Abstractions.Database.Repositories;
+using ActivityPaint.Application.Abstractions.Database.Repositories;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;
-using ActivityPaint.Application.DTOs.Gallery;
 using ActivityPaint.Application.DTOs.Preset;
 using ActivityPaint.Application.DTOs.Shared.Extensions;
 using ActivityPaint.Core.Shared.Result;

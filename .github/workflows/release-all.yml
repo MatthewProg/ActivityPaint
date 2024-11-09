@@ -1,0 +1,28 @@
+name: '[Release] All'
+
+on:
+  workflow_call:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: './artifacts'
+
+      - name: Compress artifacts
+        run: mkdir ./artifact-zips; for subdir in ./artifacts/*/; do dirname=$(basename "$subdir") && zip -r "./artifact-zips/$dirname.zip" "$subdir"; done
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
+        with:
+          draft: true
+          artifacts: './artifact-zips/*.zip'
+          bodyFile: './CHANGELOG.md'

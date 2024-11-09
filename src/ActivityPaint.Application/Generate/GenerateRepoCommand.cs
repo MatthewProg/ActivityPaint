@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.Abstractions.Repository;
+using ActivityPaint.Application.Abstractions.Repository;
 using ActivityPaint.Application.BusinessLogic.Files;
 using ActivityPaint.Application.BusinessLogic.Generate.Services;
 using ActivityPaint.Application.BusinessLogic.Shared.Mediator;

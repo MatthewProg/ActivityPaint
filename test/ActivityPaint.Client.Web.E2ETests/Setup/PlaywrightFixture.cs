@@ -1,4 +1,4 @@
-﻿using Microsoft.Playwright;
+using Microsoft.Playwright;
 using PlaywrightProgram = Microsoft.Playwright.Program;
 
 namespace ActivityPaint.Client.Web.E2ETests.Setup;
@@ -42,7 +42,7 @@ public sealed class PlaywrightFixture : IAsyncLifetime
 
         await using var context = await browser.NewContextAsync(new()
         {
-            IgnoreHTTPSErrors = true,
+            IgnoreHTTPSErrors = true
         });
 
         var page = await context.NewPageAsync();

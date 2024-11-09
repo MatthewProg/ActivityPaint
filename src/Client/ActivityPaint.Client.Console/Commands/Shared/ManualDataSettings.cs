@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Client.Console.Validators;
+using ActivityPaint.Client.Console.Validators;
 using ActivityPaint.Core.Enums;
 using ActivityPaint.Core.Helpers;
 using Spectre.Console;
@@ -12,7 +12,7 @@ public abstract class ManualDataSettings : CommandSettings
 {
     [CommandOption("-n|--name")]
     [Description("Preset name.")]
-    [CurrentYearDefaultValue()]
+    [CurrentYearDefaultValue]
     public required string Name { get; set; }
 
     [CommandOption("-d|--data")]
@@ -24,7 +24,7 @@ public abstract class ManualDataSettings : CommandSettings
 
     [CommandOption("-s|--start-date")]
     [Description("Start date of the canvas data in yyyy-MM-dd format.")]
-    [CurrentYearDefaultValue()]
+    [CurrentYearDefaultValue]
     public required string StartDateString { get; set; }
 
     public DateTime StartDate

@@ -2,5 +2,7 @@
 
 public enum PaintToolEnum
 {
-    Brush, Eraser, Fill
+    Brush,
+    Eraser,
+    Fill
 }

@@ -1,4 +1,4 @@
-﻿using ActivityPaint.Application.DTOs.Repository;
+using ActivityPaint.Application.DTOs.Repository;
 
 namespace ActivityPaint.Application.DTOs.Tests.Repository;
 
@@ -27,7 +27,7 @@ public class CommitModelValidatorTests
         var validator = new CommitModelValidator();
         var model = GetValidModel() with
         {
-            Message = message!,
+            Message = message!
         };
 
         // Act
