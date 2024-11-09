@@ -1,4 +1,4 @@
-<h1 align="center">Activity Paint<br><span style="font-size:.75em;">$\textsf{\color{red}{(IN DEVELOPMENT)}}$</span></h1>
+<h1 align="center">Activity Paint</h1>
 
 <details open="open">
   <summary>Table of Contents</summary>
@@ -29,6 +29,7 @@
         <li><a href="#docker">Docker</a></li>
       </ul>
     </li>
+    <li><a href="#example">Example</a></li>
     <li><a href="#license">License</a></li>
   </ol>
 </details>
@@ -96,6 +97,10 @@ docker build -t activitypaint:latest .
 docker run -p 8080:80 activitypaint:latest
 ```
 4. Open http://localhost:8080 in the browser.
+
+## Example
+
+If you would like to check how the generated activity looks in practice, feel free to take a look at [my 2022 activity graph](https://github.com/MatthewProg?tab=overview&from=2022-12-01&to=2022-12-31#:~:text=Contribution%20activity) and the [`ActivityPaintDemo`](https://github.com/MatthewProg/ActivityPaintDemo) repository.
 
 ## [License](/./LICENSE)
 
