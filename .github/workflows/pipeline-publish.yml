@@ -63,4 +63,6 @@ jobs:
       !cancelled()
       && !contains(needs.publish.result, 'failure')
       && inputs.run-release != 'false'
+    permissions:
+      contents: write
     uses: ./.github/workflows/release-all.yml

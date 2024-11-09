@@ -18,7 +18,7 @@ jobs:
           path: './artifacts'
 
       - name: Compress artifacts
-        run: for subdir in ./artifacts/*/; do dirname=$(basename "$subdir") && zip -r "./artifact-zips/$dirname.zip" "$subdir"; done
+        run: mkdir ./artifact-zips; for subdir in ./artifacts/*/; do dirname=$(basename "$subdir") && zip -r "./artifact-zips/$dirname.zip" "$subdir"; done
 
       - name: Create release
         uses: ncipollo/release-action@v1
